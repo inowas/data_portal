@@ -1,18 +1,5 @@
 version: '2'  
 services:  
-  nginx:
-    image: nginx:latest
-    container_name: nginx_proxy
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./src:/src
-      - ./config/nginx:/etc/nginx/conf.d
-      - /static:/static
-      - /media:/media
-    depends_on:
-      - web
-    restart: always
   web:
     image: aybulat/project_web
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn explorer.wsgi -b 0.0.0.0:8000"
@@ -22,8 +9,8 @@ services:
       - ./src:/src
       - /static:/static
       - /media:/media
-    expose:
-      - "8000"
+    ports:
+      - "8000:8000"
     restart: always
 
   db:
