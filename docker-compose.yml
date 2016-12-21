@@ -12,6 +12,7 @@ services:
       - /media:/media
     depends_on:
       - web
+    restart: always
   web:
     image: aybulat/project_web
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn explorer.wsgi -b 0.0.0.0:8000"
@@ -23,9 +24,11 @@ services:
       - /media:/media
     expose:
       - "8000"
+    restart: always
 
   db:
     image: mdillon/postgis
     container_name: postgres
     expose:
       - "5432"
+    restart: always
