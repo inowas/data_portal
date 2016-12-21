@@ -7,11 +7,10 @@ import os
 from django.urls import reverse
 from django.views import generic, View
 from django.shortcuts import render, redirect
-from django.http import HttpRequest, Http404, HttpResponse
-from django.template import RequestContext
+from django.http import HttpRequest, Http404
 from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView
-from django.contrib.gis.db.models.functions import Union
+from django.db import transaction
 
 from app.models import *
 from app.forms import *
@@ -204,6 +203,7 @@ class CreateModelObject(CreateView):
     form_class = ModelObjectForm
     success_url = '/list_datasets/'
 
+    @transaction.atomic
     def form_valid(self, form):
         dataset_id = self.kwargs['dataset_id']
         model_object = form.save(commit=False)
@@ -236,6 +236,7 @@ class CreateDataset(CreateView):
     form_class = DatasetForm
     success_url = '/list_datasets/'
 
+    @transaction.atomic
     def form_valid(self, form):
         dataset = form.save(commit=False)
         dataset.user = self.request.user
@@ -264,6 +265,7 @@ class CreateSingleValue(FormView):
     form_class = SingleValueForm
     template_name = 'app/property_forms.html'
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         value_series_form = ValueSeriesForm()
         single_value_form = SingleValueForm(self.request.POST)
@@ -296,6 +298,7 @@ class CreateValueSeries(FormView):
     form_class = ValueSeriesForm
     template_name = 'app/property_forms.html'
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         value_series_form = ValueSeriesForm(self.request.POST)
         single_value_form = SingleValueForm()
@@ -333,6 +336,7 @@ class CreateSingleRaster(FormView):
     form_class = SingleRasterForm
     template_name = 'app/property_forms.html'
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         value_series_form = ValueSeriesForm()
         single_value_form = SingleValueForm()
@@ -367,6 +371,7 @@ class CreateRasterSeries(FormView):
     form_class = ValueSeriesForm
     template_name = 'app/property_forms.html'
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         value_series_form = ValueSeriesForm()
         single_value_form = SingleValueForm()
