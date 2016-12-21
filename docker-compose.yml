@@ -4,7 +4,7 @@ services:
     image: nginx:latest
     container_name: nginx_proxy
     ports:
-      - "8888:8000"
+      - "8000:8000"
     volumes:
       - ./src:/src
       - ./config/nginx:/etc/nginx/conf.d
@@ -13,8 +13,7 @@ services:
     depends_on:
       - web
   web:
-    build: .
-    container_name: django
+    image: aybulat/project_web
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn explorer.wsgi -b 0.0.0.0:8000"
     depends_on:
       - db
