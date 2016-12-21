@@ -1,0 +1,21 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<div class="page-header">
+  <a href="/create_dataset" class="btn btn-primary pull-right">Create new</a>
+  <h2 class="page-title">Explore Datasets</h2>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-3 col-lg-3">
+            {% include "app/datasets_collapse.html" %}
+        </div>
+        <div class="col-md-9 col-lg-9">
+            {% include "app/datasets_list.html" %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

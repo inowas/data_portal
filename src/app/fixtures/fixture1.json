@@ -1,0 +1,359 @@
+[
+  {
+    "model": "app.GeomType",
+    "pk": 1,
+    "fields": {
+      "geom_type": "point"
+    }
+  },
+  {
+    "model": "app.GeomType",
+    "pk": 2,
+    "fields": {
+      "geom_type": "polygon"
+    }
+  },
+  {
+    "model": "app.GeomType",
+    "pk": 3,
+    "fields": {
+      "geom_type": "linestring"
+    }
+  },
+  {
+    "model": "app.GeomType",
+    "pk": 4,
+    "fields": {
+      "geom_type": "compound"
+    }
+  },
+  {
+    "model": "app.ObjectType",
+    "pk": 1,
+    "fields": {
+      "object_type": "meteostation"
+    }
+  },
+  {
+    "model": "app.ObjectType",
+    "pk": 2,
+    "fields": {
+      "object_type": "borehole"
+    }
+  },
+  {
+    "model": "app.ObjectType",
+    "pk": 3,
+    "fields": {
+      "object_type": "stream"
+    }
+  },
+  {
+    "model": "app.ObjectType",
+    "pk": 4,
+    "fields": {
+      "object_type": "area"
+    }
+  },
+  {
+    "model": "app.ObjectType",
+    "pk": 5,
+    "fields": {
+      "object_type": "layer"
+    }
+  },
+  {
+    "model": "app.ObjectType",
+    "pk": 6,
+    "fields": {
+      "object_type": "well"
+    }
+  },
+  {
+    "model": "app.ObjectType",
+    "pk": 7,
+    "fields": {
+      "object_type": "gauging_station"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 1,
+    "fields": {
+      "property_type": "meteo:air_temperature"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 2,
+    "fields": {
+      "property_type": "meteo:precipitation"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 3,
+    "fields": {
+      "property_type": "meteo:evaporation"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 4,
+    "fields": {
+      "property_type": "meteo:evapotranspiration"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 5,
+    "fields": {
+      "property_type": "meteo:wind_speed"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 6,
+    "fields": {
+      "property_type": "meteo:wind_direction"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 7,
+    "fields": {
+      "property_type": "meteo:air_pressure"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 8,
+    "fields": {
+      "property_type": "meteo:air_rel_humidity"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 9,
+    "fields": {
+      "property_type": "meteo:air_abs_humidity"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 10,
+    "fields": {
+      "property_type": "topo:elevation"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 11,
+    "fields": {
+      "property_type": "topo:slope"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 12,
+    "fields": {
+      "property_type": "topo:slope_aspect"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 13,
+    "fields": {
+      "property_type": "topo:flow_direction"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 14,
+    "fields": {
+      "property_type": "topo:flow_accumulation"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 15,
+    "fields": {
+      "property_type": "topo:morphology_type"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 16,
+    "fields": {
+      "property_type": "geology:soil_type"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 17,
+    "fields": {
+      "property_type": "geology:soil_type"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 18,
+    "fields": {
+      "property_type": "geology:lythology_age"
+    }
+  },
+ {
+    "model": "app.PropertyType",
+    "pk": 19,
+    "fields": {
+      "property_type": "geology:lythology_genesis"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 20,
+    "fields": {
+      "property_type": "geology:layer_top_elevation"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 21,
+    "fields": {
+      "property_type": "geology:layer_bottom_elevation"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 22,
+    "fields": {
+      "property_type": "geology:layer_thickness"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 23,
+    "fields": {
+      "property_type": "hydrogeology:porosity"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 24,
+    "fields": {
+      "property_type": "hydrogeology:effective_porosity"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 25,
+    "fields": {
+      "property_type": "hydrogeology:particle_density"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 26,
+    "fields": {
+      "property_type": "hydrogeology:bulk_density"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 27,
+    "fields": {
+      "property_type": "hydrogeology:hydraulic_conductivity"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 28,
+    "fields": {
+      "property_type": "hydrogeology:hydraulic_transmissivity"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 29,
+    "fields": {
+      "property_type": "hydrogeology:specific_storage"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 30,
+    "fields": {
+      "property_type": "hydrogeology:storativity"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 31,
+    "fields": {
+      "property_type": "hydrogeology:hydraulic_head"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 32,
+    "fields": {
+      "property_type": "hydrogeology:confinement"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 33,
+    "fields": {
+      "property_type": "hydrology:stage"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 34,
+    "fields": {
+      "property_type": "hydrology:discharge"
+    }
+  },
+  {
+    "model": "app.PropertyType",
+    "pk": 35,
+    "fields": {
+      "property_type": "hydrology:velocity"
+    }
+  },
+  {
+    "model": "app.ValueType",
+    "pk": 1,
+    "fields": {
+      "value_type": "numerical"
+    }
+  },
+  {
+    "model": "app.ValueType",
+    "pk": 2,
+    "fields": {
+      "value_type": "categorical"
+    }
+  },
+  {
+    "model": "app.ValueType",
+    "pk": 3,
+    "fields": {
+      "value_type": "raster"
+    }
+  },
+  {
+    "model": "app.ValueType",
+    "pk": 4,
+    "fields": {
+      "value_type": "value_time_series"
+    }
+  },
+  {
+    "model": "app.ValueType",
+    "pk": 5,
+    "fields": {
+      "value_type": "raster_time_series"
+    }
+  }
+]

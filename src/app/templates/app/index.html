@@ -1,0 +1,32 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <h1>Data portal</h1>
+    <p class="lead">Open Aquifers is a platform for visualisation, sharing and analysing your groundwater and related data</p>
+    <p><a href="/about" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Registration</h2>
+        <p>
+            Register and start uploading your data
+        </p>
+        <p><a class="btn btn-default" href="/registration">Register &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Data explorer</h2>
+        <p>Publish your data and explore existing datasets</p>
+        <p><a class="btn btn-default" href="/explorer">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Modeling portal</h2>
+        <p>Bould and run groundwater models and
+           link your datasets</p>
+        <p><a class="btn btn-default" href="https://tu-dresden.de/bu/umwelt/hydro/inowas">Learn more &raquo;</a></p>
+    </div>
+</div>
+
+{% endblock %}

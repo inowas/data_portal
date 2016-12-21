@@ -1,0 +1,185 @@
+{% extends "app/layout.html" %}
+
+{% block content %}
+<div class="row">
+    <br>
+    <div class="col-md-12">
+        <div class="panel-group ">
+            <div class="panel panel-default" >
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">Search by location</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <div id="map" class="map" style="height: 300px"></div>
+                        <div id="popup" class="ol-popup">
+                            <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                            <div id="popup-content"></div>
+                        </div>
+                        <br>
+                        <button id="search-btn" class="btn btn-primary pull-left">Filter table</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        
+
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <br>
+        <table id="myTable" class="display" cellspacing="0" width="800px">
+            <thead>
+                <tr>
+                    <th>Dataset ID</th>
+                    <th>Dataset name</th>
+                    <th>Data object ID</th>
+                    <th>Data object geometry</th>
+                    <th>Data object type</th>
+                    <th>Property type</th>
+                    <th>Value type</th>
+                    <th>Time interval</th>
+                    <th>Time start</th>
+                    <th>Time end</th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>Dataset ID</th>
+                    <th>Dataset name</th>
+                    <th>Data object ID</th>
+                    <th>Data object geometry</th>
+                    <th>Data object type</th>
+                    <th>Property type</th>
+                    <th>Value type</th>
+                    <th>Time interval</th>
+                    <th>Time start</th>
+                    <th>Time end</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+{% endblock content %}
+
+
+{% block scripts %}
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        $('#myTable tfoot th').each( function () {
+            var title = $(this).text();
+            $(this).html( '<input type="text" placeholder="Search '+title+'" size="6"/>' );
+        } );
+
+        var table = $('#myTable').DataTable( {  
+                        ajax: {
+                            url: '/api/properties-long?format=json',
+                            dataSrc: ''
+                        },
+                        columns: [
+                            { "data": "dataset_id" },
+                            { "data": "dataset_name" },
+                            { "data": "model_object_id" },
+                            { "data": "model_object_geom_type" },
+                            { "data": "model_object_type" },
+                            { "data": "property_type" },
+                            { "data": "value_type" },
+                            { "data": "interval" },
+                            { "data": "start_time" },
+                            { "data": "end_time" },
+                        ]
+                    } );
+
+        table.columns().every( function () {
+            var that = this;
+            $( 'input', this.footer() ).on( 'keyup change', function () {
+                if ( that.search() !== this.value ) {
+                    that
+                        .search( this.value )
+                        .draw();
+                }
+            } );
+        } );
+
+        document.getElementById('search-btn').onclick = function() {
+            var extent = map.getView().calculateExtent(map.getSize());
+            var bbox = "POLYGON(("+extent[0]+" "+extent[1]+","+extent[0]+" "+extent[3]+","+extent[2]+" "+extent[3]+","+extent[2]+" "+extent[1]+","+extent[0]+" "+extent[1]+"))";
+            table.ajax.url('/api/properties-long?format=json'+'&bbox='+bbox).load();
+        };
+
+        var geojson_layer = new ol.layer.Vector({
+            source: new ol.source.Vector({
+                url: '/api/geojson/',
+                format: new ol.format.GeoJSON()
+            })
+        });
+
+        var map = new ol.Map({
+            layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            }),
+            geojson_layer
+            ],
+            target: 'map',
+            controls: ol.control.defaults({
+                attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+                    collapsible: false
+                })
+            }),
+            view: new ol.View({
+            center: [0, 0],
+            zoom: 2
+            })
+        });
+        
+        
+        var container = document.getElementById('popup');
+        var content_element = document.getElementById('popup-content');
+        var closer = document.getElementById('popup-closer');
+
+        closer.onclick = function() {
+            overlay.setPosition(undefined);
+            closer.blur();
+            return false;
+        };
+        var overlay = new ol.Overlay({
+            element: container,
+            autoPan: true,
+            offset: [0, -10]
+        });
+
+        map.addOverlay(overlay);
+
+        map.on('singleclick', function(evt) {
+            var coordinate = evt.coordinate;
+            var feature = map.forEachFeatureAtPixel(evt.pixel,
+            function(feature, layer) {
+                return feature;
+            });
+            if (feature) {
+                var content = '<h5><strong>Name: </strong>'+ feature.get('name') + '</h5>';
+                content += '<h5><strong>Type: </strong>'+ feature.get('object_type') + '</h5>';
+                content += '<h5><strong>Dataset ID: </strong>'+ feature.get('dataset_id') + '</h5>';
+                
+                content_element.innerHTML = content;
+                overlay.setPosition(coordinate);
+
+            }
+        });
+        map.on('hidden.bs.collapse', function () {
+            map.render();
+        })
+        map.on('shown.bs.collapse', function () {
+            map.render();
+        }) 
+    });
+</script>
+
+{% endblock scripts %}

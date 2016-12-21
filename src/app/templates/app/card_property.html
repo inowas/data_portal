@@ -1,0 +1,13 @@
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <a href="{% url 'property_details' prop.id %}">
+            <p><strong>Property name: </strong>{{ prop.name }}</p>
+        </a>
+        <p><strong>Type: </strong>{{ prop.property_type }}</p>
+        <p><strong>Value type: </strong>{{ prop.value_type }}</p>
+        <p><strong>Start time: </strong>{{ prop.timestart }}</p>
+        <p><strong>Time interval: </strong>{{ prop.interval }}</p>
+        <p><strong>Number of values: </strong>{{ prop.num_vals }}</p>
+    </div>
+</div>

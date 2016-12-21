@@ -1,0 +1,113 @@
+{% extends 'app/layout.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <br>
+    <div class="row">
+
+        <div class="col-sm-12 col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+                    <div class="container">
+                        <h2>Create and add property to the objects</h2>
+                        <br>
+                        <p>Select type of the added values</p>
+                        <ul class="nav nav-pills">
+                            <li class="active"><a data-toggle="pill" href="#single_value"> Single value</a></li>
+                            <li><a data-toggle="pill" href="#value_series">Series of values</a></li>
+                            <li><a data-toggle="pill" href="#single_raster">Single raster</a></li>
+                            <li><a data-toggle="pill" href="#raster_series">Series of rasters</a></li>
+                        </ul>
+                        <br>
+                        <div class="tab-content">
+
+                            <div id="single_value" class="tab-pane fade in active">
+                                <form class="form-horizontal" role="form" action="{% url 'add_single_value' model_object_id %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% for field in single_value_form %}
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <span class="text-danger small">{{ field.errors }}</span>
+                                            </div>
+                                            <label class="control-label col-sm-2">{{ field.label_tag }}</label>
+                                            <div class="col-sm-10">{{ field }}</div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div id="value_series" class="tab-pane fade">
+                                <form class="form-horizontal" role="form" action="{% url 'add_value_series' model_object_id %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% for field in value_series_form %}
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <span class="text-danger small">{{ field.errors }}</span>
+                                            </div>
+                                            <label class="control-label col-sm-2">{{ field.label_tag }}</label>
+                                            <div class="col-sm-10">{{ field }}</div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div id="single_raster" class="tab-pane fade">
+                                <form class="form-horizontal" role="form" action="{% url 'add_single_raster' model_object_id %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% for field in single_raster_form %}
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <span class="text-danger small">{{ field.errors }}</span>
+                                            </div>
+                                            <label class="control-label col-sm-2">{{ field.label_tag }}</label>
+                                            <div class="col-sm-10">{{ field }}</div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="raster_series" class="tab-pane fade">
+                                <form class="form-horizontal" role="form" action="{% url 'add_raster_series' model_object_id %}" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    {% for field in raster_series_form %}
+                                        <div class="form-group">
+                                            <div class="col-sm-offset-2 col-sm-10">
+                                                <span class="text-danger small">{{ field.errors }}</span>
+                                            </div>
+                                            <label class="control-label col-sm-2">{{ field.label_tag }}</label>
+                                            <div class="col-sm-10">{{ field }}</div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-success">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
