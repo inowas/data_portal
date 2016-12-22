@@ -34,14 +34,14 @@ class ModelObjectForm(forms.ModelForm):
     wkt = forms.CharField(widget=forms.Textarea, required=False)
     class Meta:
         model = ModelObject
-        fields = ['dataset', 'geom_type', 'object_type', 'wkt']
+        fields = ['geom_type', 'object_type', 'name', 'wkt']
 
 
 class SingleValueForm(forms.ModelForm):
     value = forms.FloatField()
     class Meta:
         model = Prop
-        fields = ['property_type', 'obs_point']
+        fields = ['property_type', 'name', 'obs_point']
 
 class ValueSeriesForm(forms.ModelForm):
     timestart = forms.DateTimeField()
@@ -49,13 +49,13 @@ class ValueSeriesForm(forms.ModelForm):
     values = SimpleArrayField(forms.DecimalField())
     class Meta:
         model = Prop
-        fields = ['property_type', 'obs_point']
+        fields = ['property_type', 'name', 'obs_point']
 
 class SingleRasterForm(forms.ModelForm):
     file_field = forms.FileField()
     class Meta:
         model = Prop
-        fields = ['property_type', 'obs_point']
+        fields = ['property_type', 'name', 'obs_point']
 
 class RasterSeriesForm(forms.ModelForm):
     timestart = forms.DateTimeField()
@@ -63,5 +63,5 @@ class RasterSeriesForm(forms.ModelForm):
     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     class Meta:
         model = Prop
-        fields = ['property_type', 'obs_point']
+        fields = ['property_type', 'name', 'obs_point']
 

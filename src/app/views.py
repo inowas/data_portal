@@ -5,12 +5,13 @@ from datetime import datetime
 import os
 
 from django.urls import reverse
-from django.views import generic, View
+from django.views import View
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, Http404
 from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView
 from django.db import transaction
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from app.models import *
 from app.forms import *
@@ -198,14 +199,16 @@ class PropertyDetails(View):
             )
 
 
-class CreateModelObject(CreateView):
+class CreateModelObject(LoginRequiredMixin, CreateView):
     template_name = 'app/create_model_object.html'
     form_class = ModelObjectForm
-    success_url = '/list_datasets/'
+    success_url = '/dataset_details/'
 
     @transaction.atomic
     def form_valid(self, form):
         dataset_id = self.kwargs['dataset_id']
+        self.success_url += dataset_id
+
         model_object = form.save(commit=False)
         model_object.dataset_id = dataset_id
         model_object.save()
@@ -231,7 +234,7 @@ class CreateModelObject(CreateView):
 
         return super(CreateModelObject, self).form_valid(form)
 
-class CreateDataset(CreateView):
+class CreateDataset(LoginRequiredMixin, CreateView):
     template_name = 'app/create_dataset.html'
     form_class = DatasetForm
     success_url = '/list_datasets/'
@@ -244,7 +247,7 @@ class CreateDataset(CreateView):
         return super(CreateDataset, self).form_valid(form)
 
 
-class PropertyForms(TemplateView):
+class PropertyForms(LoginRequiredMixin, TemplateView):
     template_name = 'app/property_forms.html'
 
     def get(self, request, *args, **kwargs):

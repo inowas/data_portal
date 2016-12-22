@@ -45,3 +45,10 @@ right: 8px;
 .ol-popup-closer:after {
 content: "✖";
 }
+
+.list-group-item {
+font-size: 12px;
+}
+.card {
+font-size: 12px;
+}

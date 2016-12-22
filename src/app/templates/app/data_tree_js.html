@@ -10,49 +10,44 @@
         function createTree(data){
             var json = data;
             var tree = [];
-            for (var k in json) {
-                var dataset = json[k]
+            for (var i in json) {
+                object = json[i]
                 tree.push(
                     {
-                        "text": "Dataset: " + dataset["name"],
-                        "href": datasetsURL + dataset["id"],
-                        "nodes": []
+                        "text": object["object_type"]
+                                + ' - '+object["name"],
+                        "href": objectsURL + object["id"],
+                        "nodes": [],
+                        "state":  {
+                            "checked": false,
+                            "disabled": false,
+                            "expanded": true,
+                            "selected": false
+                        }
                     }
                 )
-        
-                for (var i in dataset["model_objects"]) {
-                    var object = dataset["model_objects"][i];
-                    tree[k]["nodes"].push(
+                
+                for (var j in object["properties"]) {
+                    var property = object["properties"][j]
+                    tree[i]["nodes"].push(
                         {
-                            "text": "Object: " + object["name"],
-                            "href": objectsURL + object["id"],
-                            "nodes": [],
-                            "state":  {
-                                "checked": false,
-                                "disabled": false,
-                                "expanded": false,
-                                "selected": false
-                            }
+                            "text": "<i>" +
+                                    property["property_type"]+' - '+property["name"] +
+                                    "</i>",
+                            "href": propertiesURL + property["id"]
                         }
                     )
-                    
-                    for (var j in object["properties"]) {
-                        var property = object["properties"][j]
-                        tree[k]["nodes"][i]["nodes"].push(
-                            {
-                                "text": "Property: " + property["name"],
-                                "href": propertiesURL + property["id"]
-                            }
-                        )
-                    }
                 }
             }
+
             var options = {
                 bootstrap2: false, 
                 showTags: true,
                 levels: 5,
                 enableLinks: true,
-                data: tree
+                data: tree,
+                expandIcon: "glyphicon glyphicon-chevron-right",
+                collapseIcon : "glyphicon glyphicon-chevron-down"
             };
             $('#treeview').treeview(options);
         }

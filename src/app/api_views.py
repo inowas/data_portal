@@ -104,18 +104,36 @@ def dataset_tree(request, pk):
     return Response(serializer.data)
 
 @api_view(['GET'])
-def get_geojson(request):
+def get_geojson_all(request):
     queryset = ModelObject.objects.all()
 
     serializer = ModelObjectGeoJSONSerializer(queryset, many=True)
     features = serializer.data
     return Response(
         {"type": "FeatureCollection",
-        "crs": {
-          "type": "name",
-          "properties": {
-            "name": "EPSG:3857"
-          }
-        },
+         "crs": {
+             "type": "name",
+             "properties": {
+                 "name": "EPSG:3857"
+             }
+         },
+         "features": features}
+    )
+
+@api_view(['GET'])
+def get_geojson_dataset(request, pk):
+
+    queryset = ModelObject.objects.filter(dataset_id=pk)
+
+    serializer = ModelObjectGeoJSONSerializer(queryset, many=True)
+    features = serializer.data
+    return Response(
+        {"type": "FeatureCollection",
+         "crs": {
+             "type": "name",
+             "properties": {
+                 "name": "EPSG:3857"
+                 }
+         },
          "features": features}
     )
