@@ -1,7 +1,7 @@
 version: '2'  
 services:  
   web:
-    image: aybulat/project_web
+    image: aybulat/django_gdal
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn explorer.wsgi -b 0.0.0.0:8000"
     depends_on:
       - db
