@@ -207,24 +207,25 @@ def update_bbox(bbox_geom, feature_geom):
 def calculate_tile_index(bbox_geom, as_url):
     """ Returnes x, y, z indexes for openstreet tile servers """
     if bbox_geom is None:
-        return 0, 0, 0
-    bbox_geom = bbox_geom.transform(4326, clone=True)
-    extent = bbox_geom.extent
-    max_extent = max(
-        abs(extent[2] - extent[0]),
-        abs(extent[3] - extent[1]) * 2
-        )
-    lon_deg = .5 * (extent[2] + extent[0])
-    lat_deg = .5 * (extent[3] + extent[1])
+         zoom_level, xtile, ytile = 0, 0, 0
+    else:
+        bbox_geom = bbox_geom.transform(4326, clone=True)
+        extent = bbox_geom.extent
+        max_extent = max(
+            abs(extent[2] - extent[0]),
+            abs(extent[3] - extent[1]) * 2
+            )
+        lon_deg = .5 * (extent[2] + extent[0])
+        lat_deg = .5 * (extent[3] + extent[1])
 
-    if max_extent < .352:
-        max_extent = .352
+        if max_extent < .352:
+            max_extent = .352
 
-    zoom_level = int(round(math.log2(360/max_extent)))
-    lat_rad = math.radians(lat_deg)
-    n = 2.0 ** zoom_level
-    xtile = int((lon_deg + 180.0) / 360.0 * n)
-    ytile = int((1.0 - math.log(math.tan(lat_rad) + (1 / math.cos(lat_rad))) / math.pi) / 2.0 * n)
+        zoom_level = int(round(math.log2(360/max_extent)))
+        lat_rad = math.radians(lat_deg)
+        n = 2.0 ** zoom_level
+        xtile = int((lon_deg + 180.0) / 360.0 * n)
+        ytile = int((1.0 - math.log(math.tan(lat_rad) + (1 / math.cos(lat_rad))) / math.pi) / 2.0 * n)
 
     if as_url:
         return 'https://a.tile.openstreetmap.org' + \
