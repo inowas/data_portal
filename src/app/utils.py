@@ -190,6 +190,9 @@ def raster_handler(files, *args, **kwargs):
 
 def update_bbox(bbox_geom, feature_geom):
     """ Returnes updated bbox including new feat. geom. """
+    if feature_geom is None:
+        return bbox_geom
+    
     extent_1 = bbox_geom.extent
     extent_2 = feature_geom.extent
     bbox_updated = [
@@ -203,6 +206,8 @@ def update_bbox(bbox_geom, feature_geom):
 
 def calculate_tile_index(bbox_geom, as_url):
     """ Returnes x, y, z indexes for openstreet tile servers """
+    if bbox_geom is None:
+        return 0, 0, 0
     bbox_geom = bbox_geom.transform(4326, clone=True)
     extent = bbox_geom.extent
     max_extent = max(
@@ -211,7 +216,6 @@ def calculate_tile_index(bbox_geom, as_url):
         )
     lon_deg = .5 * (extent[2] + extent[0])
     lat_deg = .5 * (extent[3] + extent[1])
-    print(lon_deg,lat_deg)
 
     if max_extent < .352:
         max_extent = .352

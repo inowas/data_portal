@@ -85,8 +85,7 @@ def property_big_list(request):
     queryset = Prop.objects.all()
     if bbox_wkt is not None:
         bbox = GEOSGeometry(bbox_wkt, srid=3857)
-        print(bbox)
-        queryset = queryset.filter(model_object__bbox__within=bbox)
+        queryset = queryset.filter(model_object__bbox__intersects=bbox)
 
     serializer = PropertyBigSerializer(queryset, many=True)
     return Response(serializer.data)
