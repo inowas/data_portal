@@ -237,7 +237,7 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
 class CreateDataset(LoginRequiredMixin, CreateView):
     template_name = 'app/create_dataset.html'
     form_class = DatasetForm
-    success_url = '/list_datasets/'
+    success_url = '/datacollections/'
 
     @transaction.atomic
     def form_valid(self, form):

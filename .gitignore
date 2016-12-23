@@ -1,5 +1,5 @@
-# Byte-compiled / optimized / DLL files
 docker-compose.yml
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
@@ -89,3 +89,5 @@ ENV/
 
 # Rope project settings
 .ropeproject
+docker-compose.yml
+docker-compose.yml

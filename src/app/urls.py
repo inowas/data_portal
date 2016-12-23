@@ -6,7 +6,7 @@ from app import views
 urlpatterns = [
     url(r'^datatable/$', views.Table.as_view(), name='datatable'),
     url(r'^toolbox/$', views.Toolbox.as_view(), name='toolbox'),
-    url(r'^list_datasets/$', views.DatasetList.as_view(), name='explorer'),
+    url(r'^datacollections/$', views.DatasetList.as_view(), name='explorer'),
     url(r'^dataset_details/(?P<dataset_id>[0-9]+)$', views.DatasetDetails.as_view(), name='dataset_details'),
     url(r'^create_dataset/$', views.CreateDataset.as_view(), name='create_dataset'),
     url(r'^model_object_details/(?P<model_object_id>[0-9]+)$', views.ModelObjectDetails.as_view(), name='model_object_details'),
