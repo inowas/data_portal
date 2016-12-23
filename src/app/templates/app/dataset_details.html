@@ -86,14 +86,13 @@
             format: new ol.format.GeoJSON()
         })
     });
-    var source;
+
     geojson_layer.getSource().on("change", function(evt) {
-        source = geojson_layer.getSource();
         extent = geojson_layer.getSource().getExtent();
         map.getView().fit(extent, map.getSize());
     });
     
-    console.log(source.getFeatures());
+
     map.addLayer(geojson_layer)
 
 
