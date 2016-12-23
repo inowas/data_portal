@@ -68,8 +68,11 @@ class PropertyBigSerializer(serializers.BaseSerializer):
         dataset_id = prop.model_object.dataset.id
         dataset_name = prop.model_object.dataset.name
         model_object_id = prop.model_object.id
+        model_object_name = prop.model_object.name
         model_object_type = prop.model_object.object_type.object_type
         model_object_geom_type = prop.model_object.geom_type.geom_type
+        property_id = prop.id
+        property_name = prop.name
         property_type = prop.property_type.property_type
         value_type = prop.value_type.value_type
         start_time = prop.timestart
@@ -80,6 +83,7 @@ class PropertyBigSerializer(serializers.BaseSerializer):
         return {
             'dataset_id': dataset_id,
             'dataset_name': dataset_name,
+            'model_object_name': model_object_name,
             'model_object_id': model_object_id,
             'model_object_type': model_object_type,
             'model_object_geom_type': model_object_geom_type,
@@ -87,7 +91,9 @@ class PropertyBigSerializer(serializers.BaseSerializer):
             'value_type': value_type,
             'start_time': start_time,
             'end_time': end_time,
-            'interval': interval
+            'interval': interval,
+            'property_id': property_id,
+            'property_name': property_name
         }
 
 

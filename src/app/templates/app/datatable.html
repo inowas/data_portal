@@ -35,11 +35,11 @@
         <table id="myTable" class="display" cellspacing="0" width="800px">
             <thead>
                 <tr>
-                    <th>Dataset ID</th>
-                    <th>Dataset name</th>
-                    <th>Data object ID</th>
-                    <th>Data object geometry</th>
-                    <th>Data object type</th>
+                    <th>Dataset</th>
+                    <th>Data object</th>
+                    <th>Object geometry</th>
+                    <th>Object type</th>
+                    <th>Property</th>
                     <th>Property type</th>
                     <th>Value type</th>
                     <th>Time interval</th>
@@ -49,11 +49,11 @@
             </thead>
             <tfoot>
                 <tr>
-                    <th>Dataset ID</th>
-                    <th>Dataset name</th>
-                    <th>Data object ID</th>
-                    <th>Data object geometry</th>
-                    <th>Data object type</th>
+                    <th>Dataset</th>
+                    <th>Data object</th>
+                    <th>Object geometry</th>
+                    <th>Object type</th>
+                    <th>Property</th>
                     <th>Property type</th>
                     <th>Value type</th>
                     <th>Time interval</th>
@@ -83,11 +83,53 @@
                             dataSrc: ''
                         },
                         columns: [
-                            { "data": "dataset_id" },
-                            { "data": "dataset_name" },
-                            { "data": "model_object_id" },
+                            {
+                                "data": "dataset_name",
+                                "render": function (data, type, row) {
+                                    if(type === 'display'){
+                                        return $('<a>')
+                                            .attr('href','/dataset_details/'+ row['dataset_id'])
+                                            .text(data)
+                                            .wrap('<div></div>')
+                                            .parent()
+                                            .html();
+                                    } else {
+                                        return data;
+                                    }
+                                }
+                            },
+                            { 
+                                "data": "model_object_name",
+                                "render": function (data, type, row) {
+                                    if(type === 'display'){
+                                        return $('<a>')
+                                            .attr('href','/model_object_details/'+ row['model_object_id'])
+                                            .text(data)
+                                            .wrap('<div></div>')
+                                            .parent()
+                                            .html();
+                                    } else {
+                                        return data;
+                                    }
+                                }
+                            },
                             { "data": "model_object_geom_type" },
                             { "data": "model_object_type" },
+                            { 
+                                "data": "property_name",
+                                "render": function (data, type, row) {
+                                    if(type === 'display'){
+                                        return $('<a>')
+                                            .attr('href','/property_details/'+ row['property_id'])
+                                            .text(data)
+                                            .wrap('<div></div>')
+                                            .parent()
+                                            .html();
+                                    } else {
+                                        return data;
+                                    }
+                                }
+                            },
                             { "data": "property_type" },
                             { "data": "value_type" },
                             { "data": "interval" },
