@@ -110,7 +110,7 @@ class ModelObjectGeoJSONSerializer(serializers.BaseSerializer):
             geom_obj = PolygonObject.objects.get(model_object_id=model_object.id)
             geometry = json.loads(geom_obj.geometry.json)
         else:
-            geometry = json.loads('{"type": "Point", "coordinates": [0,0]}')
+            geometry = None
 
         feature = {
             "type": "Feature",
