@@ -5,12 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ title }} - Data portal</title>
     {% load staticfiles %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700">
     <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.css">
     <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.3.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.0/ol.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'app/flaticon/flaticon.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/dataPortal.css' %}" />
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />-->
+    <!--<link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />-->
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap-treeview.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/custom.css' %}">
     
@@ -18,7 +22,39 @@
 </head>
 
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <header>
+        <nav class="navbar-top">
+            <div class="container">
+              <ul class="level_1" role="menubar">
+                  <li class="submenu">
+                      <a href="{% url 'explorer' %}">
+                          <i class="flaticon-archive-1"></i>Data Collections</a>
+                  </li>
+                  <li class="submenu">
+                      <a href="{% url 'datatable' %}">
+                          <i class="flaticon-database-1"></i>Data Overview</a>
+                  </li>
+                  <li class="submenu">
+                      <a href="{% url 'toolbox' %}">
+                          <i class="flaticon-database-1"></i>Tools</a>
+                  </li>
+              </ul>
+              <ul class="navbar-right">
+                  <li>
+                      <a href="{% url 'about' %}">About</a>
+                  </li>
+              </ul>
+              <ul class="navbar-right">
+                  <li>
+                      <a href="{% url 'contact' %}">Contact</a>
+                  </li>
+              </ul>
+                {% include 'app/loginpartial.html' %}
+          </div>
+      </nav>
+    </header>
+
+    <!--<div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -39,7 +75,7 @@
                 {% include 'app/loginpartial.html' %}
             </div>
         </div>
-    </div>
+    </div>-->
 
     <div class="container body-content">
             {% block content %}{% endblock %}
