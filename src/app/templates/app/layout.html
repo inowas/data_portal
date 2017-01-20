@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'app/flaticon/flaticon.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/dataPortal.css' %}" />
+    
     <!--<link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />-->
     <!--<link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />-->
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap-treeview.min.css' %}">
@@ -54,35 +55,8 @@
       </nav>
     </header>
 
-    <!--<div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a href="/" class="navbar-brand">Home</a>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="{% url 'explorer' %}">Data collections</a></li>
-                    <li><a href="{% url 'datatable' %}">Data overview</a></li>
-                    <li><a href="{% url 'toolbox' %}">Toolbox</a></li>
-                    <li><a href="{% url 'about' %}">About</a></li>
-                    <li><a href="{% url 'contact' %}">Contact</a></li>
-                </ul>
-                {% include 'app/loginpartial.html' %}
-            </div>
-        </div>
-    </div>-->
-
     <div class="container body-content">
-            {% block content %}{% endblock %}
-        <hr/>
-        <footer>
-            <p>&copy; {{ year }} - INOWAS</p>
-        </footer>
+        {% block content %}{% endblock %}
     </div>
 
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.js"></script>

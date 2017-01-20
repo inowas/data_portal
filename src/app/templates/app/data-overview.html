@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" id="data-overview" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>INOWAS | Data Portal - Overview</title>
+<meta name="robots" content="index,follow">
+<meta name="description" content="">
+<meta name="keywords" content="">    
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700">
+<link rel="stylesheet" type="text/css" href="flaticon/flaticon.css">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="dataPortal.css">
+</head>
+
+<body>
+    <header>
+      <nav class="navbar-top">
+          <div class="container">
+
+              <ul class="level_1" role="menubar">
+                  <li class="submenu">
+                      <a href="data-collections.html">
+                          <i class="flaticon-archive-1"></i>Data Collections</a>
+                  </li>
+                  <li class="submenu">
+                      <a href="data-overview.html">
+                          <i class="flaticon-database-1"></i>Data Overview</a>
+                  </li>
+                  <li class="submenu">
+                      <a href="data-details.html">
+                          <i class="flaticon-database-1"></i>Data Details</a>
+                  </li>
+              </ul>
+
+              <ul class="navbar-right">
+                  <li>
+                      <a href="">
+                          <i class="flaticon-user"></i>Log In</a>
+                  </li>
+              </ul>
+
+          </div>
+      </nav>
+    </header>
+  
+  <div class="container body-content">
+            
+      <div class="page-header">
+        <h1>Datasets Overview</h1>
+      </div>
+  
+      <div class="row">
+      
+      	<div class="col-4">
+          <div class="sidebar">
+              <h1 class="sidebar-title">Collections</h1>
+              <ul class="nav-sidebar">
+                <li class="active">
+                  <button class="accordion"><i class="flaticon-database-1"></i>INOWAS Collection (26)</button>
+                      <ul class="panel">
+                      <button class="accordion"><i class="flaticon-windows-1"></i>HANOI 4TH CITY URBAN RING (5)</button> 
+                      	<ul class="panel subnav">                 
+                        <li><a href="#" class="active">Object 01</a></li>
+                        <li><a href="#">Object 02</a></li>
+                        <li><a href="#">Object 03</a></li>
+                        <li><a href="#">Object 04</a></li>
+                        <li><a href="#">Object 05</a></li>
+                        </ul>
+                      </ul>
+                </li>
+                <li>
+                  <button class="accordion"><i class="flaticon-database-1"></i>A Collection (1)</button>
+                      <ul class="panel">
+                      <button class="accordion"><i class="flaticon-windows-1"></i>Dataset 01 (3)</button> 
+                      	<ul class="panel subnav">                 
+                        <li><a href="#" class="active">Object 01</a></li>
+                        <li><a href="#">Object 02</a></li>
+                        <li><a href="#">Object 03</a></li>
+                        </ul>
+                      </ul>
+                </li>
+                <li>
+                  <button class="accordion"><i class="flaticon-database-1"></i>B Collection (1)</button>
+                      <ul class="panel">
+                      <button class="accordion"><i class="flaticon-windows-1"></i>Dataset 02 (4)</button> 
+                      	<ul class="panel subnav">                 
+                        <li><a href="#" class="active">Object 01</a></li>
+                        <li><a href="#">Object 02</a></li>
+                        <li><a href="#">Object 03</a></li>
+                        <li><a href="#">Object 04</a></li>
+                        </ul>
+                      </ul>
+                </li>
+                <li>
+                  <button class="accordion"><i class="flaticon-database-1"></i>C Collection (1)</button>
+                      <ul class="panel">
+                      <button class="accordion"><i class="flaticon-windows-1"></i>Dataset 03 (4)</button> 
+                      	<ul class="panel subnav">                 
+                        <li><a href="#" class="active">Object 01</a></li>
+                        <li><a href="#">Object 02</a></li>
+                        <li><a href="#">Object 03</a></li>
+                        </ul>
+                      </ul>
+                </li>
+              </ul>
+          </div> <!-- End "sidebar" -->
+     		</div> <!-- End "col-4" -->
+        
+        
+        <div class="col-8">
+                
+                    
+                <div class="card radius-0">
+                		<div class="card-header">
+                      <h2 class="section-title">Map</h2>
+                    </div>
+                    <div class="card-block">
+                      <div id="map" class="map"><canvas class="ol-unselectable" width="2216" height="600" style="width: 100%; height: 100%;"></canvas></div>
+                    </div>
+                </div> <!-- End "card" -->
+              
+              	
+                <!-- Editing functions -->
+                <div class="card radius-0 space-top-3">
+                		<div class="card-header">
+                      <h2 class="section-title">Details</h2>
+                    </div>
+                    <div class="card-block">
+                      <form class="details-search">
+                        <input class="form-control" placeholder="Search..." type="text">
+                      </form>
+                      <div class="functions-edit">
+                        <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-add"></i>Add new</a>
+                        <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-download"></i>Import</a>
+                        <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-share-1"></i>Share</a>
+                        <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-garbage-2"></i>Delete</a>
+                      </div>
+                      <div class="functions-public">
+                        <a href="#" class="btn btn-secondary" role="button">Personal</a></li>
+                        <span>|</span></li>
+                        <a href="#" class="btn btn-secondary" role="button">Public</a></li>
+                      </ul>
+                	</div>
+                                 
+          
+                  <div class="table-responsive">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>No.</th>
+                            <th>Name</th>
+                            <th>Title</th>
+                            <th>Application</th>
+                            <th>Date created</th>
+                            <th>Created by</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>1</td>
+                            <td>MAR on Rio Primero</td>
+                            <td>INOWAS</td>
+                            <td>A06</td>
+                            <td>24.10.2006 18:40</td>
+                            <td>Ralf Junghanns</td>
+                          </tr>
+                          <tr>
+                            <td>2</td>
+                            <td>Hanoi groundwater overexploitation</td>
+                            <td>INOWAS</td>
+                            <td>A03</td>
+                            <td>13.06.2009 15:12</td>
+                            <td>Daniela Via</td>
+                          </tr>
+                          <tr>
+                            <td>3</td>
+                            <td>Tracer tests in Pirna Copitz</td>
+                            <td>INOWAS</td>
+                            <td>A14</td>
+                            <td>18.07.2012 21:42</td>
+                            <td>Jana Ringleb</td>
+                          </tr>
+                          <tr>
+                            <td>4</td>
+                            <td>Study on Barranca River</td>
+                            <td>AyA</td>
+                            <td>A06</td>
+                            <td>28.09.2016 15:39</td>
+                            <td>José Bonilla</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div> <!-- End "table-responsive" -->    
+                          
+          </div> <!-- End "card" -->
+
+      	</div> <!-- End "col-8" -->
+              
+      </div> <!-- End "row" -->
+     
+  
+  </div> <!-- End "container body-content" -->
+  
+
+
+<script>
+		var acc = document.getElementsByClassName("accordion");
+		var i;
+		
+		for (i = 0; i < acc.length; i++) {
+				acc[i].onclick = function(){
+						this.classList.toggle("active");
+						this.nextElementSibling.classList.toggle("show");
+			}
+		}
+  </script>
+  
+</body>
+</html>

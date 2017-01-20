@@ -1,47 +1,114 @@
 {% extends 'app/layout.html' %}
 
 {% block content %}
+<div class="page-header">
+    <h1>Dataset: {{ dataset.name }}</h1>
+</div>
 
-<div class="container">
-    <div class="row">
-        <div class="col-sm-12">
-            <h3>Dataset: {{ dataset.name }}</h3>
-        </div>
-        <br>
-    </div>
-    <div class="row">
-        <div class="col-sm-3">
-            <div id="treeview"></div>
-        </div>
-        <div class="col-sm-7">
-            <div class="row">
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div id="map" class="map"></div>
-                        <div id="popup" class="ol-popup">
-                            <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                            <div id="popup-content"></div>
-                        </div>
-                    </div>
+<div class="row">  
+    <div class="col-4">
+        <div class="sidebar">
+            <h1 class="sidebar-title">Content</h1>
+            <ul class="nav-sidebar">
+                <li class="active">
+                    <button class="accordion"><i class="flaticon-database-1"></i>{{ dataset.name }} collection ({{ dataset.model_objects.all|length }})</button>
+                    <ul class="panel">
+                        {% for object in dataset.model_objects.all %}
+                            <button class="accordion"><i class="flaticon-windows-1"></i>{{ object.name }} ({{ object.properties.all|length }})</button> 
+                            <ul class="panel subnav">
+                                {% for property in object.properties.all %}              
+                                    <li><a href="#" class="active">{{ property.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endfor %}  
+                    </ul>
+                </li>
+            </ul>
+        </div> <!-- End "sidebar" -->
+    </div> <!-- End "col-4" -->
+
+    <div class="col-8">
+        <div class="card radius-0">
+            <div class="card-header">
+                <h2 class="section-title">Map</h2>
+            </div>
+            <div class="card-block">
+                <div id="map" class="map"></div>
+                <div id="popup" class="ol-popup">
+                    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                    <div id="popup-content"></div>
                 </div>
             </div>
-            <div class="row">
-                <a href="{% url 'create_model_object' dataset.id %}" class="btn btn-primary pull-left">Add new data object
-                    <span class="glyphicon glyphicon-plus"></span>
-                </a>
+        </div> <!-- End "map card" -->
+    
+    
+    <!-- Editing functions -->
+        <div class="card radius-0 space-top-3">
+            <div class="card-header">
+                <h2 class="section-title">Details</h2>
             </div>
-        </div>
-        <div class="col-sm-2">
-            {% include 'app/card_dataset.html' %}
-        </div>
-    </div>        
+            <div class="card-block">
+                <form class="details-search">
+                    <input class="form-control" placeholder="Search..." type="text">
+                </form>
+                <div class="functions-edit">
+                    <a href="{% url 'create_model_object' dataset.id %}" class="btn btn-secondary" role="button"><i class="flaticon-add"></i>Add new object</a>
+                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-download"></i>Import</a>
+                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-share-1"></i>Share</a>
+                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-garbage-2"></i>Delete</a>
+                </div>
+                <div class="functions-public">
+                    <a href="#" class="btn btn-secondary" role="button">Personal</a></li>
+                    <span>|</span></li>
+                    <a href="#" class="btn btn-secondary" role="button">Public</a></li>
+                </div>
+            </div>
+            <div class="table-responsive">
+                      <table class="table table-striped">
+                        <thead>
+                          <tr>
+                            <th>Object name</th>
+                            <th>Object type</th>
+                            <th>Geometry type</th>
+                            <th>Application</th>
+                            <th>Date created</th>
+                            <th>Created by</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        {% for object in dataset.model_objects.all %}
+                          <tr>
+                            <td>{{ object.name }}</td>
+                            <td>{{ object.object_type.object_type }}</td>
+                            <td>{{ object.geom_type.geom_type }}</td>
+                            <td>A06</td>
+                            <td>24.10.2006 18:40</td>
+                            <td>{{ dataset.user.username }}</td>
+                          </tr>
+                        {% endfor %}
+                        </tbody>
+                      </table>
+                    </div> <!-- End "table-responsive" -->
+        </div> <!-- End "table card" -->
+    </div>
 </div>
+
 
 
 {% endblock %}
 
 {% block scripts %}
 <script type="text/javascript">
+    var acc = document.getElementsByClassName("accordion");
+		var i;
+		
+		for (i = 0; i < acc.length; i++) {
+				acc[i].onclick = function(){
+						this.classList.toggle("active");
+						this.nextElementSibling.classList.toggle("show");
+			}
+		}
+
     var container = document.getElementById('popup');
     var content_element = document.getElementById('popup-content');
     var closer = document.getElementById('popup-closer');
@@ -114,6 +181,6 @@
     });
 
 </script>
-    {% include 'app/data_tree_js.html' %}
+    <!--{% include 'app/data_tree_js.html' %}-->
 
 {% endblock scripts %}
