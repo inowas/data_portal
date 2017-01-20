@@ -1,5 +1,19 @@
-version: '2'  
+version: '2'
 services:
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "8080:8000"
+    volumes_from:
+      - web
+    volumes:
+      - ./src:/src
+      - ./config/nginx:/etc/nginx/conf.d
+      - /www/static
+      - /www/media
+    depends_on:
+      - web
   web:
     image: aybulat/django_gdal
     command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py collectstatic --noinput && gunicorn explorer.wsgi -b 0.0.0.0:8000"
@@ -7,8 +21,8 @@ services:
       - db
     volumes:
       - ./src:/src
-      - /static:/static
-      - /media:/media
+      - .scr/app/static:/static
+      - .scr/app/media:/media
     ports:
       - "8000:8000"
     restart: always
