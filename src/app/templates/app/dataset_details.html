@@ -7,24 +7,7 @@
 
 <div class="row">  
     <div class="col-4">
-        <div class="sidebar">
-            <h1 class="sidebar-title">Content</h1>
-            <ul class="nav-sidebar">
-                <li class="active">
-                    <button class="accordion"><i class="flaticon-database-1"></i>{{ dataset.name }} collection ({{ dataset.model_objects.all|length }})</button>
-                    <ul class="panel">
-                        {% for object in dataset.model_objects.all %}
-                            <button class="accordion"><i class="flaticon-windows-1"></i>{{ object.name }} ({{ object.properties.all|length }})</button> 
-                            <ul class="panel subnav">
-                                {% for property in object.properties.all %}              
-                                    <li><a href="#" class="active">{{ property.name }}</a></li>
-                                {% endfor %}
-                            </ul>
-                        {% endfor %}  
-                    </ul>
-                </li>
-            </ul>
-        </div> <!-- End "sidebar" -->
+        {% include 'app/tree_side_bar.html' %}
     </div> <!-- End "col-4" -->
 
     <div class="col-8">
