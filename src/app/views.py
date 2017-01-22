@@ -80,32 +80,39 @@ class ModelObjectDetails(View):
 
         properties = Prop.objects.filter(model_object=model_object)
 
-        if not properties:
-            geojson = get_geojson([model_object])
-            script, div = plot_model_objects(
-                geojson, map_width=500, map_height=500,
-                table_width=550, table_height=550
-                )
-
-            return render(
+        return render(
                 request, 'app/model_object_details.html',
-                {'model_object': model_object, 'dataset': dataset, 'properties': properties,
-                'script': script, 'plot': div['plot'], 'table': div['table'],
-                'properties_number': 0}
-                )
-        else:
-            geojson = get_prop_geojson(properties)
-            script, div = plot_properties(
-                geojson, map_width=500, map_height=500,
-                table_width=550, table_height=550
-                )
+                {
+                    'model_object': model_object, 'dataset': dataset, 'properties': properties,
+                }
+            )
 
-            return render(
-                request, 'app/model_object_details.html',
-                {'model_object': model_object, 'dataset': dataset, 'properties': properties,
-                 'script': script, 'plot': div['plot'], 'table': div['table'],
-                 'properties_number': len(properties)}
-                )
+        # if not properties:
+        #     geojson = get_geojson([model_object])
+        #     script, div = plot_model_objects(
+        #         geojson, map_width=500, map_height=500,
+        #         table_width=550, table_height=550
+        #         )
+
+        #     return render(
+        #         request, 'app/model_object_details.html',
+        #         {'model_object': model_object, 'dataset': dataset, 'properties': properties,
+        #         'script': script, 'plot': div['plot'], 'table': div['table'],
+        #         'properties_number': 0}
+        #         )
+        # else:
+        #     geojson = get_prop_geojson(properties)
+        #     script, div = plot_properties(
+        #         geojson, map_width=500, map_height=500,
+        #         table_width=550, table_height=550
+        #         )
+
+        #     return render(
+        #         request, 'app/model_object_details.html',
+        #         {'model_object': model_object, 'dataset': dataset, 'properties': properties,
+        #          'script': script, 'plot': div['plot'], 'table': div['table'],
+        #          'properties_number': len(properties)}
+        #         )
 
 
 class PropertyDetails(View):

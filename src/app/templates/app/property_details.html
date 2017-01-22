@@ -1,77 +1,65 @@
 {% extends 'app/layout.html' %}
 
 {% block content %}
+<div class="page-header">
+    <h2>Dataset: {{ dataset.name }}, Feature: {{ model_object.name }}, Property: {{ prop.name }}</h2>
+</div>
 
-<div class="container">
-    <br>
-    <div class="row">
-        <div class="col-sm-3">
-            <div id="treeview"></div>
-        </div>
-        <div class="col-sm-7">
-            {% if descr is not none %}
-                <h4><strong>Overview: </strong>{{ descr }}</h4>
-            {% endif %}
-            {% if value is not none %}
-                <h4><strong>Value: </strong>{{ value }}</h4>
-            {% endif %}
+<div class="row">  
+    <div class="col-4">
+        {% include 'app/tree_side_bar.html' %}
+    </div> <!-- End "col-4" -->
+
+    <div class="col-8">
+        <div class="card radius-0">
+
+            <div class="card-header">
+                <h2 class="section-title">Plot</h2>
+            </div>
             {% if controls is not none %}
                 {{ controls|safe }}
             {% endif %}
             {% if raster_map is not none %}
-                <div class="panel panel-default" style="width: 580px">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#mappanel">Map view</a>
-                        </h4>
-                    </div>
-                    <div id="mappanel" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            {{ raster_map|safe }}        
-                        </div>
-                    </div>
-                </div>
-            {% endif %}
-            {% if table is not none %}
-                <div class="panel panel-default" style="width: 580px">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#tablepanel">Table view</a>
-                        </h4>
-                    </div>
-                    <div id="tablepanel" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            {{ table|safe }}        
-                        </div>
-                    </div>
-                </div>
+                {{ raster_map|safe }}
             {% endif %}
             {% if plot is not none %}
-                <div class="panel panel-default" style="width: 580px">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">
-                            <a data-toggle="collapse" href="#plotpanel">Plot view</a>
-                        </h4>
-                    </div>
-                    <div id="plotpanel" class="panel-collapse collapse">
-                        <div class="panel-body">
-                            {{ plot|safe }}        
-                        </div>
-                    </div>
-                </div>
+                {{ plot|safe }}
             {% endif %}
-            <a href="#" class="btn btn-primary pull-left">Edit
-                <span class="glyphicon glyphicon-plus"></span>
-            </a>
-        </div>
-        <div class="col-sm-2">
-            {% include 'app/card_property.html' %}
-            {% include 'app/card_model_object.html' %}
-            {% include 'app/card_dataset.html' %}
-        </div>
+        </div> <!-- End "plot card" -->
+    
+    
+        <div class="card radius-0 space-top-3">
+            <div class="card-header">
+                <h2 class="section-title">Values</h2>
+            </div>
+            <!-- Editing functions -->
+            <div class="card-block">
+                <form class="details-search">
+                    <input class="form-control" placeholder="Search..." type="text">
+                </form>
+                <div class="functions-edit">
+                    <a href="{% url 'create_property' model_object.id %}" class="btn btn-secondary" role="button"><i class="flaticon-add"></i>Add new property</a>
+                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-download"></i>Import</a>
+                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-share-1"></i>Share</a>
+                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-garbage-2"></i>Delete</a>
+                </div>
+                <div class="functions-public">
+                    <a href="#" class="btn btn-secondary" role="button">Personal</a></li>
+                    <span>|</span></li>
+                    <a href="#" class="btn btn-secondary" role="button">Public</a></li>
+                </div>
+            </div> <!-- End Editing functions -->
+            <div class="table-responsive">
+                {% if table is not none %}
+                    {{ table|safe }}
+                {% endif %}
+                {% if value is not none %}
+                    <h4><strong>Value: </strong>{{ value }}</h4>
+                {% endif %}
+            </div> <!-- End "table-responsive" -->
+        </div> <!-- End "table card" -->
     </div>
 </div>
-
 
 {% endblock %}
 

@@ -136,3 +136,21 @@ def get_geojson_dataset(request, pk):
          },
          "features": features}
     )
+
+@api_view(['GET'])
+def get_geojson_object(request, pk):
+
+    queryset = ModelObject.objects.filter(id=pk)
+
+    serializer = ModelObjectGeoJSONSerializer(queryset, many=True)
+    features = serializer.data
+    return Response(
+        {"type": "FeatureCollection",
+         "crs": {
+             "type": "name",
+             "properties": {
+                 "name": "EPSG:3857"
+                 }
+         },
+         "features": features}
+    )
