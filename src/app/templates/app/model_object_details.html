@@ -36,12 +36,21 @@
                     <input class="form-control" placeholder="Search..." type="text">
                 </form>
                 <div class="functions-edit">
-                    <a href="{% url 'create_property' model_object.id %}" class="btn btn-secondary" role="button"><i class="flaticon-add"></i>Add new property</a>
-                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-download"></i>Import</a>
-                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-share-1"></i>Share</a>
-                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-garbage-2"></i>Delete</a>
+                    <div class="dropdown"><!-- Button with dropdown menu -->
+                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="flaticon-add"></i>Add new property
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="{% url 'add_value_series' model_object.id %}">Time-series</a>
+                            <a class="dropdown-item" href="{% url 'add_single_value' model_object.id %}">Single value</a>
+                            <a class="dropdown-item" href="{% url 'add_single_raster' model_object.id %}">Single raster</a>
+                            <a class="dropdown-item" href="{% url 'add_raster_series' model_object.id %}">Raster time-series</a>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="functions-public">
+                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-garbage-2"></i>Delete</a>
                     <a href="#" class="btn btn-secondary" role="button">Personal</a></li>
                     <span>|</span></li>
                     <a href="#" class="btn btn-secondary" role="button">Public</a></li>

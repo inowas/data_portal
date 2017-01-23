@@ -207,14 +207,13 @@ class PropertyDetails(View):
 
 
 class CreateModelObject(LoginRequiredMixin, CreateView):
-    template_name = 'app/create_model_object.html'
+    template_name = 'app/create_forms/form_template.html'
     form_class = ModelObjectForm
     success_url = '/dataset_details/'
 
     @transaction.atomic
     def form_valid(self, form):
-        dataset_id = self.kwargs['dataset_id']
-        self.success_url += dataset_id
+        self.success_url += self.kwargs['dataset_id']
 
         model_object = form.save(commit=False)
         model_object.dataset_id = dataset_id
@@ -242,7 +241,7 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
         return super(CreateModelObject, self).form_valid(form)
 
 class CreateDataset(LoginRequiredMixin, CreateView):
-    template_name = 'app/create_dataset.html'
+    template_name = 'app/create_forms/form_template.html'
     form_class = DatasetForm
     success_url = '/datacollections/'
 
@@ -254,167 +253,97 @@ class CreateDataset(LoginRequiredMixin, CreateView):
         return super(CreateDataset, self).form_valid(form)
 
 
-class PropertyForms(LoginRequiredMixin, TemplateView):
-    template_name = 'app/property_forms.html'
-
-    def get(self, request, *args, **kwargs):
-        single_value_form = SingleValueForm(self.request.GET or None)
-        value_series_form = ValueSeriesForm(self.request.GET or None)
-        single_raster_form = SingleRasterForm(self.request.GET or None)
-        raster_series_form = RasterSeriesForm(self.request.GET or None)
-        context = self.get_context_data(**kwargs)
-        context['model_object_id'] = self.kwargs['model_object_id']
-        context['single_value_form'] = single_value_form
-        context['value_series_form'] = value_series_form
-        context['single_raster_form'] = single_raster_form
-        context['raster_series_form'] = raster_series_form
-        return self.render_to_response(context)
-
-
-class CreateSingleValue(FormView):
+class CreateSingleValue(LoginRequiredMixin, CreateView):
+    template_name = 'app/create_forms/form_template.html'
     form_class = SingleValueForm
-    template_name = 'app/property_forms.html'
+    success_url = '/model_object_details/'
 
     @transaction.atomic
-    def post(self, request, *args, **kwargs):
-        value_series_form = ValueSeriesForm()
-        single_value_form = SingleValueForm(self.request.POST)
-        single_raster_form = SingleRasterForm()
-        raster_series_form = RasterSeriesForm()
-    
-        if single_value_form.is_valid():
-            prop = single_value_form.save(commit=False)
-            prop.model_object_id = self.kwargs['model_object_id']
-            prop.value_type = ValueType.objects.get(value_type='numerical')
-            prop.save()
-            value = NumValue(prop=prop, value=self.request.POST['value'])
-            value.save()
-            return redirect(
-                reverse('model_object_details', args=([int(self.kwargs['model_object_id'])])))
+    def form_valid(self, form):
+        self.success_url += self.kwargs['model_object_id']
 
-        else:
-            return self.render_to_response(
-                self.get_context_data(
-                    value_series_form=value_series_form,
-                    single_value_form=single_value_form,
-                    single_raster_form=single_raster_form,
-                    raster_series_form=raster_series_form,
-                    model_object_id=self.kwargs['model_object_id']
-                )
-            )
+        prop = form.save(commit=False)
+        prop.model_object_id = self.kwargs['model_object_id']
+        prop.value_type = ValueType.objects.get(value_type='numerical')
+        prop.save()
+        value = NumValue(prop=prop, value=self.request.POST['value'])
+        value.save()
+
+        return super(CreateSingleValue, self).form_valid(form)
 
 
-class CreateValueSeries(FormView):
+class CreateValueSeries(LoginRequiredMixin, CreateView):
+    template_name = 'app/create_forms/form_template.html'
     form_class = ValueSeriesForm
-    template_name = 'app/property_forms.html'
+    success_url = '/model_object_details/'
 
     @transaction.atomic
-    def post(self, request, *args, **kwargs):
-        value_series_form = ValueSeriesForm(self.request.POST)
-        single_value_form = SingleValueForm()
-        single_raster_form = SingleRasterForm()
-        raster_series_form = RasterSeriesForm()
+    def form_valid(self, form):
+        self.success_url += self.kwargs['model_object_id']
 
-        if value_series_form.is_valid():
-            input_values = self.request.POST['values']
-            prop = value_series_form.save(commit=False)
-            prop.model_object_id = self.kwargs['model_object_id']
-            prop.value_type = ValueType.objects.get(value_type='value_time_series')
-            prop.interval = self.request.POST['interval']
-            prop.timestart = self.request.POST['timestart']
-            prop.num_vals = len(input_values.split(","))
-            prop.save()
+        input_values = self.request.POST['values']
+        prop = form.save(commit=False)
+        prop.model_object_id = self.kwargs['model_object_id']
+        prop.value_type = ValueType.objects.get(value_type='value_time_series')
+        prop.interval = self.request.POST['interval']
+        prop.timestart = self.request.POST['timestart']
+        prop.num_vals = len(input_values.split(","))
+        prop.save()
 
-            value = ValueSeries(prop=prop, value='{'+input_values+'}')
-            value.save()
-            return redirect(
-                reverse('model_object_details', args=([int(self.kwargs['model_object_id'])])))
+        value = ValueSeries(prop=prop, value='{'+input_values+'}')
+        value.save()
 
-        else:
-            return self.render_to_response(
-                self.get_context_data(
-                    value_series_form=value_series_form,
-                    single_value_form=single_value_form,
-                    single_raster_form=single_raster_form,
-                    raster_series_form=raster_series_form,
-                    model_object_id=self.kwargs['model_object_id']
-                )
-            )
+        return super(CreateValueSeries, self).form_valid(form)
 
 
-class CreateSingleRaster(FormView):
+
+
+class CreateSingleRaster(LoginRequiredMixin, CreateView):
+    template_name = 'app/create_forms/form_template.html'
     form_class = SingleRasterForm
-    template_name = 'app/property_forms.html'
+    success_url = '/model_object_details/'
 
     @transaction.atomic
-    def post(self, request, *args, **kwargs):
-        value_series_form = ValueSeriesForm()
-        single_value_form = SingleValueForm()
-        single_raster_form = SingleRasterForm(self.request.POST, self.request.FILES)
-        raster_series_form = RasterSeriesForm()
+    def form_valid(self, form):
+        self.success_url += self.kwargs['model_object_id']
 
-        if single_raster_form.is_valid():
-            prop = single_raster_form.save(commit=False)
-            prop.model_object_id = self.kwargs['model_object_id']
-            prop.value_type = ValueType.objects.get(value_type='raster')
-            prop.save()
-            files = request.FILES.getlist('file_field')
-            raster = raster_handler(files)
-            value = RasValue(prop=prop, value=raster)
-            value.save()
-            return redirect(
-                reverse('model_object_details', args=([int(self.kwargs['model_object_id'])])))
+        prop = form.save(commit=False)
+        prop.model_object_id = self.kwargs['model_object_id']
+        prop.value_type = ValueType.objects.get(value_type='raster')
+        prop.save()
 
-        else:
-            return self.render_to_response(
-                self.get_context_data(
-                    value_series_form=value_series_form,
-                    single_value_form=single_value_form,
-                    single_raster_form=single_raster_form,
-                    raster_series_form=raster_series_form,
-                    model_object_id=self.kwargs['model_object_id']
-                )
-            )
+        files = self.get_form_kwargs().get('files').getlist('file_field')
+        raster = raster_handler(files)
+        value = RasValue(prop=prop, value=raster)
+        value.save()
+        
+        return super(CreateSingleRaster, self).form_valid(form)
 
 
-class CreateRasterSeries(FormView):
-    form_class = ValueSeriesForm
-    template_name = 'app/property_forms.html'
+class CreateRasterSeries(LoginRequiredMixin, CreateView):
+    template_name = 'app/create_forms/form_template.html'
+    form_class = RasterSeriesForm
+    success_url = '/model_object_details/'
 
     @transaction.atomic
-    def post(self, request, *args, **kwargs):
-        value_series_form = ValueSeriesForm()
-        single_value_form = SingleValueForm()
-        single_raster_form = SingleRasterForm()
-        raster_series_form = RasterSeriesForm(self.request.POST, self.request.FILES)
+    def form_valid(self, form):
+        self.success_url += self.kwargs['model_object_id']
 
-        if raster_series_form.is_valid():
-            files = request.FILES.getlist('file_field')
-            prop = raster_series_form.save(commit=False)
-            prop.model_object_id = self.kwargs['model_object_id']
-            prop.value_type = ValueType.objects.get(value_type='raster_time_series')
-            prop.interval = self.request.POST['interval']
-            prop.timestart = self.request.POST['timestart']
-            prop.num_vals = len(files)
-            prop.save()
+        files = self.get_form_kwargs().get('files').getlist('file_field')
+        prop = form.save(commit=False)
+        prop.model_object_id = self.kwargs['model_object_id']
+        prop.value_type = ValueType.objects.get(value_type='raster_time_series')
+        prop.interval = self.request.POST['interval']
+        prop.timestart = self.request.POST['timestart']
+        prop.num_vals = len(files)
+        prop.save()
 
-            raster = raster_handler(files)
-            value = RasterSeries(prop=prop, value=raster)
-            value.save()
-            os.remove(raster.name)
-            return redirect(
-                reverse('model_object_details', args=([int(self.kwargs['model_object_id'])])))
+        raster = raster_handler(files)
+        value = RasterSeries(prop=prop, value=raster)
+        value.save()
+        os.remove(raster.name)
 
-        else:
-            return self.render_to_response(
-                self.get_context_data(
-                    value_series_form=value_series_form,
-                    single_value_form=single_value_form,
-                    single_raster_form=single_raster_form,
-                    raster_series_form=raster_series_form,
-                    model_object_id=self.kwargs['model_object_id']
-                )
-            )
+        return super(CreateRasterSeries, self).form_valid(form)
 
 
 
