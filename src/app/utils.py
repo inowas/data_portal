@@ -10,78 +10,69 @@ from django.conf import settings
 
 from app import models
 
-def set_geometry(geom_type, model_object, geom_wkt):
-    """ Returns MO bbox ands sets specific geometry """
-    if geom_type.geom_type == 'linestring':
-        geom_object = models.LineObject(
-            model_object=model_object,
-            geometry=GEOSGeometry(geom_wkt)
-        )
+# def set_geometry(geom_type, model_object, geom_wkt):
+#     """ Returns MO bbox ands sets specific geometry """
+#     if geom_type.geom_type == 'linestring':
+#         geom_object = models.LineObject(
+#             model_object=model_object,
+#             geometry=GEOSGeometry(geom_wkt)
+#         )
 
-    elif geom_type.geom_type == 'point':
-        geom_object =models.PointObject(
-            model_object=model_object,
-            geometry=GEOSGeometry(geom_wkt)
-        )
+#     elif geom_type.geom_type == 'point':
+#         geom_object =models.PointObject(
+#             model_object=model_object,
+#             geometry=GEOSGeometry(geom_wkt)
+#         )
 
-    elif geom_type.geom_type == 'polygon':
-        geom_object = models.PolygonObject(
-            model_object=model_object,
-            geometry=GEOSGeometry(geom_wkt)
-        )
+#     elif geom_type.geom_type == 'polygon':
+#         geom_object = models.PolygonObject(
+#             model_object=model_object,
+#             geometry=GEOSGeometry(geom_wkt)
+#         )
 
-    elif geom_type.geom_type == 'compound':
-        geom_object = models.CompoundObject(
-            model_object=model_object,
-            geometry=None
-        )
-        geom_object.save()
-        return None
+#     elif geom_type.geom_type == 'compound':
+#         geom_object = models.CompoundObject(
+#             model_object=model_object,
+#             geometry=None
+#         )
+#         geom_object.save()
+#         return None
 
-    geom_object.save()
+#     geom_object.save()
 
-    buffer = GEOSGeometry(geom_wkt).buffer(1)
-    bbox = buffer.envelope
+#     buffer = GEOSGeometry(geom_wkt).buffer(1)
+#     bbox = buffer.envelope
 
-    return bbox
+#     return bbox
 
-def get_geojson(model_objects):
-    """ Returnes GeoJSON views for given model objects """
-    geojson = {
-        "type": "FeatureCollection",
-        "features": []
-    }
+# def get_geojson(model_objects):
+#     """ Returnes GeoJSON views for given model objects """
+#     geojson = {
+#         "type": "FeatureCollection",
+#         "features": []
+#     }
+#     for model_object in model_objects:
+#         if model_object.geom_type_id == 4:
+#             geometry = None
+#         else: 
+#             geometry = json.loads(model_object.geometry.json)
 
-    for model_object in model_objects:
-        geom_type = model_object.geom_type.geom_type
+#         insertion = {
+#             "type": "Feature",
+#             "geometry": geometry,
+#             "properties": {
+#                 "id": model_object.id,
+#                 "dataset_id": model_object.dataset.id,
+#                 "geom_type": model_object.geom_type.geom_type,
+#                 "object_type": model_object.object_type.object_type,
+#                 "properties": [i.property_type.property_type
+#                                for i in model_object.properties.all()],
+#                 }
+#         }
 
-        if geom_type == 'point':
-            geom_obj = models.PointObject.objects.get(model_object_id=model_object.id)
-            geometry = json.loads(geom_obj.geometry.json)
-        elif geom_type == 'linestring':
-            geom_obj = models.LineObject.objects.get(model_object_id=model_object.id)
-            geometry = json.loads(geom_obj.geometry.json)
-        elif geom_type == 'polygon':
-            geom_obj = models.PolygonObject.objects.get(model_object_id=model_object.id)
-            geometry = json.loads(geom_obj.geometry.json)
-        else:
-            geometry = json.loads('{"type": "Point", "coordinates": []}')
+#         geojson['features'].append(insertion)
 
-        insertion = {
-            "type": "Feature",
-            "geometry": geometry,
-            "properties": {
-                "id": model_object.id,
-                "dataset_id": model_object.dataset.id,
-                "geom_type": geom_type,
-                "object_type": model_object.object_type.object_type,
-                "properties": [i.property_type.property_type for i in model_object.properties.all()],
-                }
-        }
-
-        geojson['features'].append(insertion)
-
-    return geojson
+#     return geojson
 
 def get_specific_geometry(model_object):
 

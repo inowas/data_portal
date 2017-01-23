@@ -90,17 +90,17 @@ def property_big_list(request):
     serializer = PropertyBigSerializer(queryset, many=True)
     return Response(serializer.data)
 
-@api_view(['GET'])
-def dataset_tree(request, pk):
-    try:
-        queryset = Dataset.objects.get(id=pk)
-    except Dataset.DoesNotExist:
-        return Response({
-            "detail": "Not found."
-        })
+# @api_view(['GET'])
+# def dataset_tree(request, pk):
+#     try:
+#         queryset = Dataset.objects.get(id=pk)
+#     except Dataset.DoesNotExist:
+#         return Response({
+#             "detail": "Not found."
+#         })
 
-    serializer = TreeSerializer(queryset, many=False)
-    return Response(serializer.data)
+#     serializer = TreeSerializer(queryset, many=False)
+#     return Response(serializer.data)
 
 @api_view(['GET'])
 def get_geojson_all(request):

@@ -40,7 +40,7 @@ class ValueType(models.Model):
 class Dataset(models.Model):
     """ """
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='datasets')
-    public = models.BooleanField()
+    public = models.BooleanField(default=True)
     name = models.CharField(max_length=20)
     descr = models.TextField()
     bbox = models.PolygonField(srid=3857, blank=True, null=True)
@@ -52,6 +52,8 @@ class Dataset(models.Model):
 
 class ModelObject(models.Model):
     """ """
+    name = models.TextField(default='Noname')
+
     dataset = models.ForeignKey(
         Dataset, on_delete=models.CASCADE,
         related_name='model_objects')
@@ -64,49 +66,49 @@ class ModelObject(models.Model):
         ObjectType, on_delete=models.CASCADE,
         related_name='model_objects')
 
-    bbox = models.PolygonField(srid=3857, blank=True, null=True)
+    geometry = models.GeometryField(srid=3857,
+        blank=True, null=True)
 
-    name = models.TextField(default='Noname')
-
+    # bbox = models.PolygonField(srid=3857, blank=True, null=True)
     def __str__(self):
         return '%s %s' % (self.object_type, self.id)
 
 
-class PolygonObject(models.Model):
-    """ """
-    model_object = models.ForeignKey(
-        ModelObject, on_delete=models.CASCADE,
-        related_name='polygon_objects'
-        )
-    geometry = models.PolygonField(srid=3857)
+# class PolygonObject(models.Model):
+#     """ """
+#     model_object = models.ForeignKey(
+#         ModelObject, on_delete=models.CASCADE,
+#         related_name='polygon_objects'
+#         )
+#     geometry = models.PolygonField(srid=3857)
 
 
-class PointObject(models.Model):
-    """ """
-    model_object = models.ForeignKey(
-        ModelObject, on_delete=models.CASCADE,
-        related_name='point_objects'
-        )
-    geometry = models.PointField(srid=3857)
+# class PointObject(models.Model):
+#     """ """
+#     model_object = models.ForeignKey(
+#         ModelObject, on_delete=models.CASCADE,
+#         related_name='point_objects'
+#         )
+#     geometry = models.PointField(srid=3857)
 
 
-class LineObject(models.Model):
-    """ """
-    model_object = models.ForeignKey(
-        ModelObject, on_delete=models.CASCADE,
-        related_name='line_objects'
-        )
-    geometry = models.LineStringField(srid=3857)
+# class LineObject(models.Model):
+#     """ """
+#     model_object = models.ForeignKey(
+#         ModelObject, on_delete=models.CASCADE,
+#         related_name='line_objects'
+#         )
+#     geometry = models.LineStringField(srid=3857)
 
 
-class CompoundObject(models.Model):
-    """ """
-    model_object = models.ForeignKey(
-        ModelObject, on_delete=models.CASCADE,
-        related_name='compound_objects'
-        )
+# class CompoundObject(models.Model):
+#     """ """
+#     model_object = models.ForeignKey(
+#         ModelObject, on_delete=models.CASCADE,
+#         related_name='compound_objects'
+#         )
 
-    geometry = models.CharField(max_length=20, null=True)
+#     geometry = models.CharField(max_length=20, null=True)
 
 
 class Prop(models.Model):
@@ -117,11 +119,11 @@ class Prop(models.Model):
         related_name='properties',
         null=True
         )
-    obs_point = models.ForeignKey(
-        PointObject, on_delete=models.CASCADE,
-        related_name='observed_properties',
-        blank=True, null=True
-        )
+    # obs_point = models.ForeignKey(
+    #     PointObject, on_delete=models.CASCADE,
+    #     related_name='observed_properties',
+    #     blank=True, null=True
+    #     )
     property_type = models.ForeignKey(
         PropertyType, on_delete=models.CASCADE,
         related_name='properties',

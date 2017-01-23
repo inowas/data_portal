@@ -39,27 +39,27 @@ class PropertySerializer(serializers.ModelSerializer):
                   'raster_series', 'model_object', 'obs_point', 'property_type', 'value_type')
 
 
-class TreeSerializer(serializers.BaseSerializer):
-    def to_representation(self, dataset):
-        model_objects = ModelObject.objects.filter(dataset_id=dataset.id)
-        tree = []
-        for i in model_objects:
-            object_i = {}
-            object_i['name'] = i.name
-            object_i['id'] = i.id
-            object_i['object_type'] = i.object_type.object_type
-            object_i['properties'] = []
-            properties = Prop.objects.filter(model_object_id=i.id)
-            for j in properties:
-                property_j = {}
-                property_j['id'] = j.id
-                property_j['name'] = j.name
-                property_j['property_type'] = j.property_type.property_type
-                object_i['properties'].append(property_j)
+# class TreeSerializer(serializers.BaseSerializer):
+#     def to_representation(self, dataset):
+#         model_objects = ModelObject.objects.filter(dataset_id=dataset.id)
+#         tree = []
+#         for i in model_objects:
+#             object_i = {}
+#             object_i['name'] = i.name
+#             object_i['id'] = i.id
+#             object_i['object_type'] = i.object_type.object_type
+#             object_i['properties'] = []
+#             properties = Prop.objects.filter(model_object_id=i.id)
+#             for j in properties:
+#                 property_j = {}
+#                 property_j['id'] = j.id
+#                 property_j['name'] = j.name
+#                 property_j['property_type'] = j.property_type.property_type
+#                 object_i['properties'].append(property_j)
 
-            tree.append(object_i)
+#             tree.append(object_i)
 
-        return tree
+#         return tree
 
 
 
@@ -99,18 +99,10 @@ class PropertyBigSerializer(serializers.BaseSerializer):
 
 class ModelObjectGeoJSONSerializer(serializers.BaseSerializer):
     def to_representation(self, model_object):
-        geom_type = model_object.geom_type.geom_type
-        if geom_type == 'point':
-            geom_obj = PointObject.objects.get(model_object_id=model_object.id)
-            geometry = json.loads(geom_obj.geometry.json)
-        elif geom_type == 'linestring':
-            geom_obj = LineObject.objects.get(model_object_id=model_object.id)
-            geometry = json.loads(geom_obj.geometry.json)
-        elif geom_type == 'polygon':
-            geom_obj = PolygonObject.objects.get(model_object_id=model_object.id)
-            geometry = json.loads(geom_obj.geometry.json)
-        else:
+        if model_object.geom_type_id == 4:
             geometry = None
+        else: 
+            geometry = json.loads(model_object.geometry.json)
 
         feature = {
             "type": "Feature",
@@ -119,7 +111,7 @@ class ModelObjectGeoJSONSerializer(serializers.BaseSerializer):
                 "id": model_object.id,
                 "name": model_object.name,
                 "dataset_id": model_object.dataset.id,
-                "geom_type": geom_type,
+                "geom_type": model_object.geom_type.geom_type,
                 "object_type": model_object.object_type.object_type,
                 }
         }

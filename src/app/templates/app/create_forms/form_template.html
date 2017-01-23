@@ -2,30 +2,34 @@
 
 {% block content %}
 
-<div class="page-header">
+<!--<div class="page-header">
     <h3>Create new dataset</h3>
-</div>
-
-{% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
-{% endif %}
-<div class="card radius-0 space-top-3">
-    <div class="card-block">
-        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for field in form %}
-                <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
-                        <span class="text-danger small">{{ field.errors }}</span>
+</div>-->
+<div class="row">  
+    <div class="col-4">
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+        <div class="card radius-0 space-top-3">
+            <div class="card-block">
+                <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                    
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <span class="text-danger small">{{ field.errors }}</span>
+                            </div>
+                            <label class="control-label col-sm-2">{{ field.label_tag }}</label>
+                            <div class="col-sm-10">{{ field }}</div>
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success">Submit</button>
                     </div>
-                    <label class="control-label col-sm-2">{{ field.label_tag }}</label>
-                    <div class="col-sm-10">{{ field }}</div>
-                </div>
-            {% endfor %}
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">Submit</button>
+                </form>
             </div>
-        </form>
+        </div>
+        {% endblock %}
     </div>
 </div>
-{% endblock %}

@@ -6,6 +6,7 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.forms import SimpleArrayField
+# from django.contrib.gis import forms
 
 from app.models import *
 
@@ -31,31 +32,60 @@ class DatasetForm(forms.ModelForm):
 
 
 class ModelObjectForm(forms.ModelForm):
-    wkt = forms.CharField(widget=forms.Textarea, required=False)
+    geometry = forms.CharField(
+        widget=forms.Textarea(
+            attrs={
+            'placeholder': 'WKT formatted geometry in EPSG:3857 CRS. \n\
+Examples:\n\
+point(0 0),\n\
+linestring(0 0, 1 1, 2 2,)\n\
+polygon((0 0, 1 1, 2 2, 0 0))'
+            }
+        ),
+        required=False
+    )
     class Meta:
         model = ModelObject
-        fields = ['geom_type', 'object_type', 'name', 'wkt']
+        fields = ['object_type', 'name']
 
 
 class SingleValueForm(forms.ModelForm):
     value = forms.FloatField()
     class Meta:
         model = Prop
-        fields = ['property_type', 'name', 'obs_point']
+        fields = ['property_type', 'name']
 
 class ValueSeriesForm(forms.ModelForm):
-    timestart = forms.DateTimeField()
-    interval =forms.DurationField()
-    values = SimpleArrayField(forms.DecimalField())
+    timestart = forms.DateTimeField(
+        widget=forms.DateTimeInput(
+            attrs={
+                'placeholder':'2017-01-01 00:00:00'
+                }
+            )
+        )
+    interval = forms.DurationField(
+        widget=forms.TextInput(
+            attrs={
+                'placeholder':'00:00:00'
+                }
+            )
+        )
+    values = SimpleArrayField(forms.DecimalField(),
+        widget=forms.TextInput(
+            attrs={
+                'placeholder':'1, 1, 2, 3, etc.'
+                }
+            )
+        )
     class Meta:
         model = Prop
-        fields = ['property_type', 'name', 'obs_point']
+        fields = ['property_type', 'name']
 
 class SingleRasterForm(forms.ModelForm):
     file_field = forms.FileField()
     class Meta:
         model = Prop
-        fields = ['property_type', 'name', 'obs_point']
+        fields = ['property_type', 'name']
 
 class RasterSeriesForm(forms.ModelForm):
     timestart = forms.DateTimeField()
@@ -63,5 +93,5 @@ class RasterSeriesForm(forms.ModelForm):
     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     class Meta:
         model = Prop
-        fields = ['property_type', 'name', 'obs_point']
+        fields = ['property_type', 'name']
 

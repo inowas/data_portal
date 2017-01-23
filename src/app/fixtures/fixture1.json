@@ -24,7 +24,7 @@
     "model": "app.GeomType",
     "pk": 4,
     "fields": {
-      "geom_type": "compound"
+      "geom_type": "null"
     }
   },
   {

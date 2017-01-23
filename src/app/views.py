@@ -12,6 +12,7 @@ from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.gis.geos import GEOSGeometry
 
 from app.models import *
 from app.forms import *
@@ -48,26 +49,24 @@ class DatasetDetails(View):
 
         model_objects = ModelObject.objects.filter(dataset=dataset)
 
-        if not model_objects:
-            return render(
-                request, 'app/dataset_details.html',
-                {'dataset': dataset, 'model_objects': model_objects,
-                 'script': '<script></script>' ,
-                 'objects_number': 0}
-            )
-        else:
-            geojson = get_geojson(model_objects)
-            script, div = plot_model_objects(
-                geojson, map_width=500, map_height=500,
-                table_width=550, table_height=550
-                )
+        # if not model_objects:
+        #     return render(
+        #         request, 'app/dataset_details.html',
+        #         {'dataset': dataset, 'model_objects': model_objects,
+        #          'script': '<script></script>' ,
+        #          'objects_number': 0}
+        #     )
+        # else:
+        #     geojson = get_geojson(model_objects)
+        #     script, div = plot_model_objects(
+        #         geojson, map_width=500, map_height=500,
+        #         table_width=550, table_height=550
+        #         )
 
-            return render(
-                request, 'app/dataset_details.html',
-                {'dataset': dataset, 'model_objects': model_objects,
-                'script': script, 'plot': div['plot'], 'table': div['table'],
-                'objects_number': len(model_objects)}
-                )
+        return render(
+            request, 'app/dataset_details.html',
+            {'dataset': dataset, 'model_objects': model_objects,}
+            )
 
 class ModelObjectDetails(View):
 
@@ -213,27 +212,34 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        self.success_url += self.kwargs['dataset_id']
+        dataset_id = self.kwargs['dataset_id']
+        wkt = self.request.POST['geometry']
+        self.success_url += dataset_id
 
         model_object = form.save(commit=False)
         model_object.dataset_id = dataset_id
-        model_object.save()
+        if wkt:
+            model_object.geometry = GEOSGeometry(wkt)
+            if GEOSGeometry(wkt).geom_type == 'Point':
+                model_object.geom_type_id = 1
+            if GEOSGeometry(wkt).geom_type == 'LineString':
+                model_object.geom_type_id = 2
+            if GEOSGeometry(wkt).geom_type == 'Polygon':
+                model_object.geom_type_id = 3
+        else:
+            model_object.geometry = None
+            model_object.geom_type_id = 4
 
-        wkt = self.request.POST['wkt']
-        bbox = set_geometry(
-            geom_type=model_object.geom_type,
-            model_object=model_object,
-            geom_wkt=wkt)
-
-        model_object.bbox = bbox
         model_object.save()
 
         dataset = Dataset.objects.get(id=dataset_id)
         if dataset.bbox is None:
-            dataset.bbox = model_object.bbox
+            buffer = model_object.geometry.buffer(1)
+            bbox = buffer.envelope
+            dataset.bbox = bbox
         else:
             dataset.bbox = update_bbox(bbox_geom=dataset.bbox,
-                                       feature_geom=model_object.bbox)
+                                       feature_geom=model_object.geometry)
         dataset.tile_url = calculate_tile_index(bbox_geom=dataset.bbox,
                                                 as_url=True)
         dataset.save()
