@@ -40,16 +40,7 @@
                           <i class="flaticon-database-1"></i>Tools</a>
                   </li>
               </ul>
-              <ul class="navbar-right">
-                  <li>
-                      <a href="{% url 'about' %}">About</a>
-                  </li>
-              </ul>
-              <ul class="navbar-right">
-                  <li>
-                      <a href="{% url 'contact' %}">Contact</a>
-                  </li>
-              </ul>
+
                 {% include 'app/loginpartial.html' %}
           </div>
       </nav>
@@ -58,6 +49,12 @@
     <div class="container body-content">
         {% block content %}{% endblock %}
     </div>
+
+    <footer class="footer">
+      <div class="container">
+        <span class="text-muted">.</span>
+      </div>
+    </footer>
 
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.js"></script>
     <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.3.min.js"></script>
