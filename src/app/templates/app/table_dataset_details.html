@@ -23,11 +23,10 @@
         <table class="table table-striped">
         <thead>
             <tr>
-            <th>Object name</th>
+            <th>Name</th>
             <th>Object type</th>
             <th>Geometry type</th>
-            <th>Application</th>
-            <th>Date created</th>
+            <th>Date, time created</th>
             <th>Created by</th>
             </tr>
         </thead>
@@ -37,8 +36,7 @@
             <td><a href="{% url 'feature-details' object.id %}" class="active">{{ object.name }}</a></td>
             <td>{{ object.object_type.object_type }}</td>
             <td>{{ object.geom_type.geom_type }}</td>
-            <td>A06</td>
-            <td>24.10.2006 18:40</td>
+            <td>{{ object.created }}</td>
             <td>{{ dataset.user.username }}</td>
             </tr>
         {% endfor %}

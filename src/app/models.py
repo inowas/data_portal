@@ -45,6 +45,8 @@ class Dataset(models.Model):
     descr = models.TextField()
     bbox = models.PolygonField(srid=3857, blank=True, null=True)
     tile_url = models.TextField(default='https://a.tile.openstreetmap.org/0/0/0.png')
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    modified = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return '%s %s' % (self.name, self.id)
@@ -68,6 +70,9 @@ class ModelObject(models.Model):
 
     geometry = models.GeometryField(srid=3857,
         blank=True, null=True)
+
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    modified = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return '%s %s' % (self.object_type, self.id)
@@ -99,6 +104,9 @@ class Prop(models.Model):
     interval = models.DurationField(null=True, blank=True)
     num_vals = models.IntegerField(default=1)
     name = models.TextField(default='Noname')
+
+    created = models.DateTimeField(auto_now_add=True, null=True)
+    modified = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
         return '%s %s' % (self.property_type, self.id)
