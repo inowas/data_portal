@@ -1,8 +1,8 @@
 $(document).ready(function () {
     var apiURL = "/api/dataset-tree/"
-    var datasetsURL = "/dataset_details/"
-    var objectsURL = "/model_object_details/"
-    var propertiesURL = "/property_details/"
+    var datasetsURL = "/dataset-details/"
+    var objectsURL = "/feature-details/"
+    var propertiesURL = "/property-details/"
     var currentURL = window.location.toString().split("/");
     var datasetID = Number(currentURL.slice(-1)[0]);
     console.log({{ dataset.id }})

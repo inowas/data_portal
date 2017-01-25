@@ -3,22 +3,17 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ title }} - Data portal</title>
+    <title>Data portal</title>
     {% load staticfiles %}
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700">
     <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.3.min.css">
     <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.12.3.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.0/ol.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700">
     <link rel="stylesheet" type="text/css" href="{% static 'app/flaticon/flaticon.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/dataPortal.css' %}" />
-    
-    <!--<link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap.min.css' %}" />-->
-    <!--<link rel="stylesheet" type="text/css" href="{% static 'app/content/site.css' %}" />-->
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/bootstrap-treeview.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/custom.css' %}">
-    
+    <link rel="stylesheet" type="text/css" href="{% static 'app/content/ol_custom.css' %}">
 
 </head>
 
@@ -40,7 +35,6 @@
                           <i class="flaticon-database-1"></i>Tools</a>
                   </li>
               </ul>
-
                 {% include 'app/loginpartial.html' %}
           </div>
       </nav>
@@ -61,15 +55,10 @@
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.4.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ol3/3.20.0/ol.js"></script>
-    <!--<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
-    <!--<script src="{% static 'app/scripts/bootstrap.min.js' %}"></script>-->
     <script src="{% static 'app/scripts/respond.min.js' %}"></script>
-    <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>
-    <!--<script src="{% static 'app/scripts/bootstrap-treeview.min.js' %}"></script>-->
-    
-    
+    <script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script>   
 
     {% block scripts %}{% endblock %}
 

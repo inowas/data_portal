@@ -74,7 +74,7 @@
                                 "render": function (data, type, row) {
                                     if(type === 'display'){
                                         return $('<a>')
-                                            .attr('href','/dataset_details/'+ row['dataset_id'])
+                                            .attr('href','/dataset-details/'+ row['dataset_id'])
                                             .text(data)
                                             .wrap('<div></div>')
                                             .parent()
@@ -89,7 +89,7 @@
                                 "render": function (data, type, row) {
                                     if(type === 'display'){
                                         return $('<a>')
-                                            .attr('href','/model_object_details/'+ row['model_object_id'])
+                                            .attr('href','/feature-details/'+ row['model_object_id'])
                                             .text(data)
                                             .wrap('<div></div>')
                                             .parent()
@@ -106,7 +106,7 @@
                                 "render": function (data, type, row) {
                                     if(type === 'display'){
                                         return $('<a>')
-                                            .attr('href','/property_details/'+ row['property_id'])
+                                            .attr('href','/property-details/'+ row['property_id'])
                                             .text(data)
                                             .wrap('<div></div>')
                                             .parent()

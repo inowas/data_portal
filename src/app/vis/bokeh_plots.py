@@ -31,7 +31,7 @@ def plot_properties(geojson, map_width=600, map_height=400,
         TableColumn(field="property_type", width=150, title="Type"),
         TableColumn(field="value_type", width=150, title="Value type"),
         TableColumn(title="", width=70, formatter=HTMLTemplateFormatter(
-            template='<a href="/property_details/<%= id %>"class="btn btn-default btn-xs" role="button">Details</a>')),
+            template='<a href="/property-details/<%= id %>"class="btn btn-default btn-xs" role="button">Details</a>')),
         ]
     data_table = DataTable(source=geo_source, columns=columns,
                            width=table_width, height=table_height)
@@ -61,7 +61,7 @@ def plot_model_objects(geojson, map_width=600, map_height=400,
         TableColumn(field="geom_type", width=100, title="Geometry"),
         TableColumn(field="properties", width=200, title="Data"),
         TableColumn(title="", width=70, formatter=HTMLTemplateFormatter(
-            template='<a href="/model_object_details/<%= id %>"class="btn btn-default btn-xs" role="button">Details</a>')),
+            template='<a href="/feature-details/<%= id %>"class="btn btn-default btn-xs" role="button">Details</a>')),
         ]
     data_table = DataTable(source=geo_source, columns=columns,
                            width=table_width, height=table_height)

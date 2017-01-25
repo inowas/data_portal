@@ -49,24 +49,14 @@ class DatasetDetails(View):
 
         model_objects = ModelObject.objects.filter(dataset=dataset)
 
-        # if not model_objects:
-        #     return render(
-        #         request, 'app/dataset_details.html',
-        #         {'dataset': dataset, 'model_objects': model_objects,
-        #          'script': '<script></script>' ,
-        #          'objects_number': 0}
-        #     )
-        # else:
-        #     geojson = get_geojson(model_objects)
-        #     script, div = plot_model_objects(
-        #         geojson, map_width=500, map_height=500,
-        #         table_width=550, table_height=550
-        #         )
-
         return render(
-            request, 'app/dataset_details.html',
-            {'dataset': dataset, 'model_objects': model_objects,}
-            )
+            request, 'app/details_dataset.html',
+            {
+                'dataset': dataset,
+                'model_objects': model_objects,
+                'geojson_url': '/api/geojson-dataset/' + str(dataset.id)
+            }
+        )
 
 class ModelObjectDetails(View):
 
@@ -80,38 +70,14 @@ class ModelObjectDetails(View):
         properties = Prop.objects.filter(model_object=model_object)
 
         return render(
-                request, 'app/model_object_details.html',
-                {
-                    'model_object': model_object, 'dataset': dataset, 'properties': properties,
-                }
-            )
-
-        # if not properties:
-        #     geojson = get_geojson([model_object])
-        #     script, div = plot_model_objects(
-        #         geojson, map_width=500, map_height=500,
-        #         table_width=550, table_height=550
-        #         )
-
-        #     return render(
-        #         request, 'app/model_object_details.html',
-        #         {'model_object': model_object, 'dataset': dataset, 'properties': properties,
-        #         'script': script, 'plot': div['plot'], 'table': div['table'],
-        #         'properties_number': 0}
-        #         )
-        # else:
-        #     geojson = get_prop_geojson(properties)
-        #     script, div = plot_properties(
-        #         geojson, map_width=500, map_height=500,
-        #         table_width=550, table_height=550
-        #         )
-
-        #     return render(
-        #         request, 'app/model_object_details.html',
-        #         {'model_object': model_object, 'dataset': dataset, 'properties': properties,
-        #          'script': script, 'plot': div['plot'], 'table': div['table'],
-        #          'properties_number': len(properties)}
-        #         )
+            request, 'app/details_feature.html',
+            {
+                'dataset': dataset,
+                'model_object': model_object,
+                'properties': properties,
+                'geojson_url': '/api/geojson-feature/' + str(model_object.id)
+            }
+        )
 
 
 class PropertyDetails(View):
@@ -184,12 +150,14 @@ class PropertyDetails(View):
                 raster, resize_coef=0.1, plot_width=500, plot_height=500,
                 table_width=550, table_height=550
                 )
-            controls, raster_map, plot, table = div['controls'], div['raster_map'], div['plot'], None
+            controls, raster_map, plot, table = div['controls'],\
+            div['raster_map'], div['plot'], None
+
             descr = 'time-series of rasters'
             value = None
 
         return render(
-            request, 'app/property_details.html',
+            request, 'app/details_property.html',
             {
                 'descr': descr,
                 'value': value,
@@ -208,7 +176,7 @@ class PropertyDetails(View):
 class CreateModelObject(LoginRequiredMixin, CreateView):
     template_name = 'app/create_forms/form_template.html'
     form_class = ModelObjectForm
-    success_url = '/dataset_details/'
+    success_url = '/dataset-details/'
 
     @transaction.atomic
     def form_valid(self, form):
@@ -249,20 +217,22 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
 class CreateDataset(LoginRequiredMixin, CreateView):
     template_name = 'app/create_forms/form_template.html'
     form_class = DatasetForm
-    success_url = '/datacollections/'
+    success_url = '/dataset-details/'
 
     @transaction.atomic
     def form_valid(self, form):
         dataset = form.save(commit=False)
         dataset.user = self.request.user
         dataset.save()
+
+        self.success_url += dataset.id
         return super(CreateDataset, self).form_valid(form)
 
 
 class CreateSingleValue(LoginRequiredMixin, CreateView):
     template_name = 'app/create_forms/form_template.html'
     form_class = SingleValueForm
-    success_url = '/model_object_details/'
+    success_url = '/feature-details/'
 
     @transaction.atomic
     def form_valid(self, form):
@@ -281,7 +251,7 @@ class CreateSingleValue(LoginRequiredMixin, CreateView):
 class CreateValueSeries(LoginRequiredMixin, CreateView):
     template_name = 'app/create_forms/form_template.html'
     form_class = ValueSeriesForm
-    success_url = '/model_object_details/'
+    success_url = '/feature-details/'
 
     @transaction.atomic
     def form_valid(self, form):
@@ -301,13 +271,39 @@ class CreateValueSeries(LoginRequiredMixin, CreateView):
 
         return super(CreateValueSeries, self).form_valid(form)
 
+class CreateValueSeriesUpload(LoginRequiredMixin, CreateView):
+    template_name = 'app/create_forms/form_template_excel_upload.html'
+    form_class = ValueSeriesUploadForm
+    success_url = '/feature-details/'
+
+    @transaction.atomic
+    def form_valid(self, form):
+        self.success_url += self.kwargs['model_object_id']
+
+        files = self.get_form_kwargs().get('files').getlist('file_field')
+        input_values = excel_handler(spreadsheet=files[0])
+
+        prop = form.save(commit=False)
+        prop.model_object_id = self.kwargs['model_object_id']
+        prop.value_type = ValueType.objects.get(value_type='value_time_series')
+        prop.interval = self.request.POST['interval']
+        prop.timestart = self.request.POST['timestart']
+        prop.num_vals = len(input_values)
+        prop.save()
+
+        value = ValueSeries(prop=prop, value=input_values)
+
+        value.save()
+
+        return super(CreateValueSeriesUpload, self).form_valid(form)
+
 
 
 
 class CreateSingleRaster(LoginRequiredMixin, CreateView):
     template_name = 'app/create_forms/form_template.html'
     form_class = SingleRasterForm
-    success_url = '/model_object_details/'
+    success_url = '/feature-details/'
 
     @transaction.atomic
     def form_valid(self, form):
@@ -322,14 +318,16 @@ class CreateSingleRaster(LoginRequiredMixin, CreateView):
         raster = raster_handler(files)
         value = RasValue(prop=prop, value=raster)
         value.save()
-        
+
+        os.remove(raster.name)
+
         return super(CreateSingleRaster, self).form_valid(form)
 
 
 class CreateRasterSeries(LoginRequiredMixin, CreateView):
     template_name = 'app/create_forms/form_template.html'
     form_class = RasterSeriesForm
-    success_url = '/model_object_details/'
+    success_url = '/feature-details/'
 
     @transaction.atomic
     def form_valid(self, form):
@@ -361,7 +359,7 @@ def home(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/index.html',
+        'app/general/index.html',
         {
             'title':'Home Page',
             'year':datetime.now().year,
@@ -373,7 +371,7 @@ def contact(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/contact.html',
+        'app/general/contact.html',
         {
             'title':'Contact',
             'message':'Contact page.',
@@ -386,7 +384,7 @@ def about(request):
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/about.html',
+        'app/general/about.html',
         {
             'title':'About',
             'message':'Some text will be here soon.',

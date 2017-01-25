@@ -69,46 +69,8 @@ class ModelObject(models.Model):
     geometry = models.GeometryField(srid=3857,
         blank=True, null=True)
 
-    # bbox = models.PolygonField(srid=3857, blank=True, null=True)
     def __str__(self):
         return '%s %s' % (self.object_type, self.id)
-
-
-# class PolygonObject(models.Model):
-#     """ """
-#     model_object = models.ForeignKey(
-#         ModelObject, on_delete=models.CASCADE,
-#         related_name='polygon_objects'
-#         )
-#     geometry = models.PolygonField(srid=3857)
-
-
-# class PointObject(models.Model):
-#     """ """
-#     model_object = models.ForeignKey(
-#         ModelObject, on_delete=models.CASCADE,
-#         related_name='point_objects'
-#         )
-#     geometry = models.PointField(srid=3857)
-
-
-# class LineObject(models.Model):
-#     """ """
-#     model_object = models.ForeignKey(
-#         ModelObject, on_delete=models.CASCADE,
-#         related_name='line_objects'
-#         )
-#     geometry = models.LineStringField(srid=3857)
-
-
-# class CompoundObject(models.Model):
-#     """ """
-#     model_object = models.ForeignKey(
-#         ModelObject, on_delete=models.CASCADE,
-#         related_name='compound_objects'
-#         )
-
-#     geometry = models.CharField(max_length=20, null=True)
 
 
 class Prop(models.Model):

@@ -17,7 +17,7 @@ urlpatterns = [
     # url(r'^dataset-tree/(?P<pk>[0-9]+)$', api_views.dataset_tree),
     url(r'^geojson/$', api_views.get_geojson_all),
     url(r'^geojson-dataset/(?P<pk>[0-9]+)$', api_views.get_geojson_dataset),
-    url(r'^geojson-object/(?P<pk>[0-9]+)$', api_views.get_geojson_object),
+    url(r'^geojson-feature/(?P<pk>[0-9]+)$', api_views.get_geojson_feature),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

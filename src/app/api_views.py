@@ -138,7 +138,7 @@ def get_geojson_dataset(request, pk):
     )
 
 @api_view(['GET'])
-def get_geojson_object(request, pk):
+def get_geojson_feature(request, pk):
 
     queryset = ModelObject.objects.filter(id=pk)
 

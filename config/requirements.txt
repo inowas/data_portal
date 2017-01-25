@@ -14,3 +14,4 @@ pytz
 PyYAML
 requests
 six
+xlrd

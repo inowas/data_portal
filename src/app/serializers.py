@@ -39,29 +39,6 @@ class PropertySerializer(serializers.ModelSerializer):
                   'raster_series', 'model_object', 'obs_point', 'property_type', 'value_type')
 
 
-# class TreeSerializer(serializers.BaseSerializer):
-#     def to_representation(self, dataset):
-#         model_objects = ModelObject.objects.filter(dataset_id=dataset.id)
-#         tree = []
-#         for i in model_objects:
-#             object_i = {}
-#             object_i['name'] = i.name
-#             object_i['id'] = i.id
-#             object_i['object_type'] = i.object_type.object_type
-#             object_i['properties'] = []
-#             properties = Prop.objects.filter(model_object_id=i.id)
-#             for j in properties:
-#                 property_j = {}
-#                 property_j['id'] = j.id
-#                 property_j['name'] = j.name
-#                 property_j['property_type'] = j.property_type.property_type
-#                 object_i['properties'].append(property_j)
-
-#             tree.append(object_i)
-
-#         return tree
-
-
 
 class PropertyBigSerializer(serializers.BaseSerializer):
     def to_representation(self, prop):

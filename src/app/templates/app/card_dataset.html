@@ -1,0 +1,17 @@
+<div class="card w-20 dataset">   
+    <div class="card-img-top">
+        <a href="{% url 'dataset-details' dataset.id %}">
+            <img src="{{ dataset.tile_url }}" class="img-responsive">
+        </a>
+        <div class="dataset-owner"></i>{{ dataset.user }}</div>
+    </div>
+    <div class="card-block">
+        <h4 class="card-title">{{ dataset.name }}</h4>
+        <p class="card-text">{{ dataset.descr }}</p>                                  
+    </div>
+    <div class="card-footer text-center">
+        <a href="{% url 'dataset-details' dataset.id %}" class="btn btn-primary">View</a>
+    </div>
+
+</div> <!-- End card -->
+

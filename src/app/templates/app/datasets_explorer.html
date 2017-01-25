@@ -3,22 +3,22 @@
 {% block content %}
 
 <div class="page-header">
-        <h1>Explore Data Collections</h1>
-        <a href="/create_dataset" class="btn btn-secondary float-right">Add Dataset</a>
-        <p class="lead w-75">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
-      </div>
-<!--<div class="page-header">
-  <a href="/create_dataset" class="btn btn-primary pull-right">Create new</a>
-  <h2 class="page-title">Explore Datasets</h2>
-</div>-->
+    <h1>Explore Data Collections</h1>
+    <a href="/add-dataset" class="btn btn-secondary float-right">Add Dataset</a>
+    <p class="lead w-75">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</p>
+</div>
 
 <div class="container-fluid">
     <div class="row">
         <div class="space-top-3">
-            {% include "app/datasets_collapse.html" %}
+            {% include "app/datasets_filter.html" %}
         </div>
         <div class="space-top-3 equal">
-            {% include "app/datasets_list.html" %}
+            {% if datasets %}
+                {% for dataset in datasets %}
+                    {% include "app/card_dataset.html" %}
+                {% endfor %}
+            {% endif %}
         </div>
     </div>
 </div>

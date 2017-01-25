@@ -25,7 +25,7 @@
                         <div class="tab-content">
 
                             <div id="single_value" class="tab-pane fade in active">
-                                <form class="form-horizontal" role="form" action="{% url 'add_single_value' model_object_id %}" method="post" enctype="multipart/form-data">
+                                <form class="form-horizontal" role="form" action="{% url 'add-single-value' model_object_id %}" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     {% for field in single_value_form %}
                                         <div class="form-group">
@@ -45,7 +45,7 @@
                             </div>
 
                             <div id="value_series" class="tab-pane fade">
-                                <form class="form-horizontal" role="form" action="{% url 'add_value_series' model_object_id %}" method="post" enctype="multipart/form-data">
+                                <form class="form-horizontal" role="form" action="{% url 'add-value-series' model_object_id %}" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     {% for field in value_series_form %}
                                         <div class="form-group">
@@ -65,7 +65,7 @@
                             </div>
                             
                             <div id="single_raster" class="tab-pane fade">
-                                <form class="form-horizontal" role="form" action="{% url 'add_single_raster' model_object_id %}" method="post" enctype="multipart/form-data">
+                                <form class="form-horizontal" role="form" action="{% url 'add-single-raster' model_object_id %}" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     {% for field in single_raster_form %}
                                         <div class="form-group">
@@ -84,7 +84,7 @@
                                 </form>
                             </div>
                             <div id="raster_series" class="tab-pane fade">
-                                <form class="form-horizontal" role="form" action="{% url 'add_raster_series' model_object_id %}" method="post" enctype="multipart/form-data">
+                                <form class="form-horizontal" role="form" action="{% url 'add-raster-series' model_object_id %}" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     {% for field in raster_series_form %}
                                         <div class="form-group">

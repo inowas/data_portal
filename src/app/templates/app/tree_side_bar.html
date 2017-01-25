@@ -8,7 +8,7 @@
                     <button class="accordion"><i class="flaticon-windows-1"></i>{{ object.name }} ({{ object.properties.all|length }})</button> 
                     <ul class="panel subnav">
                         {% for property in object.properties.all %}              
-                            <li><a href="{% url 'property_details' property.id %}" class="active">{{ property.name }}</a></li>
+                            <li><a href="{% url 'property-details' property.id %}" class="active">{{ property.name }}</a></li>
                         {% endfor %}
                     </ul>
                 {% endfor %}  
@@ -16,3 +16,16 @@
         </li>
     </ul>
 </div> <!-- End "sidebar" -->
+
+<script type="text/javascript">
+    var acc = document.getElementsByClassName("accordion");
+		var i;
+		
+		for (i = 0; i < acc.length; i++) {
+				acc[i].onclick = function(){
+						this.classList.toggle("active");
+						this.nextElementSibling.classList.toggle("show");
+			}
+		}
+
+</script>

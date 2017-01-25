@@ -81,6 +81,26 @@ class ValueSeriesForm(forms.ModelForm):
         model = Prop
         fields = ['property_type', 'name']
 
+class ValueSeriesUploadForm(forms.ModelForm):
+    timestart = forms.DateTimeField(
+        widget=forms.DateTimeInput(
+            attrs={
+                'placeholder':'2017-01-01 00:00:00'
+                }
+            )
+        )
+    interval = forms.DurationField(
+        widget=forms.TextInput(
+            attrs={
+                'placeholder':'00:00:00'
+                }
+            )
+        )
+    file_field = forms.FileField()
+    class Meta:
+        model = Prop
+        fields = ['property_type', 'name']
+
 class SingleRasterForm(forms.ModelForm):
     file_field = forms.FileField()
     class Meta:

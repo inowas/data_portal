@@ -1,9 +1,9 @@
 <script type="text/javascript">
     $(document).ready(function () {
         var apiURL = "/api/dataset-tree/"
-        var datasetsURL = "/dataset_details/"
-        var objectsURL = "/model_object_details/"
-        var propertiesURL = "/property_details/"
+        var datasetsURL = "/dataset-details/"
+        var objectsURL = "/feature-details/"
+        var propertiesURL = "/property-details/"
 
         $.getJSON(apiURL + "{{ dataset.id }}" + "?format=json", createTree);
 

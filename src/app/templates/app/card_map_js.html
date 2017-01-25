@@ -1,0 +1,74 @@
+<script type="text/javascript">
+
+    var container = document.getElementById('popup');
+    var content_element = document.getElementById('popup-content');
+    var closer = document.getElementById('popup-closer');
+
+    var overlay = new ol.Overlay(/** @type {olx.OverlayOptions} */ ({
+        element: container,
+        autoPan: true,
+        autoPanAnimation: {
+        duration: 250
+        }
+    }));
+
+    closer.onclick = function() {
+        overlay.setPosition(undefined);
+        closer.blur();
+        return false;
+    };
+
+    var map = new ol.Map({
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM()
+            })
+        ],
+        target: 'map',
+        overlays: [overlay],
+        controls: ol.control.defaults({
+            attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
+                collapsible: false
+            })
+        }),
+        view: new ol.View({
+        center: [0, 0],
+        zoom: 1
+        })
+    });
+    
+   
+    var geojson_layer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            url: '{{ geojson_url }}',
+            format: new ol.format.GeoJSON()
+        })
+    });
+
+    geojson_layer.getSource().on("change", function(evt) {
+        extent = geojson_layer.getSource().getExtent();
+        map.getView().fit(extent, map.getSize());
+    });
+    
+
+    map.addLayer(geojson_layer)
+
+
+    map.on('singleclick', function(evt) {
+        var coordinate = evt.coordinate;
+        var feature = map.forEachFeatureAtPixel(evt.pixel,
+        function(feature, layer) {
+            return feature;
+        });
+        if (feature) {
+            var content = '<h5><strong>Name: </strong>'+ feature.get('name') + '</h5>';
+            content += '<h5><strong>Type: </strong>'+ feature.get('object_type') + '</h5>';
+            content += '<h5><strong>Dataset ID: </strong>'+ feature.get('dataset_id') + '</h5>';
+            
+            content_element.innerHTML = content;
+            overlay.setPosition(coordinate);
+
+        }
+    });
+
+</script>

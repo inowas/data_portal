@@ -1,6 +1,7 @@
 import json
 import os
 import pandas as pd
+import numpy as np
 import subprocess
 import math
 from django.core.files.storage import FileSystemStorage
@@ -9,70 +10,6 @@ from django.contrib.gis.gdal import GDALRaster
 from django.conf import settings
 
 from app import models
-
-# def set_geometry(geom_type, model_object, geom_wkt):
-#     """ Returns MO bbox ands sets specific geometry """
-#     if geom_type.geom_type == 'linestring':
-#         geom_object = models.LineObject(
-#             model_object=model_object,
-#             geometry=GEOSGeometry(geom_wkt)
-#         )
-
-#     elif geom_type.geom_type == 'point':
-#         geom_object =models.PointObject(
-#             model_object=model_object,
-#             geometry=GEOSGeometry(geom_wkt)
-#         )
-
-#     elif geom_type.geom_type == 'polygon':
-#         geom_object = models.PolygonObject(
-#             model_object=model_object,
-#             geometry=GEOSGeometry(geom_wkt)
-#         )
-
-#     elif geom_type.geom_type == 'compound':
-#         geom_object = models.CompoundObject(
-#             model_object=model_object,
-#             geometry=None
-#         )
-#         geom_object.save()
-#         return None
-
-#     geom_object.save()
-
-#     buffer = GEOSGeometry(geom_wkt).buffer(1)
-#     bbox = buffer.envelope
-
-#     return bbox
-
-# def get_geojson(model_objects):
-#     """ Returnes GeoJSON views for given model objects """
-#     geojson = {
-#         "type": "FeatureCollection",
-#         "features": []
-#     }
-#     for model_object in model_objects:
-#         if model_object.geom_type_id == 4:
-#             geometry = None
-#         else: 
-#             geometry = json.loads(model_object.geometry.json)
-
-#         insertion = {
-#             "type": "Feature",
-#             "geometry": geometry,
-#             "properties": {
-#                 "id": model_object.id,
-#                 "dataset_id": model_object.dataset.id,
-#                 "geom_type": model_object.geom_type.geom_type,
-#                 "object_type": model_object.object_type.object_type,
-#                 "properties": [i.property_type.property_type
-#                                for i in model_object.properties.all()],
-#                 }
-#         }
-
-#         geojson['features'].append(insertion)
-
-#     return geojson
 
 def get_specific_geometry(model_object):
 
@@ -123,7 +60,7 @@ def get_prop_geojson(properties):
         "type": "FeatureCollection",
         "features": []
     }
-    
+
     for property_ in properties:
         if property_.obs_point is None:
             geometry = get_specific_geometry(property_.model_object)
@@ -147,7 +84,7 @@ def get_prop_geojson(properties):
     return geojson
 
 def raster_handler(files, *args, **kwargs):
-
+    """ Returns merged transformed raster file """
     rasters_dir = os.path.join(settings.MEDIA_ROOT, 'rasters')
     if len(files) > 1:
         output_raster = os.path.join(rasters_dir, 'merged.tif')
@@ -178,6 +115,23 @@ def raster_handler(files, *args, **kwargs):
         source = GDALRaster(os.path.join(settings.MEDIA_ROOT, filename), write=True)
 
     return source.transform(3857)
+
+def excel_handler(spreadsheet, *args, **kwargs):
+    """ Returns array of values read from Excel column """
+    storage = FileSystemStorage()
+    filename = storage.save('excel_files/' + spreadsheet.name, spreadsheet)
+    df = pd.read_excel(
+        os.path.join(settings.MEDIA_ROOT, filename),
+        header=None, sheetname=0
+        )
+    df = df.interpolate()
+
+    values = df[0].tolist()
+
+    os.remove(os.path.join(settings.MEDIA_ROOT, filename))
+
+    return values
+
 
 def update_bbox(bbox_geom, feature_geom):
     """ Returnes updated bbox including new feat. geom. """
@@ -223,6 +177,3 @@ def calculate_tile_index(bbox_geom, as_url):
                '/' + str(zoom_level) + '/' + str(xtile) + '/' +str(ytile) + '.png'
     else:
         return zoom_level, xtile, ytile
-
-
-
