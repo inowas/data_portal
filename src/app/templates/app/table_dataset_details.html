@@ -5,12 +5,12 @@
     <!-- Editing functions -->
     <div class="card-block">
         <form class="details-search">
-            <input class="form-control" placeholder="Search..." type="text">
+            <input class="form-control" id="searchInput" onkeyup="searchFunction()" placeholder="Search..." type="text">
         </form>
         <div class="functions-edit">
             <div class="dropdown"><!-- Button with dropdown menu -->
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="flaticon-add"></i>Add new property
+                    <i class="flaticon-add"></i>Add new feature
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="{% url 'add-feature' dataset.id %}">Add feature (text input)</a>
@@ -20,13 +20,13 @@
         </div>
         <div class="functions-public">
             <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-garbage-2"></i>Delete</a>
-            <a href="#" class="btn btn-secondary" role="button">Personal</a></li>
+            <!--<a href="#" class="btn btn-secondary" role="button">Personal</a></li>
             <span>|</span></li>
-            <a href="#" class="btn btn-secondary" role="button">Public</a></li>
+            <a href="#" class="btn btn-secondary" role="button">Public</a></li>-->
         </div>
     </div> <!-- End Editing functions -->
     <div class="table-responsive">
-        <table class="table table-striped">
+        <table class="table table-striped" id="table">
         <thead>
             <tr>
             <th>Name</th>
