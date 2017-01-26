@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="page-header">
-    <h2>Dataset: {{ dataset.name }}, Feature: {{ model_object.name }}, Property: {{ prop.name }}</h2>
+    {% include 'app/breadcrumb.html' %}
 </div>
 
 <div class="row">  

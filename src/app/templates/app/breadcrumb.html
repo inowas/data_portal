@@ -1,0 +1,19 @@
+<nav class="breadcrumb">
+    {% if dataset %}
+        {% if not model_object %}
+            <span class="breadcrumb-item active">{{ dataset.name }}</span>        
+        {% else %}
+            <a class="breadcrumb-item" href="{% url 'dataset-details' dataset.id %}">{{ dataset.name }}</a>
+        {% endif %}
+    {% endif %}
+    {% if model_object %}
+        {% if not prop %}
+            <span class="breadcrumb-item active">{{ model_object.name }}</span>        
+        {% else %}
+            <a class="breadcrumb-item" href="{% url 'feature-details' model_object.id %}">{{ model_object.name }}</a>
+        {% endif %}
+    {% endif %}
+    {% if prop %}
+        <span class="breadcrumb-item active">{{ prop.name }}</span>
+    {% endif %}
+</nav>
