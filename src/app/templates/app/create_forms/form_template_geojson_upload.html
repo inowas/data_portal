@@ -1,0 +1,28 @@
+{% extends 'app/layout.html' %}
+
+{% block content %}
+
+<div class="row"> 
+    <div class="col-6">
+        <div class="card radius-0 space-top-3">
+            <div class="card-block"
+                <p><strong>Add new features</strong></p>
+                <p>
+                    <strong> Instructions for file upload: </strong>
+                    A *.geojson file containing multiple features can be uploaded.
+                    Supported features: polygon, point, linestring.
+                    Feature's attributes should contain following fields: 
+                    "name" - text value that will be assigned to a new feature and
+                    "type" - text value representing type of the created feature.
+                    "Type" fields should contain one of the following: "meteostation",
+                    "area", "stream", "borehole", "well", "layer", "gauging_station".  
+                </p>
+                {% include 'app/create_forms/form_template.html' %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

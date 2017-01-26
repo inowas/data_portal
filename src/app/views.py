@@ -174,7 +174,7 @@ class PropertyDetails(View):
 
 
 class CreateModelObject(LoginRequiredMixin, CreateView):
-    template_name = 'app/create_forms/form_template.html'
+    template_name = 'app/create_forms/form_template_add_feature.html'
     form_class = ModelObjectForm
     success_url = '/dataset-details/'
 
@@ -216,7 +216,7 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
 
 
 class CreateModelObjectsUpload(LoginRequiredMixin, FormView):
-    template_name = 'app/create_forms/form_template.html'
+    template_name = 'app/create_forms/form_template_geojson_upload.html'
     form_class = ModelObjectUploadForm
     success_url = '/dataset-details/'
 
@@ -260,7 +260,7 @@ class CreateModelObjectsUpload(LoginRequiredMixin, FormView):
         return super(CreateModelObjectsUpload, self).form_valid(form)
 
 class CreateDataset(LoginRequiredMixin, CreateView):
-    template_name = 'app/create_forms/form_template.html'
+    template_name = 'app/create_forms/form_template_add_dataset.html'
     form_class = DatasetForm
     success_url = '/dataset-details/'
 
@@ -275,7 +275,7 @@ class CreateDataset(LoginRequiredMixin, CreateView):
 
 
 class CreateSingleValue(LoginRequiredMixin, CreateView):
-    template_name = 'app/create_forms/form_template.html'
+    template_name = 'app/create_forms/form_template_add_single_value.html'
     form_class = SingleValueForm
     success_url = '/feature-details/'
 
@@ -294,7 +294,7 @@ class CreateSingleValue(LoginRequiredMixin, CreateView):
 
 
 class CreateValueSeries(LoginRequiredMixin, CreateView):
-    template_name = 'app/create_forms/form_template.html'
+    template_name = 'app/create_forms/form_template_add_value_series.html'
     form_class = ValueSeriesForm
     success_url = '/feature-details/'
 
@@ -346,7 +346,7 @@ class CreateValueSeriesUpload(LoginRequiredMixin, CreateView):
 
 
 class CreateSingleRaster(LoginRequiredMixin, CreateView):
-    template_name = 'app/create_forms/form_template.html'
+    template_name = 'app/create_forms/form_template_add_single_raster.html'
     form_class = SingleRasterForm
     success_url = '/feature-details/'
 
@@ -370,7 +370,7 @@ class CreateSingleRaster(LoginRequiredMixin, CreateView):
 
 
 class CreateRasterSeries(LoginRequiredMixin, CreateView):
-    template_name = 'app/create_forms/form_template.html'
+    template_name = 'app/create_forms/form_template_add_raster_series.html'
     form_class = RasterSeriesForm
     success_url = '/feature-details/'
 
