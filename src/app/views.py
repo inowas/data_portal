@@ -270,7 +270,7 @@ class CreateDataset(LoginRequiredMixin, CreateView):
         dataset.user = self.request.user
         dataset.save()
 
-        self.success_url += dataset.id
+        self.success_url += str(dataset.id)
         return super(CreateDataset, self).form_valid(form)
 
 
