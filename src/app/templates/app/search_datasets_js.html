@@ -1,0 +1,56 @@
+
+<script>
+function searchByNameFunction() {
+
+    var input, filter, cards, name, i;
+    input = document.getElementById("nameInput");
+    filter = input.value.toUpperCase();
+    cards = document.getElementsByClassName("cardDataset");
+
+    for (i = 0; i < cards.length; i++) {
+        
+        name = cards[i].getElementsByClassName("card-title");
+        if (name[0].innerHTML.toUpperCase().indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+function searchByOwnerFunction() {
+
+    var input, filter, cards, owner, i;
+    input = document.getElementById("ownerInput");
+    filter = input.value.toUpperCase();
+    cards = document.getElementsByClassName("cardDataset");
+
+    for (i = 0; i < cards.length; i++) {
+        
+        owner = cards[i].getElementsByClassName("dataset-owner");
+        if (owner[0].innerHTML.toUpperCase().indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+
+function searchByDescribtionFunction() {
+
+    var input, filter, cards, describtion, i;
+    input = document.getElementById("describtionInput");
+    filter = input.value.toUpperCase();
+    cards = document.getElementsByClassName("cardDataset");
+
+    for (i = 0; i < cards.length; i++) {
+        
+        describtion = cards[i].getElementsByClassName("card-text");
+        if (describtion[0].innerHTML.toUpperCase().indexOf(filter) > -1) {
+            cards[i].style.display = "";
+        } else {
+            cards[i].style.display = "none";
+        }
+    }
+}
+</script>

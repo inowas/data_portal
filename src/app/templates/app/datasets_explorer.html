@@ -13,6 +13,8 @@
         <div class="space-top-3">
             {% include "app/datasets_filter.html" %}
         </div>
+    </div>
+    <div class="row">
         <div class="space-top-3 equal">
             {% if datasets %}
                 {% for dataset in datasets %}
@@ -22,5 +24,11 @@
         </div>
     </div>
 </div>
-
+ 
 {% endblock content %}
+
+{% block scripts %}
+
+{% include "app/search_datasets_js.html" %}
+
+{% endblock %}
