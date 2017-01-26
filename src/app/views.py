@@ -214,6 +214,51 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
 
         return super(CreateModelObject, self).form_valid(form)
 
+
+class CreateModelObjectsUpload(LoginRequiredMixin, FormView):
+    template_name = 'app/create_forms/form_template.html'
+    form_class = ModelObjectUploadForm
+    success_url = '/dataset-details/'
+
+    @transaction.atomic
+    def form_valid(self, form):
+        dataset_id = self.kwargs['dataset_id']
+        self.success_url += dataset_id
+
+        files = self.get_form_kwargs().get('files').getlist('file_field')
+        features, names, types = shape_handler(files[0])
+        for f, n, t in zip(features, names, types):
+            if f.geom_type == 'Point':
+                geom_type_id = 1
+            elif f.geom_type == 'LineString':
+                geom_type_id = 2
+            elif f.geom_type == 'Polygon':
+                geom_type_id = 3
+
+            model_object = ModelObject(
+                geometry=f.geos,
+                name=n,
+                object_type=ObjectType.objects.get(object_type=t),
+                dataset_id=dataset_id,
+                geom_type_id=geom_type_id
+            )
+
+            model_object.save()
+
+            dataset = Dataset.objects.get(id=dataset_id)
+            if dataset.bbox is None:
+                buffer = model_object.geometry.buffer(1)
+                bbox = buffer.envelope
+                dataset.bbox = bbox
+            else:
+                dataset.bbox = update_bbox(bbox_geom=dataset.bbox,
+                                           feature_geom=model_object.geometry)
+            dataset.tile_url = calculate_tile_index(bbox_geom=dataset.bbox,
+                                                    as_url=True)
+            dataset.save()
+
+        return super(CreateModelObjectsUpload, self).form_valid(form)
+
 class CreateDataset(LoginRequiredMixin, CreateView):
     template_name = 'app/create_forms/form_template.html'
     form_class = DatasetForm

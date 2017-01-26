@@ -12,6 +12,7 @@ urlpatterns = [
     url(r'^property-details/(?P<property_id>[0-9]+)$', views.PropertyDetails.as_view(), name='property-details'),
     url(r'^add-dataset/$', views.CreateDataset.as_view(), name='add-dataset'),
     url(r'^add-feature/(?P<dataset_id>[0-9]+)$', views.CreateModelObject.as_view(), name='add-feature'),
+    url(r'^upload-feature/(?P<dataset_id>[0-9]+)$', views.CreateModelObjectsUpload.as_view(), name='upload-feature'),
     url(r'^add-single-value/(?P<model_object_id>[0-9]+)$', views.CreateSingleValue.as_view(), name='add-single-value'),
     url(r'^add-value-series/(?P<model_object_id>[0-9]+)$', views.CreateValueSeries.as_view(), name='add-value-series'),
     url(r'^upload-value-series/(?P<model_object_id>[0-9]+)$', views.CreateValueSeriesUpload.as_view(), name='upload-value-series'),

@@ -6,7 +6,7 @@ import subprocess
 import math
 from django.core.files.storage import FileSystemStorage
 from django.contrib.gis.geos import GEOSGeometry, Polygon
-from django.contrib.gis.gdal import GDALRaster
+from django.contrib.gis.gdal import GDALRaster, DataSource
 from django.conf import settings
 
 from app import models
@@ -132,6 +132,20 @@ def excel_handler(spreadsheet, *args, **kwargs):
 
     return values
 
+def shape_handler(shapefile, *args, **kwargs):
+    """ Returns list of GEOS geometry objects from the uploaded file """
+    storage = FileSystemStorage()
+    filename = storage.save('shape_files/' + shapefile.name, shapefile)
+    ds = DataSource(
+        os.path.join(settings.MEDIA_ROOT, filename),
+        )
+    features = ds[0].get_geoms()
+    names = ds[0].get_fields('name')
+    types = ds[0].get_fields('type')
+
+    os.remove(os.path.join(settings.MEDIA_ROOT, filename))
+
+    return features, names, types
 
 def update_bbox(bbox_geom, feature_geom):
     """ Returnes updated bbox including new feat. geom. """

@@ -6,8 +6,8 @@ from django import forms
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.postgres.forms import SimpleArrayField
-# from django.contrib.gis import forms
 
+from app.validators import *
 from app.models import *
 
 class BootstrapAuthenticationForm(AuthenticationForm):
@@ -47,6 +47,10 @@ polygon((0 0, 1 1, 2 2, 0 0))'
     class Meta:
         model = ModelObject
         fields = ['object_type', 'name']
+
+
+class ModelObjectUploadForm(forms.Form):
+    file_field = forms.FileField(validators=[valid_geometry_file])
 
 
 class SingleValueForm(forms.ModelForm):
@@ -96,7 +100,7 @@ class ValueSeriesUploadForm(forms.ModelForm):
                 }
             )
         )
-    file_field = forms.FileField()
+    file_field = forms.FileField(validators=[valid_spreadsheet_file])
     class Meta:
         model = Prop
         fields = ['property_type', 'name']
