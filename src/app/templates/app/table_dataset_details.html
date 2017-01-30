@@ -33,7 +33,7 @@
             <th>Object type</th>
             <th>Geometry type</th>
             <th>Date, time created</th>
-            <th>Created by</th>
+            <th>Select</th>
             </tr>
         </thead>
         <tbody>
@@ -43,7 +43,10 @@
             <td>{{ object.object_type.object_type }}</td>
             <td>{{ object.geom_type.geom_type }}</td>
             <td>{{ object.created }}</td>
-            <td>{{ dataset.user.username }}</td>
+            <td>
+                <div class="checkbox checkbox-primary">
+                    <input type="checkbox">
+            </td>
             </tr>
         {% endfor %}
         </tbody>
