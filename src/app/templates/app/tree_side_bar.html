@@ -2,13 +2,33 @@
     <h1 class="sidebar-title">Dataset content</h1>
     <ul class="nav-sidebar">
         <li class="active">
-            <button class="accordion"><i class="flaticon-database-1"></i>{{ dataset.name }} collection ({{ dataset.model_objects.all|length }})</button>
-            <ul class="panel">
+            <button class="accordion  active"><i class="flaticon-database-1"></i>{{ dataset.name }} collection ({{ dataset.model_objects.all|length }})</button>
+            <ul class="panel show">
                 {% for object in dataset.model_objects.all %}
-                    <button class="accordion"><i class="flaticon-windows-1"></i>{{ object.name }} ({{ object.properties.all|length }})</button> 
-                    <ul class="panel subnav">
-                        {% for property in object.properties.all %}              
+                    {% if model_object %}
+                        {% if model_object.id == object.id %}
+
+                            <button class="accordion active"><i class="flaticon-windows-1"></i>{{ object.name }} ({{ object.properties.all|length }})</button>
+                            <ul class="panel subnav show">
+
+                        {% else %}
+
+                            <button class="accordion"><i class="flaticon-windows-1"></i>{{ object.name }} ({{ object.properties.all|length }})</button>
+                            <ul class="panel subnav">
+                            
+                        {% endif %}
+                        
+                    {% else %}
+
+                        <button class="accordion"><i class="flaticon-windows-1"></i>{{ object.name }} ({{ object.properties.all|length }})</button>
+                        <ul class="panel subnav">
+
+                    {% endif %}
+
+                        {% for property in object.properties.all %}
+
                             <li><a href="{% url 'property-details' property.id %}" class="active">{{ property.name }}</a></li>
+
                         {% endfor %}
                     </ul>
                 {% endfor %}  
@@ -26,6 +46,14 @@
 						this.classList.toggle("active");
 						this.nextElementSibling.classList.toggle("show");
 			}
+		}
+
+    var acc = document.getElementsByClassName("checkbox checkbox-primary");
+		var i;
+        console.log(acc)
+		
+		for (i = 0; i < acc.length; i++) {
+            console.log(acc.checked)
 		}
 
 </script>
