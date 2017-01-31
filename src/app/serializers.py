@@ -23,20 +23,19 @@ class ModelObjectSerializer(serializers.ModelSerializer):
     properties = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = ModelObject
-        fields = ('id', 'geom_type', 'object_type', 'properties', 'dataset', 'bbox')
+        fields = ('id', 'geom_type', 'object_type', 'properties', 'dataset')
 
 
 class PropertySerializer(serializers.ModelSerializer):
     num_values = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     cat_values = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     ras_values = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    ts_value = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-    ts_raster = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    value_series = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     raster_series = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
     class Meta:
         model = Prop
-        fields = ('id', 'num_values', 'cat_values', 'ras_values', 'ts_value', 'ts_raster',
-                  'raster_series', 'model_object', 'obs_point', 'property_type', 'value_type')
+        fields = ('id', 'num_values', 'cat_values', 'ras_values', 'value_series',
+                  'raster_series', 'model_object', 'property_type', 'value_type')
 
 
 

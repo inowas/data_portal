@@ -22,33 +22,37 @@
             </div>
         </div>
         <div class="functions-public">
-            <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-garbage-2"></i>Delete</a>
-            <a href="#" class="btn btn-secondary" role="button">Personal</a></li>
-            <span>|</span></li>
-            <a href="#" class="btn btn-secondary" role="button">Public</a></li>
+            <button class="btn btn-secondary" role="button" onclick="deleteProperty()"><i class="flaticon-garbage-2"></i>Delete</button>
         </div>
     </div> <!-- End Editing functions -->
     <div class="table-responsive">
         <table class="table table-striped" id="table">
         <thead>
             <tr>
+            <th>ID</th>
             <th>Name</th>
             <th>Property type</th>
             <th>Value type</th>
             <th>Start time</th>
             <th>Interval</th>
             <th>Number of values</th>
+            <th>Select</th>
             </tr>
         </thead>
         <tbody>
         {% for property in properties %}
             <tr>
+            <td>{{ property.id }}</td>
             <td><a href="{% url 'property-details' property.id %}" class="active">{{ property.name }}</a></td>
             <td>{{ property.property_type.property_type }}</td>
             <td>{{ property.value_type.value_type }}</td>
             <td>{{ property.timestart }}</td>
             <td>{{ property.interval }}</td>
             <td>{{ property.num_vals }}</td>
+            <td>
+                <div class="checkbox checkbox-primary">
+                    <input type="checkbox" class="checkbox-input">
+            </td>
             </tr>
         {% endfor %}
         </tbody>

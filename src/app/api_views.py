@@ -6,7 +6,7 @@ from rest_framework import generics
 from rest_framework import permissions
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from app.permissions import IsOwnerOrReadOnly
+from app.permissions import *
 
 
 class UserList(generics.ListCreateAPIView):
@@ -17,6 +17,9 @@ class UserList(generics.ListCreateAPIView):
 
 
 class UserDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (
+        permissions.IsAdminUser,
+        )
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -24,7 +27,6 @@ class UserDetail(generics.RetrieveUpdateDestroyAPIView):
 class DatasetList(generics.ListCreateAPIView):
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
-        IsOwnerOrReadOnly
         )
 
     queryset = Dataset.objects.all()
@@ -35,6 +37,9 @@ class DatasetList(generics.ListCreateAPIView):
 
 
 class DatasetDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (
+        IsDatasetOwnerOrReadOnly,
+        )
     queryset = Dataset.objects.all()
     serializer_class = DatasetSerializer
 
@@ -61,13 +66,15 @@ class ModelObjectList(generics.ListCreateAPIView):
 
 
 class ModelObjectDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (
+        IsFeatureOwnerOrReadOnly,
+        )
     queryset = ModelObject.objects.all()
     serializer_class = ModelObjectSerializer
 
 class PropertyList(generics.ListCreateAPIView):
     permission_classes = (
         permissions.IsAuthenticatedOrReadOnly,
-        IsOwnerOrReadOnly
         )
 
     queryset = Prop.objects.all()
@@ -75,6 +82,9 @@ class PropertyList(generics.ListCreateAPIView):
 
 
 class PropertytDetail(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = (
+        IsPropertyOwnerOrReadOnly,
+        )
     queryset = Prop.objects.all()
     serializer_class = PropertySerializer
 
@@ -90,17 +100,6 @@ def property_big_list(request):
     serializer = PropertyBigSerializer(queryset, many=True)
     return Response(serializer.data)
 
-# @api_view(['GET'])
-# def dataset_tree(request, pk):
-#     try:
-#         queryset = Dataset.objects.get(id=pk)
-#     except Dataset.DoesNotExist:
-#         return Response({
-#             "detail": "Not found."
-#         })
-
-#     serializer = TreeSerializer(queryset, many=False)
-#     return Response(serializer.data)
 
 @api_view(['GET'])
 def get_geojson_all(request):

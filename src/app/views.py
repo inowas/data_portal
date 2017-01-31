@@ -19,6 +19,8 @@ from app.forms import *
 from app.utils import *
 from app.vis.bokeh_plots import *
 
+from datetime import timedelta
+
 
 
 class Table(View):

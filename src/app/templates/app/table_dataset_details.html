@@ -19,16 +19,14 @@
             </div>
         </div>
         <div class="functions-public">
-            <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-garbage-2"></i>Delete</a>
-            <!--<a href="#" class="btn btn-secondary" role="button">Personal</a></li>
-            <span>|</span></li>
-            <a href="#" class="btn btn-secondary" role="button">Public</a></li>-->
+            <button class="btn btn-secondary" role="button" onclick="deleteFeature()"><i class="flaticon-garbage-2"></i>Delete</button>
         </div>
     </div> <!-- End Editing functions -->
     <div class="table-responsive">
         <table class="table table-striped" id="table">
         <thead>
             <tr>
+            <th>ID</th>
             <th>Name</th>
             <th>Object type</th>
             <th>Geometry type</th>
@@ -39,13 +37,14 @@
         <tbody>
         {% for object in dataset.model_objects.all %}
             <tr>
+            <td>{{ object.id }}</td>
             <td><a href="{% url 'feature-details' object.id %}" class="active">{{ object.name }}</a></td>
             <td>{{ object.object_type.object_type }}</td>
             <td>{{ object.geom_type.geom_type }}</td>
             <td>{{ object.created }}</td>
             <td>
                 <div class="checkbox checkbox-primary">
-                    <input type="checkbox">
+                    <input type="checkbox" class="checkbox-input">
             </td>
             </tr>
         {% endfor %}
