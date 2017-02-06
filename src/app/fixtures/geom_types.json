@@ -1,0 +1,30 @@
+[
+  {
+    "model": "app.GeomType",
+    "pk": 1,
+    "fields": {
+      "geom_type": "point"
+    }
+  },
+  {
+    "model": "app.GeomType",
+    "pk": 2,
+    "fields": {
+      "geom_type": "polygon"
+    }
+  },
+  {
+    "model": "app.GeomType",
+    "pk": 3,
+    "fields": {
+      "geom_type": "linestring"
+    }
+  },
+  {
+    "model": "app.GeomType",
+    "pk": 4,
+    "fields": {
+      "geom_type": "null"
+    }
+  }
+]

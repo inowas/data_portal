@@ -1,0 +1,114 @@
+[
+    {
+        "model": "app.ObjectType",
+        "pk": 1,
+        "fields": {
+            "object_type": "sampling_feature:station"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 2,
+        "fields": {
+            "object_type": "sampling_feature:profile"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 3,
+        "fields": {
+            "object_type": "sampling_feature:area"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 4,
+        "fields": {
+            "object_type": "hydrography:stream"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 5,
+        "fields": {
+            "object_type": "hydrography:junction"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 6,
+        "fields": {
+            "object_type": "hydrography:lake"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 7,
+        "fields": {
+            "object_type": "hydrography:pond"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 8,
+        "fields": {
+            "object_type": "hydrography:reservior"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 9,
+        "fields": {
+            "object_type": "hydrography:watershed"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 10,
+        "fields": {
+            "object_type": "hydrography:water_divide"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 11,
+        "fields": {
+            "object_type": "hydrogeology:aquifer"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 12,
+        "fields": {
+            "object_type": "hydrogeology:aquitard"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 13,
+        "fields": {
+            "object_type": "hydrogeology:water_divide"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 14,
+        "fields": {
+            "object_type": "hydrogeology:layer"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 15,
+        "fields": {
+            "object_type": "hydrogeology:well"
+        }
+    },
+    {
+        "model": "app.ObjectType",
+        "pk": 16,
+        "fields": {
+            "object_type": "other"
+        }
+    }
+]
