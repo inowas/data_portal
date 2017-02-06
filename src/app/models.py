@@ -68,14 +68,16 @@ class ModelObject(models.Model):
         ObjectType, on_delete=models.CASCADE,
         related_name='model_objects')
 
-    geometry = models.GeometryField(srid=3857,
-        blank=True, null=True)
+    geometry = models.GeometryField(
+        srid=3857,
+        blank=True, null=True
+        )
 
     created = models.DateTimeField(auto_now_add=True, null=True)
     modified = models.DateTimeField(auto_now=True, null=True)
 
     def __str__(self):
-        return '%s %s' % (self.object_type, self.id)
+        return '%s %s' % (self.name, self.object_type)
 
 
 class Prop(models.Model):
@@ -86,11 +88,11 @@ class Prop(models.Model):
         related_name='properties',
         null=True
         )
-    # obs_point = models.ForeignKey(
-    #     PointObject, on_delete=models.CASCADE,
-    #     related_name='observed_properties',
-    #     blank=True, null=True
-    #     )
+    sampled_feature = models.ForeignKey(
+        ModelObject, on_delete=models.CASCADE,
+        related_name='observations',
+        blank=True, null=True
+        )
     property_type = models.ForeignKey(
         PropertyType, on_delete=models.CASCADE,
         related_name='properties',
@@ -100,9 +102,9 @@ class Prop(models.Model):
         ValueType, on_delete=models.CASCADE,
         related_name='properties',
         null=True)
-    timestart = models.DateTimeField(null=True, blank=True)
-    interval = models.DurationField(null=True, blank=True)
-    num_vals = models.IntegerField(default=1)
+    # timestart = models.DateTimeField(null=True, blank=True)
+    # interval = models.DurationField(null=True, blank=True)
+    # num_vals = models.IntegerField(default=1)
     name = models.TextField(default='Noname')
 
     created = models.DateTimeField(auto_now_add=True, null=True)
@@ -159,9 +161,10 @@ class ValueSeries(models.Model):
         )
 
     value = ArrayField(models.FloatField(null=True), null=True)
+    timestamps = ArrayField(models.DateTimeField(null=True), null=True)
 
     def __str__(self):
-        return '%s %s' % (self.timestart, self.interval)
+        return '%s %s' % (self.id)
 
 
 class RasterSeries(models.Model):
@@ -172,6 +175,7 @@ class RasterSeries(models.Model):
         )
 
     value = models.RasterField(srid=3857)
+    timestamps = ArrayField(models.DateTimeField(null=True), null=True)
 
     def __str__(self):
-        return '%s %s' % (str(self.timestart), str(self.interval))
+        return '%s %s' % (self.id)
