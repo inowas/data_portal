@@ -9,8 +9,9 @@
                 <p><strong>Add new property</strong></p>
                 <p>
                     <strong> Instructions for file upload: </strong>
-                    An *.xlsx or *.xls file is required. First column of the first spreadsheet is read.
-                    "Null" values (empty rows) are filled by linear interpolation.
+                    An *.xlsx or *.xls file is required, where first column of the first spreadsheet is time stamps
+                    and second column is values. Valid time formats are Excel's Short Date format and "YYYY-MM-DD hh:mm:ss"
+                    No column headers are allowed. No empty rows are allowed.
                 </p>
                 {% include 'app/create_forms/form_template.html' %}
             </div>

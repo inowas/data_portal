@@ -70,13 +70,11 @@ def plot_model_objects(geojson, map_width=600, map_height=400,
 
     return script, div
 
-def plot_time_series(values, timestart, interval, 
+def plot_time_series(values, timestamps, 
                      plot_width=600, plot_height=400,
                      table_width=600, table_height=400):
     """ Returns Bokeh plot components for given property """
 
-    values = values.value
-    timestamps = [timestart + interval * i for i in range(len(values))]
     timestamps = pd.to_datetime(timestamps).tolist()
 
     source = ColumnDataSource(data=dict(x=timestamps, y=values, times=[str(i) for i in timestamps]))
@@ -98,11 +96,10 @@ def plot_time_series(values, timestart, interval,
 
     return script, div
 
-def plot_raster_series(raster, resize_coef=None, plot_width=600, plot_height=400,
+def plot_raster_series(raster, timestamps, 
+                       resize_coef=None, plot_width=600, plot_height=400,
                        table_width=600, table_height=400):
     """ Returns Bokeh plot components for given property """
-
-    raster = raster.value
 
     if resize_coef is not None:
         raster = raster.warp(

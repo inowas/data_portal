@@ -65,15 +65,15 @@ def get_prop_geojson(properties):
         if property_.obs_point is None:
             geometry = get_specific_geometry(property_.model_object)
         else:
-            geometry = json.loads(property_.obs_point.geometry.json)
+            geometry = json.loads(property_.sampled_feature.geometry.json)
 
         insertion = {
             "type": "Feature",
             "geometry": geometry,
             "properties": {
                 "id": property_.id,
-                "observerd_at_point": property_.obs_point_id,
-                "object_id": property_.model_object_id,
+                "sampled_object": property_.sampled_feature_id,
+                "sampling_object": property_.model_object_id,
                 "property_type": property_.property_type.property_type,
                 "value_type": property_.value_type.value_type,
             }
@@ -124,13 +124,14 @@ def excel_handler(spreadsheet, *args, **kwargs):
         os.path.join(settings.MEDIA_ROOT, filename),
         header=None, sheetname=0
         )
-    df = df.interpolate()
+    df = df.dropna()
 
-    values = df[0].tolist()
+    values = df[1].tolist()
+    timestamps = df[0].tolist()
 
     os.remove(os.path.join(settings.MEDIA_ROOT, filename))
 
-    return values
+    return values, timestamps
 
 def shape_handler(shapefile, *args, **kwargs):
     """ Returns list of GEOS geometry objects from the uploaded file """

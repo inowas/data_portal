@@ -51,10 +51,6 @@ class PropertyBigSerializer(serializers.BaseSerializer):
         property_name = prop.name
         property_type = prop.property_type.property_type
         value_type = prop.value_type.value_type
-        start_time = prop.timestart
-        interval = prop.interval
-        end_time = prop.timestart + prop.interval * prop.num_vals \
-        if start_time and interval else None
 
         return {
             'dataset_id': dataset_id,

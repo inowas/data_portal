@@ -57,24 +57,20 @@ class SingleValueForm(forms.ModelForm):
     value = forms.FloatField()
     class Meta:
         model = Prop
-        fields = ['property_type', 'name']
+        fields = ['property_type', 'name', 'sampled_feature']
 
 class ValueSeriesForm(forms.ModelForm):
-    timestart = forms.DateTimeField(
+    timestamps = SimpleArrayField(
+        forms.DateTimeField(),
         widget=forms.DateTimeInput(
             attrs={
-                'placeholder':'2017-01-01 00:00:00'
+                'placeholder':'2017-01-01 00:00:00, 2017-01-02 00:00:00, etc.'
                 }
             )
         )
-    interval = forms.DurationField(
-        widget=forms.TextInput(
-            attrs={
-                'placeholder':'00:00:00'
-                }
-            )
-        )
-    values = SimpleArrayField(forms.DecimalField(),
+    
+    values = SimpleArrayField(
+        forms.DecimalField(),
         widget=forms.TextInput(
             attrs={
                 'placeholder':'1, 1, 2, 3, etc.'
@@ -83,39 +79,32 @@ class ValueSeriesForm(forms.ModelForm):
         )
     class Meta:
         model = Prop
-        fields = ['property_type', 'name']
+        fields = ['property_type', 'name', 'sampled_feature']
+
 
 class ValueSeriesUploadForm(forms.ModelForm):
-    timestart = forms.DateTimeField(
-        widget=forms.DateTimeInput(
-            attrs={
-                'placeholder':'2017-01-01 00:00:00'
-                }
-            )
-        )
-    interval = forms.DurationField(
-        widget=forms.TextInput(
-            attrs={
-                'placeholder':'00:00:00'
-                }
-            )
-        )
     file_field = forms.FileField(validators=[valid_spreadsheet_file])
     class Meta:
         model = Prop
-        fields = ['property_type', 'name']
+        fields = ['property_type', 'name', 'sampled_feature']
 
 class SingleRasterForm(forms.ModelForm):
     file_field = forms.FileField()
     class Meta:
         model = Prop
-        fields = ['property_type', 'name']
+        fields = ['property_type', 'name', 'sampled_feature']
 
 class RasterSeriesForm(forms.ModelForm):
-    timestart = forms.DateTimeField()
-    interval =forms.DurationField()
+    timestamps = SimpleArrayField(
+        forms.DateTimeField(),
+        widget=forms.DateTimeInput(
+            attrs={
+                'placeholder':'2017-01-01 00:00:00, 2017-01-02 00:00:00, etc.'
+                }
+            )
+        )
     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     class Meta:
         model = Prop
-        fields = ['property_type', 'name']
+        fields = ['property_type', 'name', 'sampled_feature']
 

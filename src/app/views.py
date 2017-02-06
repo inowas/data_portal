@@ -19,7 +19,7 @@ from app.forms import *
 from app.utils import *
 from app.vis.bokeh_plots import *
 
-from datetime import timedelta
+from datetime import timedelta 
 
 
 
@@ -114,12 +114,12 @@ class PropertyDetails(View):
 
         elif prop.value_type.value_type == 'value_time_series':
             try:
-                values = ValueSeries.objects.get(prop=prop)
+                value = ValueSeries.objects.get(prop=prop)
             except ValueSeries.DoesNotExist:
                 raise Http404("Property does not exist")
 
             script, div = plot_time_series(
-                values, timestart=prop.timestart, interval=prop.interval,
+                values=value.value, timestamps=value.timestamps,
                 plot_width=500, plot_height=500,
                 table_width=550, table_height=550
                 )
@@ -149,7 +149,8 @@ class PropertyDetails(View):
                 raise Http404("Property does not exist")
 
             script, div = plot_raster_series(
-                raster, resize_coef=0.1, plot_width=500, plot_height=500,
+                raster=raster.value, timestamps=raster.timestamps,
+                resize_coef=0.1, plot_width=500, plot_height=500,
                 table_width=550, table_height=550
                 )
             controls, raster_map, plot, table = div['controls'],\
@@ -302,19 +303,39 @@ class CreateValueSeries(LoginRequiredMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        self.success_url += self.kwargs['model_object_id']
+        try:
+            self.success_url += self.kwargs['model_object_id']
 
-        input_values = self.request.POST['values']
-        prop = form.save(commit=False)
-        prop.model_object_id = self.kwargs['model_object_id']
-        prop.value_type = ValueType.objects.get(value_type='value_time_series')
-        prop.interval = self.request.POST['interval']
-        prop.timestart = self.request.POST['timestart']
-        prop.num_vals = len(input_values.split(","))
-        prop.save()
+            input_values = self.request.POST['values']
+            input_timestamps = self.request.POST['timestamps']
 
-        value = ValueSeries(prop=prop, value='{'+input_values+'}')
-        value.save()
+            prop = form.save(commit=False)
+            prop.model_object_id = self.kwargs['model_object_id']
+            prop.value_type = ValueType.objects.get(value_type='value_time_series')
+            prop.save()
+
+            values = [i.strip() for i in input_values.split(',')]
+            timestamps = [i.strip() for i in input_timestamps.split(',')]
+
+            if len(values) != len(timestamps):
+                raise ValidationError("Not equal series")
+
+            value = ValueSeries(
+                prop=prop,
+                value=values,
+                timestamps=timestamps
+                )
+            value.save()
+
+        except ValidationError:
+
+            return render(
+                self.request,
+                self.template_name,
+                {'form': form,
+                 'error_message': 'INVALID INPUT!'}
+            )
+
 
         return super(CreateValueSeries, self).form_valid(form)
 
@@ -325,22 +346,36 @@ class CreateValueSeriesUpload(LoginRequiredMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        self.success_url += self.kwargs['model_object_id']
+        try:
+            self.success_url += self.kwargs['model_object_id']
 
-        files = self.get_form_kwargs().get('files').getlist('file_field')
-        input_values = excel_handler(spreadsheet=files[0])
+            files = self.get_form_kwargs().get('files').getlist('file_field')
+            values, timestamps = excel_handler(spreadsheet=files[0])
 
-        prop = form.save(commit=False)
-        prop.model_object_id = self.kwargs['model_object_id']
-        prop.value_type = ValueType.objects.get(value_type='value_time_series')
-        prop.interval = self.request.POST['interval']
-        prop.timestart = self.request.POST['timestart']
-        prop.num_vals = len(input_values)
-        prop.save()
+            prop = form.save(commit=False)
+            prop.model_object_id = self.kwargs['model_object_id']
+            prop.value_type = ValueType.objects.get(value_type='value_time_series')
 
-        value = ValueSeries(prop=prop, value=input_values)
+            prop.save()
 
-        value.save()
+            if len(values) != len(timestamps):
+                raise ValidationError("Not equal series")
+
+            value = ValueSeries(
+                prop=prop,
+                value=values,
+                timestamps=timestamps)
+
+            value.save()
+
+        except ValueError:
+            return render(
+                self.request,
+                self.template_name,
+                {'form': form,
+                 'error_message': 'INVALID INPUT!'}
+            )
+
 
         return super(CreateValueSeriesUpload, self).form_valid(form)
 
@@ -378,21 +413,38 @@ class CreateRasterSeries(LoginRequiredMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        self.success_url += self.kwargs['model_object_id']
+        try:
+            self.success_url += self.kwargs['model_object_id']
 
-        files = self.get_form_kwargs().get('files').getlist('file_field')
-        prop = form.save(commit=False)
-        prop.model_object_id = self.kwargs['model_object_id']
-        prop.value_type = ValueType.objects.get(value_type='raster_time_series')
-        prop.interval = self.request.POST['interval']
-        prop.timestart = self.request.POST['timestart']
-        prop.num_vals = len(files)
-        prop.save()
+            files = self.get_form_kwargs().get('files').getlist('file_field')
+            input_timestamps = self.request.POST['timestamps']
+            timestamps=[i.strip() for i in input_timestamps.split(',')]
+            if len(files) != len(timestamps):
+                raise ValidationError("Not equal series")
 
-        raster = raster_handler(files)
-        value = RasterSeries(prop=prop, value=raster)
-        value.save()
-        os.remove(raster.name)
+            prop = form.save(commit=False)
+            prop.model_object_id = self.kwargs['model_object_id']
+            prop.value_type = ValueType.objects.get(value_type='raster_time_series')
+            prop.save()
+
+            raster = raster_handler(files)
+
+            value = RasterSeries(
+                prop=prop,
+                value=raster,
+                timestamps=timestamps
+                )
+            value.save()
+            os.remove(raster.name)
+
+        except ValidationError:
+            return render(
+                self.request,
+                self.template_name,
+                {'form': form,
+                 'error_message': 'INVALID INPUT!'}
+            )
+
 
         return super(CreateRasterSeries, self).form_valid(form)
 

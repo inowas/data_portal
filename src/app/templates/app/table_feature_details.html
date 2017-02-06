@@ -33,9 +33,6 @@
             <th>Name</th>
             <th>Property type</th>
             <th>Value type</th>
-            <th>Start time</th>
-            <th>Interval</th>
-            <th>Number of values</th>
             <th>Select</th>
             </tr>
         </thead>
@@ -46,9 +43,6 @@
             <td><a href="{% url 'property-details' property.id %}" class="active">{{ property.name }}</a></td>
             <td>{{ property.property_type.property_type }}</td>
             <td>{{ property.value_type.value_type }}</td>
-            <td>{{ property.timestart }}</td>
-            <td>{{ property.interval }}</td>
-            <td>{{ property.num_vals }}</td>
             <td>
                 <div class="checkbox checkbox-primary">
                     <input type="checkbox" class="checkbox-input">
