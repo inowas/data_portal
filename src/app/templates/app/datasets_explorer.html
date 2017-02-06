@@ -15,13 +15,13 @@
         </div>
     </div>
     <div class="row">
-        <div class="space-top-3 equal">
-            {% if datasets %}
-                {% for dataset in datasets %}
-                    {% include "app/card_dataset.html" %}
-                {% endfor %}
-            {% endif %}
-        </div>
+        {% if datasets %}
+            {% for dataset in datasets %}
+                <div class="col-md-2">
+                {% include "app/card_dataset.html" %}
+                </div>
+            {% endfor %}
+        {% endif %}
     </div>
 </div>
  
