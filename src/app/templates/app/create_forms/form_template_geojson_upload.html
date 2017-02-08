@@ -14,8 +14,11 @@
                     Feature's attributes should contain following fields: 
                     "name" - text value that will be assigned to a new feature and
                     "type" - text value representing type of the created feature.
-                    "Type" fields should contain one of the following: "meteostation",
-                    "area", "stream", "borehole", "well", "layer", "gauging_station".  
+                    "Type" fields should contain one of the following: "sampling_feature:station",
+                    "sampling_feature:profile", "sampling_feature:area", "hydrography:stream", "hydrography:junction",
+                    "hydrography:lake", "hydrography:pond", "hydrography:reservior", "hydrography:watershed", "hydrography:water_divide",
+                    "hydrogeology:aquifer", "hydrogeology:aquitard", "hydrogeology:water_divide", "hydrogeology:layer", 
+                    "hydrogeology:well", "other".  
                 </p>
                 {% include 'app/create_forms/form_template.html' %}
             </div>
