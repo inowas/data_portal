@@ -61,9 +61,6 @@ class PropertyBigSerializer(serializers.BaseSerializer):
             'model_object_geom_type': model_object_geom_type,
             'property_type': property_type,
             'value_type': value_type,
-            'start_time': start_time,
-            'end_time': end_time,
-            'interval': interval,
             'property_id': property_id,
             'property_name': property_name
         }
