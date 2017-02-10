@@ -2,46 +2,49 @@
 
 {% block content %}
 <div class="container-fluid">
-    <div class="card radius-0  space-top-3">
-        <div class="card-header">
-        <h2 class="section-title">Map</h2>
-        </div>
-        <div class="card-block">
-            <div id="map" class="map" style="height: 300px"></div>
-            <div id="popup" class="ol-popup">
-                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                <div id="popup-content"></div>
+    <div class="row">
+        <div class="card radius-0  space-top-3">
+            <div class="card-header">
+            <h2 class="section-title">Map</h2>
             </div>
-            <br>
-            <button id="search-btn" class="btn btn-primary pull-left">Filter table</button>
+            <div class="card-block">
+                <div id="map" class="map" style="height: 300px"></div>
+                <div id="popup" class="ol-popup">
+                    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+                    <div id="popup-content"></div>
+                </div>
+                <br>
+                <button id="search-btn" class="btn btn-primary pull-left">Filter table</button>
+            </div>
         </div>
     </div>
-
-    <div class="card radius-0 space-top-3">
-        <table id="myTable" class="display" cellspacing="0" width="800px">
-            <thead>
-                <tr>
-                    <th>Dataset</th>
-                    <th>Data object</th>
-                    <th>Object geometry</th>
-                    <th>Object type</th>
-                    <th>Property</th>
-                    <th>Property type</th>
-                    <th>Value type</th>
-                </tr>
-            </thead>
-            <tfoot>
-                <tr>
-                    <th>Dataset</th>
-                    <th>Data object</th>
-                    <th>Object geometry</th>
-                    <th>Object type</th>
-                    <th>Property</th>
-                    <th>Property type</th>
-                    <th>Value type</th>
-                </tr>
-            </tfoot>
-        </table>
+    <div class="row">
+        <div class="card radius-0 space-top-3">
+            <table id="myTable" class="display" cellspacing="0" width="800px">
+                <thead>
+                    <tr>
+                        <th>Dataset</th>
+                        <th>Data object</th>
+                        <th>Object geometry</th>
+                        <th>Object type</th>
+                        <th>Property</th>
+                        <th>Property type</th>
+                        <th>Value type</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Dataset</th>
+                        <th>Data object</th>
+                        <th>Object geometry</th>
+                        <th>Object type</th>
+                        <th>Property</th>
+                        <th>Property type</th>
+                        <th>Value type</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
     </div>
 </div>
 {% endblock content %}
