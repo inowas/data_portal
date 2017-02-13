@@ -10,7 +10,7 @@
     </p>
 </div>
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="space-top-3">
             {% include "app/datasets_filter.html" %}
@@ -19,9 +19,9 @@
     <div class="row">
         {% if datasets %}
             {% for dataset in datasets %}
-                <div class="col-md-2">
+                <!--<div class="col-md-2">-->
                 {% include "app/card_dataset.html" %}
-                </div>
+                <!--</div>-->
             {% endfor %}
         {% endif %}
     </div>
