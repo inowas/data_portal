@@ -291,7 +291,7 @@ h2.section-title {
 }
 .dataset .card-title {
 	text-overflow: ellipsis;
-	/*white-space:nowrap;*/
+	white-space:nowrap;
 	overflow:hidden;
 	width: 256px;
 	background-color: #EEEEEE;
@@ -301,7 +301,7 @@ h2.section-title {
 }
 .dataset .card-text {
 	text-overflow: ellipsis;
-	/*white-space:nowrap;*/
+	white-space:nowrap;
 	overflow:hidden;
 	width: 256px;
 	padding: 1.25rem;
