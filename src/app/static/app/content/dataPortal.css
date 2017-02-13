@@ -246,9 +246,9 @@ h2.section-title {
 /* CUSTOM COLUMNS
 ----------------- */
 
-.w-20 {
+/*.w-20 {
     width: 20%!important;
-}
+}*/
 
 
 
@@ -275,6 +275,10 @@ h2.section-title {
 	left: 10px;
 }
 .dataset-owner {
+	text-overflow: ellipsis;
+	/*white-space:nowrap;*/
+	overflow:hidden;
+	width: 256px;
 	background-color: #4C4C4C;
 	color: #FFFFFF;
 	padding: 5px;
@@ -286,12 +290,20 @@ h2.section-title {
 	padding: 0;
 }
 .dataset .card-title {
+	text-overflow: ellipsis;
+	/*white-space:nowrap;*/
+	overflow:hidden;
+	width: 256px;
 	background-color: #EEEEEE;
 	font-size: 18px;
 	line-height: 1.4;
 	padding: 1.25rem;
 }
 .dataset .card-text {
+	text-overflow: ellipsis;
+	/*white-space:nowrap;*/
+	overflow:hidden;
+	width: 256px;
 	padding: 1.25rem;
 }
 .dataset .card-footer {
