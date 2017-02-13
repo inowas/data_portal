@@ -42,7 +42,7 @@
             <td><a href="{% url 'feature-details' object.id %}" class="active">{{ object.name }}</a></td>
             <td>{{ object.object_type.object_type }}</td>
             <td>{{ object.geom_type.geom_type }}</td>
-            <td><a href="{% url 'feature-details' object.id %}" class="active">{{ object.sampled_feature.name }}</a></td>
+            <td>{{ object.sampled_feature.name }}</td>
             <td>{{ object.created }}</td>
             <td>
                 <div class="checkbox checkbox-primary">
