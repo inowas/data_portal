@@ -276,7 +276,7 @@ h2.section-title {
 }
 .dataset-owner {
 	text-overflow: ellipsis;
-	/*white-space:nowrap;*/
+	white-space:nowrap;
 	overflow:hidden;
 	width: 256px;
 	background-color: #4C4C4C;
