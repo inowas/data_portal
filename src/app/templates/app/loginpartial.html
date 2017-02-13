@@ -1,24 +1,24 @@
 {% if user.is_authenticated %}
 
-<!--<ul class="navbar-right">
-    <li>
-        <a href="/logout">
-            <i class="flaticon-user"></i>Log Out</a>
+<ul class="navbar-right">
+    <li class="nav-item">
+        Hello, {{ user.username }}
     </li>
-</ul>-->
-<form id="logoutForm" action="/logout" method="post" class="navbar-right">
-    {% csrf_token %}
+    <li class="nav-item">
+        <a href="{% url 'logout' %}">
+            <i class="flaticon-user"></i>Log Out
+        </a>
+    </li>
+</ul>
 
-        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-
-</form>
 
 {% else %}
 
 <ul class="navbar-right">
-    <li>
+    <li class="nav-item">
         <a href="{% url 'login' %}">
-            <i class="flaticon-user"></i>Log In</a>
+            <i class="flaticon-user"></i>Log In
+        </a>
     </li>
 </ul>
 
