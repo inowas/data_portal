@@ -211,17 +211,7 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
 
         model_object.save()
 
-        dataset = Dataset.objects.get(id=dataset_id)
-        if dataset.bbox is None:
-            buffer = model_object.geometry.buffer(1)
-            bbox = buffer.envelope
-            dataset.bbox = bbox
-        else:
-            dataset.bbox = update_bbox(bbox_geom=dataset.bbox,
-                                       feature_geom=model_object.geometry)
-        dataset.tile_url = calculate_tile_index(bbox_geom=dataset.bbox,
-                                                as_url=True)
-        dataset.save()
+        update_bbox(dataset_id)
 
         return super(CreateModelObject, self).form_valid(form)
 
@@ -258,17 +248,7 @@ class CreateModelObjectsUpload(LoginRequiredMixin, FormView):
 
                 model_object.save()
 
-                dataset = Dataset.objects.get(id=dataset_id)
-                if dataset.bbox is None:
-                    buffer = model_object.geometry.buffer(1)
-                    bbox = buffer.envelope
-                    dataset.bbox = bbox
-                else:
-                    dataset.bbox = update_bbox(bbox_geom=dataset.bbox,
-                                            feature_geom=model_object.geometry)
-                dataset.tile_url = calculate_tile_index(bbox_geom=dataset.bbox,
-                                                        as_url=True)
-                dataset.save()
+            update_bbox(dataset_id)
 
         except:
             return render(

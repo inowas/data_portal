@@ -152,21 +152,34 @@ def shape_handler(shapefile, *args, **kwargs):
 
     return features, names, types, sampled_features
 
-def update_bbox(bbox_geom, feature_geom):
-    """ Returnes updated bbox including new feat. geom. """
-    if feature_geom is None:
-        return bbox_geom
-    
-    extent_1 = bbox_geom.extent
-    extent_2 = feature_geom.extent
-    bbox_updated = [
-        min(extent_1[0], extent_2[0]),
-        min(extent_1[1], extent_2[1]),
-        max(extent_1[2], extent_2[2]),
-        max(extent_1[3], extent_2[3])
-    ]
+def update_bbox(dataset_id):
+    """ Recalculates dataset bbox and OSM tile index """
 
-    return Polygon.from_bbox(bbox_updated)
+    dataset = models.Dataset.objects.get(id=dataset_id)
+    features = models.ModelObject.objects.filter(
+        dataset_id=dataset_id,
+        geometry__isnull=False)
+    if features:
+        features_geoms = [i.geometry for i in features]
+
+        top_right_xs = [i.extent[2] for i in features_geoms]
+        top_right_ys = [i.extent[3] for i in features_geoms]
+        botm_left_xs = [i.extent[0] for i in features_geoms]
+        botm_left_ys = [i.extent[1] for i in features_geoms]
+
+        bbox = [
+            min(botm_left_xs),
+            min(botm_left_ys),
+            max(top_right_xs),
+            max(top_right_ys)
+        ]
+        dataset.bbox = Polygon.from_bbox(bbox)
+        dataset.tile_url = calculate_tile_index(
+            bbox_geom=(dataset.bbox),
+            as_url=True
+            )
+        dataset.save()
+
 
 def calculate_tile_index(bbox_geom, as_url):
     """ Returnes x, y, z indexes for openstreet tile servers """
