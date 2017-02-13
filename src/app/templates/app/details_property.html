@@ -34,11 +34,8 @@
             </div>
             <!-- Editing functions -->
             <div class="card-block">
-                <form class="details-search">
-                    <input class="form-control" placeholder="Search..." type="text">
-                </form>
                 <div class="functions-edit">
-                    <a href="#" class="btn btn-secondary" role="button"><i class="flaticon-garbage-2"></i>Delete</a>
+                    <a href="#" class="btn btn-secondary" role="button" onclick="deleteSingleProperty('{{ prop.id }}', '{{ model_object.id }}')"><i class="flaticon-garbage-2"></i>Delete</a>
                 </div>
             </div> <!-- End Editing functions -->
             <div class="table-responsive">
@@ -59,6 +56,8 @@
 
 {% block scripts %}
 
-{{ script|safe }}
+    {% include "app/editing_functions_js.html" %}
+
+    {{ script|safe }}
 
 {% endblock scripts %}

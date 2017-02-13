@@ -1,13 +1,17 @@
 <script type="text/javascript">
 
-function deleteFeature() {
+function deleteItem(urlPrefix) {
+
     var checkBoxes = document.getElementsByClassName("checkbox-input");
     var checkedItems = [];
     for (var i = 0; i < checkBoxes.length; i++) {
         if (checkBoxes[i].checked) {
             checkedItems.push(i);
         }
-
+    }
+    if(checkedItems.length == 0){
+        confirm("Select an item!");
+        return;
     }
 
     var table = document.getElementById("table");
@@ -18,48 +22,30 @@ function deleteFeature() {
         var id = td[0].innerHTML;
 
         $.ajax({
-            url: '/api/modelobjects/' + id,
+            url: urlPrefix + id,
             type: 'DELETE',
             headers: {
                 'X-CSRFToken': '{{ csrf_token }}',
             },
             success: function(result) {
-                console.log(result)
             }
         });
     }
     location.reload();
 }
 
-function deleteProperty() {
-    var checkBoxes = document.getElementsByClassName("checkbox-input");
-    var checkedItems = [];
-    for (var i = 0; i < checkBoxes.length; i++) {
-        if (checkBoxes[i].checked) {
-            checkedItems.push(i);
+function deleteSingleProperty(propID, featureID) {
+
+    $.ajax({
+        url: '/api/properties/' + propID,
+        type: 'DELETE',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        success: function(result) {
         }
-
-    }
-
-    var table = document.getElementById("table");
-    var tr = table.getElementsByTagName("tr");
-    for (var i = 0; i < checkedItems.length; i++){
-        var row = checkedItems[i] + 1;
-        var td = tr[row].getElementsByTagName("td");
-        var id = td[0].innerHTML;
-
-        $.ajax({
-            url: '/api/properties/' + id,
-            type: 'DELETE',
-
-            headers: {
-                'X-CSRFToken': '{{ csrf_token }}',
-            },
-            success: function(result) {
-                console.log(result)
-            }
-        });
-    }
-    location.reload();
+    });
+    window.location.href = '/feature-details/' + featureID;
 }
+
 </script>

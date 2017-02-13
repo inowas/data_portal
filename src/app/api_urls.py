@@ -14,7 +14,6 @@ urlpatterns = [
     url(r'^properties/$', api_views.PropertyList.as_view()),
     url(r'^properties/(?P<pk>[0-9]+)$', api_views.PropertytDetail.as_view()),
     url(r'^properties-long/$', api_views.property_big_list),
-    # url(r'^dataset-tree/(?P<pk>[0-9]+)$', api_views.dataset_tree),
     url(r'^geojson/$', api_views.get_geojson_all),
     url(r'^geojson-dataset/(?P<pk>[0-9]+)$', api_views.get_geojson_dataset),
     url(r'^geojson-feature/(?P<pk>[0-9]+)$', api_views.get_geojson_feature),
