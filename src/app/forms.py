@@ -44,9 +44,10 @@ polygon((0 0, 1 1, 2 2, 0 0))'
         ),
         required=False
     )
+
     class Meta:
         model = ModelObject
-        fields = ['object_type', 'name']
+        fields = ['name', 'object_type', 'sampled_feature']
 
 
 class ModelObjectUploadForm(forms.Form):
@@ -57,7 +58,7 @@ class SingleValueForm(forms.ModelForm):
     value = forms.FloatField()
     class Meta:
         model = Prop
-        fields = ['property_type', 'name', 'sampled_feature']
+        fields = ['property_type', 'name']
 
 class ValueSeriesForm(forms.ModelForm):
     timestamps = SimpleArrayField(
@@ -79,20 +80,20 @@ class ValueSeriesForm(forms.ModelForm):
         )
     class Meta:
         model = Prop
-        fields = ['property_type', 'name', 'sampled_feature']
+        fields = ['property_type', 'name']
 
 
 class ValueSeriesUploadForm(forms.ModelForm):
     file_field = forms.FileField(validators=[valid_spreadsheet_file])
     class Meta:
         model = Prop
-        fields = ['property_type', 'name', 'sampled_feature']
+        fields = ['property_type', 'name']
 
 class SingleRasterForm(forms.ModelForm):
     file_field = forms.FileField()
     class Meta:
         model = Prop
-        fields = ['property_type', 'name', 'sampled_feature']
+        fields = ['property_type', 'name']
 
 class RasterSeriesForm(forms.ModelForm):
     timestamps = SimpleArrayField(
@@ -106,5 +107,5 @@ class RasterSeriesForm(forms.ModelForm):
     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
     class Meta:
         model = Prop
-        fields = ['property_type', 'name', 'sampled_feature']
+        fields = ['property_type', 'name']
 

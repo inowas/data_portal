@@ -54,7 +54,16 @@ class Dataset(models.Model):
 
 class ModelObject(models.Model):
     """ """
-    name = models.TextField(default='Noname')
+    name = models.CharField(
+        max_length=80,
+        default='Noname'
+        )
+
+    sampled_feature = models.ForeignKey(
+        "self", on_delete=models.SET_NULL,
+        related_name='sampling_feature',
+        blank=True, null=True,
+        )
 
     dataset = models.ForeignKey(
         Dataset, on_delete=models.CASCADE,
@@ -88,11 +97,11 @@ class Prop(models.Model):
         related_name='properties',
         null=True
         )
-    sampled_feature = models.ForeignKey(
-        ModelObject, on_delete=models.CASCADE,
-        related_name='observations',
-        blank=True, null=True
-        )
+    # sampled_feature = models.ForeignKey(
+    #     ModelObject, on_delete=models.CASCADE,
+    #     related_name='observations',
+    #     blank=True, null=True
+    #     )
     property_type = models.ForeignKey(
         PropertyType, on_delete=models.CASCADE,
         related_name='properties',
@@ -102,9 +111,7 @@ class Prop(models.Model):
         ValueType, on_delete=models.CASCADE,
         related_name='properties',
         null=True)
-    # timestart = models.DateTimeField(null=True, blank=True)
-    # interval = models.DurationField(null=True, blank=True)
-    # num_vals = models.IntegerField(default=1)
+
     name = models.TextField(default='Noname')
 
     created = models.DateTimeField(auto_now_add=True, null=True)

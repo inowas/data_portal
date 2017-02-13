@@ -13,10 +13,53 @@
                         https://en.wikipedia.org/wiki/Well-known_text
                     </a>
                 </p>
-                {% include 'app/create_forms/form_template.html' %}
+                {% if error_message %}
+                    <p class="text-danger small"><strong>{{ error_message }}</strong></p>
+                {% endif %}
+
+                <form class="form-horizontal" id="form" role="form" action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {% for field in form %}
+                        <div class="form-group" id="{{ field.name }}">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <span class="text-danger small">{{ field.errors }}</span>
+                            </div>
+                            <label class="control-label col-sm-10">{{ field.label_tag }}</label>
+                            <div class="col-sm-10 form-field">{{ field }} </div>
+                            
+                        </div>
+                    {% endfor %}
+                    <div class="col-sm-10">
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-success btn-sm">Submit</button>
+                        </div> 
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 </div>
+
+{% endblock %}
+
+{% block scripts %}
+
+<script>
+
+    var field = document.getElementById("id_object_type");
+    var sampledFeatureIndexes = [1,2,3];
+    var sampledFeatureField = document.getElementById("sampled_feature");
+    sampledFeatureField.style.display = 'none';
+
+    field.onchange = function(){
+        if(sampledFeatureIndexes.indexOf(field.selectedIndex) == -1){
+            document.getElementById("sampled_feature").style.display = 'none';
+        } else {
+            document.getElementById("sampled_feature").style.display = 'block';
+        }
+        
+    };
+
+</script>
 
 {% endblock %}

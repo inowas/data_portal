@@ -181,9 +181,17 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
     form_class = ModelObjectForm
     success_url = '/dataset-details/'
 
+    def get_context_data(self, **kwargs):
+        context = super(CreateModelObject, self).get_context_data(**kwargs)
+        context['form'].fields['sampled_feature'].queryset = ModelObject.objects.filter(
+            dataset_id=self.kwargs['dataset_id']
+            )
+        return context
+
     @transaction.atomic
     def form_valid(self, form):
         dataset_id = self.kwargs['dataset_id']
+
         wkt = self.request.POST['geometry']
         self.success_url += dataset_id
 
@@ -225,40 +233,50 @@ class CreateModelObjectsUpload(LoginRequiredMixin, FormView):
 
     @transaction.atomic
     def form_valid(self, form):
-        dataset_id = self.kwargs['dataset_id']
-        self.success_url += dataset_id
+        try:
+            dataset_id = self.kwargs['dataset_id']
+            self.success_url += dataset_id
 
-        files = self.get_form_kwargs().get('files').getlist('file_field')
-        features, names, types = shape_handler(files[0])
-        for f, n, t in zip(features, names, types):
-            if f.geom_type == 'Point':
-                geom_type_id = 1
-            elif f.geom_type == 'LineString':
-                geom_type_id = 2
-            elif f.geom_type == 'Polygon':
-                geom_type_id = 3
+            files = self.get_form_kwargs().get('files').getlist('file_field')
+            features, names, types, sampled_features = shape_handler(files[0])
+            for f, n, t, s in zip(features, names, types, sampled_features):
+                if f.geom_type == 'Point':
+                    geom_type_id = 1
+                elif f.geom_type == 'LineString':
+                    geom_type_id = 2
+                elif f.geom_type == 'Polygon':
+                    geom_type_id = 3
 
-            model_object = ModelObject(
-                geometry=f.geos,
-                name=n,
-                object_type=ObjectType.objects.get(object_type=t),
-                dataset_id=dataset_id,
-                geom_type_id=geom_type_id
+                model_object = ModelObject(
+                    geometry=f.geos,
+                    name=n,
+                    object_type=ObjectType.objects.get(object_type=t),
+                    dataset_id=dataset_id,
+                    geom_type_id=geom_type_id,
+                    sampled_feature=ModelObject.objects.filter(name=s)[0] if s else None
+                )
+
+                model_object.save()
+
+                dataset = Dataset.objects.get(id=dataset_id)
+                if dataset.bbox is None:
+                    buffer = model_object.geometry.buffer(1)
+                    bbox = buffer.envelope
+                    dataset.bbox = bbox
+                else:
+                    dataset.bbox = update_bbox(bbox_geom=dataset.bbox,
+                                            feature_geom=model_object.geometry)
+                dataset.tile_url = calculate_tile_index(bbox_geom=dataset.bbox,
+                                                        as_url=True)
+                dataset.save()
+
+        except:
+            return render(
+                self.request,
+                self.template_name,
+                {'form': form,
+                 'error_message': 'INVALID INPUT!'}
             )
-
-            model_object.save()
-
-            dataset = Dataset.objects.get(id=dataset_id)
-            if dataset.bbox is None:
-                buffer = model_object.geometry.buffer(1)
-                bbox = buffer.envelope
-                dataset.bbox = bbox
-            else:
-                dataset.bbox = update_bbox(bbox_geom=dataset.bbox,
-                                           feature_geom=model_object.geometry)
-            dataset.tile_url = calculate_tile_index(bbox_geom=dataset.bbox,
-                                                    as_url=True)
-            dataset.save()
 
         return super(CreateModelObjectsUpload, self).form_valid(form)
 
@@ -368,7 +386,7 @@ class CreateValueSeriesUpload(LoginRequiredMixin, CreateView):
 
             value.save()
 
-        except ValueError:
+        except:
             return render(
                 self.request,
                 self.template_name,

@@ -143,10 +143,14 @@ def shape_handler(shapefile, *args, **kwargs):
     features = ds[0].get_geoms()
     names = ds[0].get_fields('name')
     types = ds[0].get_fields('type')
+    try:
+        sampled_features = ds[0].get_fields('sampled_feature')
+    except:
+        sampled_features = [None for i in features]
 
     os.remove(os.path.join(settings.MEDIA_ROOT, filename))
 
-    return features, names, types
+    return features, names, types, sampled_features
 
 def update_bbox(bbox_geom, feature_geom):
     """ Returnes updated bbox including new feat. geom. """
