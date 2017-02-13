@@ -7,18 +7,34 @@
         <div class="card radius-0 space-top-3">
             <div class="card-block"
                 <p><strong>Add new features</strong></p>
+                <p><strong> Instructions for file upload: </strong></p>
+                <p>A *.geojson file containing multiple features can be uploaded.</p> 
                 <p>
-                    <strong> Instructions for file upload: </strong>
-                    A *.geojson file containing multiple features can be uploaded.
                     Supported features: polygon, point, linestring.
-                    Feature's attributes should contain following fields: 
-                    "name" - text value that will be assigned to a new feature and
-                    "type" - text value representing type of the created feature.
-                    "Type" fields should contain one of the following: "sampling_feature:station",
-                    "sampling_feature:profile", "sampling_feature:area", "hydrography:stream", "hydrography:junction",
-                    "hydrography:lake", "hydrography:pond", "hydrography:reservior", "hydrography:watershed", "hydrography:water_divide",
-                    "hydrogeology:aquifer", "hydrogeology:aquitard", "hydrogeology:water_divide", "hydrogeology:layer", 
-                    "hydrogeology:well", "other".  
+                </p>
+                <p>
+                    Feature's attributes should contain following fields:
+                    <ul>
+                    </ul>
+                        <li>"name" - text value that will be assigned to a new feature (required) and</li>
+                        <li>"type" - text value representing type of the created feature (required).</li>
+                        <li>"sampled_feature" - name of the feature which is sampled be the created feature (optional).</li>
+                    </ul>
+                </p>
+                <p>
+                    <strong>"type"</strong> fields should contain one of the following:
+                    <i>
+                        "sampling_feature:station",
+                        "sampling_feature:profile", "sampling_feature:area", "hydrography:stream", "hydrography:junction",
+                        "hydrography:lake", "hydrography:pond", "hydrography:reservior", "hydrography:watershed", "hydrography:water_divide",
+                        "hydrogeology:aquifer", "hydrogeology:aquitard", "hydrogeology:water_divide", "hydrogeology:layer", 
+                        "hydrogeology:well", "other".
+                    </i>
+                </p>
+                <p>
+                    <strong>"sampled_feature"</strong> fields should a name of the feature that is sampled
+                    (e.g. name of a stream that is sampled by an uploaded station(s)).
+                    This field is not required and can remain empty.
                 </p>
                 {% include 'app/create_forms/form_template.html' %}
             </div>
