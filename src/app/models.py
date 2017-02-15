@@ -4,6 +4,7 @@ Definition of models.
 
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import ArrayField
+from taggit.managers import TaggableManager
 
 
 class GeomType(models.Model):
@@ -47,6 +48,7 @@ class Dataset(models.Model):
     tile_url = models.TextField(default='https://a.tile.openstreetmap.org/0/0/0.png')
     created = models.DateTimeField(auto_now_add=True, null=True)
     modified = models.DateTimeField(auto_now=True, null=True)
+    tags = TaggableManager()
 
     def __str__(self):
         return '%s %s' % (self.name, self.id)

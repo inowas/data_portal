@@ -15,3 +15,4 @@ PyYAML
 requests
 six
 xlrd
+django-taggit
