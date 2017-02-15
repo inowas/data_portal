@@ -120,7 +120,7 @@ class PropertyDetails(View):
 
             script, div = plot_time_series(
                 values=value.value, timestamps=value.timestamps,
-                plot_width=500, plot_height=500,
+                plot_width=700, plot_height=500,
                 table_width=550, table_height=550
                 )
 
