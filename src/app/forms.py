@@ -35,11 +35,9 @@ class ModelObjectForm(forms.ModelForm):
     geometry = forms.CharField(
         widget=forms.Textarea(
             attrs={
-            'placeholder': 'WKT formatted geometry in EPSG:3857 CRS. \n\
-Examples:\n\
-point(0 0),\n\
-linestring(0 0, 1 1, 2 2,)\n\
-polygon((0 0, 1 1, 2 2, 0 0))'
+                'placeholder': 'point(0 0), ' +
+                               'linestring(0 0, 1 1, 2 2,), ' +
+                               'polygon((0 0, 1 1, 2 2, 0 0))'
             }
         ),
         required=False
