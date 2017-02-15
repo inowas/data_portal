@@ -33,6 +33,7 @@
             <th>Name</th>
             <th>Property type</th>
             <th>Value type</th>
+            <th>Date, time created</th>
             <th>Select</th>
             </tr>
         </thead>
@@ -43,6 +44,7 @@
             <td><a href="{% url 'property-details' property.id %}" class="active">{{ property.name }}</a></td>
             <td>{{ property.property_type.property_type }}</td>
             <td>{{ property.value_type.value_type }}</td>
+            <td>{{ property.created }}</td>
             <td>
                 <div class="checkbox checkbox-primary">
                     <input type="checkbox" class="checkbox-input">
