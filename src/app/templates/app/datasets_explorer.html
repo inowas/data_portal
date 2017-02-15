@@ -19,9 +19,7 @@
     <div class="row">
         {% if datasets %}
             {% for dataset in datasets %}
-                <!--<div class="col-md-2">-->
                 {% include "app/card_dataset.html" %}
-                <!--</div>-->
             {% endfor %}
         {% endif %}
     </div>
@@ -30,6 +28,30 @@
 {% endblock content %}
 
 {% block scripts %}
+<!--<script>
+
+$( ".card-block" )
+    .hover(
+        function(e){
+             $(this).children(".card-text").css(
+                {
+                    "text-overflow": "initial",
+                    "white-space": "initial",
+                    "overflow": "scroll"
+                    }
+                );
+        },
+        function(e){
+             $(this).children(".card-text").css(
+                {
+                    "text-overflow": "ellipsis",
+                    "white-space": "nowrap",
+                    "overflow": "hidden"
+                    }
+                );
+        }
+    )
+</script>-->
 
 {% include "app/search_datasets_js.html" %}
 
