@@ -308,7 +308,7 @@ h2.section-title {
 	white-space:normal;*/
 	overflow:auto;
 	width: 256px;
-	height: 100px;
+	height: 80px;
 	padding: 1.25rem;
 }
 .dataset .card-footer {
@@ -318,6 +318,15 @@ h2.section-title {
 .radius-0 {
 	border-radius: 0;
 }
+
+.map {
+	width: 900px;
+	height: 300px;
+}
+
+/*.datatable {
+	width: 1000px;
+}*/
 
 
 
