@@ -10,65 +10,65 @@ import numpy as np
 import json
 
 
-def plot_properties(geojson, map_width=600, map_height=400,
-                    table_width=600, table_height=400):
-    """ Returns Bokeh plot components for given objects """
-    geo_source = GeoJSONDataSource(geojson=json.dumps(geojson))
-    p = figure(plot_width=map_width, plot_height=map_height)
-    p.multi_line(xs='xs', ys='ys', alpha=0.9, source=geo_source,
-                 line_width=3)
-    p.circle(x='x', y='y', alpha=0.9, source=geo_source)
+# def plot_properties(geojson, map_width=600, map_height=400,
+#                     table_width=600, table_height=400):
+#     """ Returns Bokeh plot components for given objects """
+#     geo_source = GeoJSONDataSource(geojson=json.dumps(geojson))
+#     p = figure(plot_width=map_width, plot_height=map_height)
+#     p.multi_line(xs='xs', ys='ys', alpha=0.9, source=geo_source,
+#                  line_width=3)
+#     p.circle(x='x', y='y', alpha=0.9, source=geo_source)
 
-    # openmap_url = 'http://c.tile.openstreetmap.org/{Z}/{X}/{Y}.png'
-    # OPENMAP = WMTSTileSource(url=openmap_url)
-    # p.add_tile(OPENMAP)
-    p.add_tile(STAMEN_TERRAIN)
-
-
-    columns = [
-        TableColumn(field="object_id", width=100,title="Object"),
-        TableColumn(field="observerd_at_point", width=100, title="Observed at point"),
-        TableColumn(field="property_type", width=150, title="Type"),
-        TableColumn(field="value_type", width=150, title="Value type"),
-        TableColumn(title="", width=70, formatter=HTMLTemplateFormatter(
-            template='<a href="/property-details/<%= id %>"class="btn btn-default btn-xs" role="button">Details</a>')),
-        ]
-    data_table = DataTable(source=geo_source, columns=columns,
-                           width=table_width, height=table_height)
-
-    script, div = components({"plot": p, "table": data_table})
-
-    return script, div
-
-def plot_model_objects(geojson, map_width=600, map_height=400,
-                       table_width=600, table_height=400):
-    """ Returns Bokeh plot components for given objects """
-    geo_source = GeoJSONDataSource(geojson=json.dumps(geojson))
-    p = figure(plot_width=map_width, plot_height=map_height)
-    p.multi_line(xs='xs', ys='ys', alpha=0.9, source=geo_source,
-                 line_width=3)
-    p.circle(x='x', y='y', alpha=0.9, source=geo_source, size=6,
-             line_color='red')
-
-    # openmap_url = 'http://c.tile.openstreetmap.org/{Z}/{X}/{Y}.png'
-    # OPENMAP = WMTSTileSource(url=openmap_url)
-    # p.add_tile(OPENMAP)
-    p.add_tile(STAMEN_TERRAIN)
+#     # openmap_url = 'http://c.tile.openstreetmap.org/{Z}/{X}/{Y}.png'
+#     # OPENMAP = WMTSTileSource(url=openmap_url)
+#     # p.add_tile(OPENMAP)
+#     p.add_tile(STAMEN_TERRAIN)
 
 
-    columns = [
-        TableColumn(field="object_type", width=100,title="Objects"),
-        TableColumn(field="geom_type", width=100, title="Geometry"),
-        TableColumn(field="properties", width=200, title="Data"),
-        TableColumn(title="", width=70, formatter=HTMLTemplateFormatter(
-            template='<a href="/feature-details/<%= id %>"class="btn btn-default btn-xs" role="button">Details</a>')),
-        ]
-    data_table = DataTable(source=geo_source, columns=columns,
-                           width=table_width, height=table_height)
+#     columns = [
+#         TableColumn(field="object_id", width=100,title="Object"),
+#         TableColumn(field="observerd_at_point", width=100, title="Observed at point"),
+#         TableColumn(field="property_type", width=150, title="Type"),
+#         TableColumn(field="value_type", width=150, title="Value type"),
+#         TableColumn(title="", width=70, formatter=HTMLTemplateFormatter(
+#             template='<a href="/property-details/<%= id %>"class="btn btn-default btn-xs" role="button">Details</a>')),
+#         ]
+#     data_table = DataTable(source=geo_source, columns=columns,
+#                            width=table_width, height=table_height)
 
-    script, div = components({"plot": p, "table": data_table})
+#     script, div = components({"plot": p, "table": data_table})
 
-    return script, div
+#     return script, div
+
+# def plot_model_objects(geojson, map_width=600, map_height=400,
+#                        table_width=600, table_height=400):
+#     """ Returns Bokeh plot components for given objects """
+#     geo_source = GeoJSONDataSource(geojson=json.dumps(geojson))
+#     p = figure(plot_width=map_width, plot_height=map_height)
+#     p.multi_line(xs='xs', ys='ys', alpha=0.9, source=geo_source,
+#                  line_width=3)
+#     p.circle(x='x', y='y', alpha=0.9, source=geo_source, size=6,
+#              line_color='red')
+
+#     # openmap_url = 'http://c.tile.openstreetmap.org/{Z}/{X}/{Y}.png'
+#     # OPENMAP = WMTSTileSource(url=openmap_url)
+#     # p.add_tile(OPENMAP)
+#     p.add_tile(STAMEN_TERRAIN)
+
+
+#     columns = [
+#         TableColumn(field="object_type", width=100,title="Objects"),
+#         TableColumn(field="geom_type", width=100, title="Geometry"),
+#         TableColumn(field="properties", width=200, title="Data"),
+#         TableColumn(title="", width=70, formatter=HTMLTemplateFormatter(
+#             template='<a href="/feature-details/<%= id %>"class="btn btn-default btn-xs" role="button">Details</a>')),
+#         ]
+#     data_table = DataTable(source=geo_source, columns=columns,
+#                            width=table_width, height=table_height)
+
+#     script, div = components({"plot": p, "table": data_table})
+
+#     return script, div
 
 def plot_time_series(values, timestamps, 
                      plot_width=600, plot_height=400,
