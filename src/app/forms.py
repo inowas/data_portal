@@ -28,7 +28,7 @@ class DatasetForm(forms.ModelForm):
 
     class Meta:
         model = Dataset
-        fields = ['public', 'name', 'descr', 'tags']
+        fields = ['public', 'name', 'descr']
 
 
 class ModelObjectForm(forms.ModelForm):

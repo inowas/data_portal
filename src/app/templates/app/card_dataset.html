@@ -10,9 +10,19 @@
             <h4 class="card-title">{{ dataset.name }}</h4>
             <p class="card-text">{{ dataset.descr }}</p>                          
         </div>
-        <!--<div class="description-box">{{ dataset.descr }}</div>​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​​-->
         <div class="card-footer text-center">
-            <a href="{% url 'dataset-details' dataset.id %}" class="btn btn-primary">View</a>
+            <div class="row">
+                <div class="col md-4">
+                </div>
+                <div class="col md-4">
+                    <a href="{% url 'dataset-details' dataset.id %}" class="btn btn-primary">View</a>
+                </div>
+                <div class="col md-4">
+                    {% if request.user == dataset.user %}
+                    <a href="{% url 'update-dataset' dataset.id %}" class="btn btn-outline-primary btn-sm">Edit</a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div> 
 </div> <!-- End card -->

@@ -18,4 +18,5 @@ urlpatterns = [
     url(r'^upload-value-series/(?P<model_object_id>[0-9]+)$', views.CreateValueSeriesUpload.as_view(), name='upload-value-series'),
     url(r'^add-single-raster/(?P<model_object_id>[0-9]+)$', views.CreateSingleRaster.as_view(), name='add-single-raster'),
     url(r'^add-raster-series/(?P<model_object_id>[0-9]+)$', views.CreateRasterSeries.as_view(), name='add-raster-series'),
+    url(r'^update-dataset/(?P<dataset_id>[0-9]+)$', views.UpdateDataset.as_view(), name='update-dataset'),
 ]

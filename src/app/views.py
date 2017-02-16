@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpRequest, Http404
 from django.views.generic.edit import FormView, CreateView
 from django.views.generic.base import TemplateView
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.gis.geos import GEOSGeometry
@@ -18,6 +19,7 @@ from app.models import *
 from app.forms import *
 from app.utils import *
 from app.vis.bokeh_plots import *
+from app.permissions import *
 
 from datetime import timedelta 
 
@@ -447,7 +449,55 @@ class CreateRasterSeries(LoginRequiredMixin, CreateView):
         return super(CreateRasterSeries, self).form_valid(form)
 
 
+class UpdateDataset(LoginRequiredMixin, FormView):
+    
+    template_name = 'app/create_forms/form_template_update_dataset.html'
+    form_class = DatasetForm
+    success_url = '/dataset-details/'
 
+    def get_context_data(self, **kwargs):
+
+        context = super(UpdateDataset, self).get_context_data(**kwargs)
+        dataset_id = self.kwargs['dataset_id']
+        try:
+            dataset = Dataset.objects.get(id=dataset_id)
+        except Dataset.DoesNotExist:
+            raise Http404("Dataset does not exist")
+
+        if dataset.user != self.request.user:
+            raise PermissionDenied
+
+        context['dataset'] = dataset
+        context['form'].fields['name'].initial = dataset.name
+        # context['form'].fields['tags'].initial = str(dataset.tags)
+        context['form'].fields['descr'].initial = dataset.descr
+
+        return context
+
+    @transaction.atomic
+    def form_valid(self, form):
+
+        dataset_id = self.kwargs['dataset_id']
+        try:
+            dataset = Dataset.objects.get(id=dataset_id)
+        except Dataset.DoesNotExist:
+            raise Http404("Dataset does not exist")
+
+        if dataset.user != self.request.user:
+            raise PermissionDenied
+
+        dataset.name = self.request.POST['name']
+        dataset.descr = self.request.POST['descr']
+        if self.request.POST['public'] == 'on':
+            dataset.public = True
+        else:
+            dataset.public = False
+        # dataset.tags = self.request.POST['tags']
+
+        dataset.save()
+
+        self.success_url += str(dataset_id)
+        return super(UpdateDataset, self).form_valid(form)
 
 
 
