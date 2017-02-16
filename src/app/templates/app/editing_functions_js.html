@@ -16,22 +16,25 @@ function deleteItem(urlPrefix) {
 
     var table = document.getElementById("table");
     var tr = table.getElementsByTagName("tr");
+
     for (var i = 0; i < checkedItems.length; i++){
         var row = checkedItems[i] + 1;
         var td = tr[row].getElementsByTagName("td");
         var id = td[0].innerHTML;
-
         $.ajax({
             url: urlPrefix + id,
             type: 'DELETE',
+            async: false,
             headers: {
                 'X-CSRFToken': '{{ csrf_token }}',
-            },
+            },   
             success: function(result) {
             }
         });
+        
+    location.reload()
+        
     }
-    location.reload();
 }
 
 function deleteSingleProperty(propID, featureID) {
