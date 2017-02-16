@@ -51,9 +51,11 @@
                             {% endif %}
                         </div>
                         <div clas="col md-5">
+                            {% if request.user == dataset.user %}
                             <div class="functions-public">
                                 <a href="#" class="btn btn-secondary" role="button" onclick="deleteSingleProperty('{{ prop.id }}', '{{ model_object.id }}')"><i class="flaticon-garbage-2"></i>Delete All</a>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

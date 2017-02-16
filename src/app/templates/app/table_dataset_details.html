@@ -7,6 +7,7 @@
         <form class="details-search">
             <input class="form-control" id="searchInput" onkeyup="searchFunction()" placeholder="Search..." type="text">
         </form>
+        {% if request.user == dataset.user %}
         <div class="functions-edit">
             <div class="dropdown"><!-- Button with dropdown menu -->
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -18,9 +19,11 @@
                 </div>
             </div>
         </div>
+        
         <div class="functions-public">
             <button class="btn btn-secondary" role="button" onclick="deleteItem('/api/modelobjects/')"><i class="flaticon-garbage-2"></i>Delete</button>
         </div>
+        {% endif %}
     </div> <!-- End Editing functions -->
     <div class="table-responsive">
         <table class="table table-striped" id="table">
