@@ -200,7 +200,7 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
         except Dataset.DoesNotExist:
             raise Http404("Dataset does not exist")
 
-        if dataset.public == False and dataset.user != self.request.user:
+        if dataset.user != self.request.user:
             raise PermissionDenied
 
         context['form'].fields['sampled_feature'].queryset = ModelObject.objects.filter(
@@ -217,7 +217,7 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
         except Dataset.DoesNotExist:
             raise Http404("Dataset does not exist")
 
-        if dataset.public == False and dataset.user != self.request.user:
+        if dataset.user != self.request.user:
             raise PermissionDenied
 
         wkt = self.request.POST['geometry']
@@ -259,7 +259,7 @@ class CreateModelObjectsUpload(LoginRequiredMixin, FormView):
         except Dataset.DoesNotExist:
             raise Http404("Dataset does not exist")
 
-        if dataset.public == False and dataset.user != self.request.user:
+        if dataset.user != self.request.user:
             raise PermissionDenied
 
         try:
