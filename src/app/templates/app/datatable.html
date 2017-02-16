@@ -60,7 +60,7 @@
 
     $(document).ready(function () {
 
-        $('#myTable tfoot th').each( function () {
+        $('#propertyTable tfoot th').each( function () {
             var title = $(this).text();
             $(this).html( '<input type="text" placeholder="Search '+title+'" size="6"/>' );
         } );
@@ -191,9 +191,9 @@
                 return feature;
             });
             if (feature) {
-                var content = '<h5><strong>Name: </strong>'+ feature.get('name') + '</h5>';
-                content += '<h5><strong>Type: </strong>'+ feature.get('object_type') + '</h5>';
-                content += '<h5><strong>Dataset ID: </strong>'+ feature.get('dataset_id') + '</h5>';
+                var content = '<h6><strong>Name: </strong>'+ feature.get('name') + '</h6>';
+                content += '<h6><strong>Type: </strong>'+ feature.get('object_type') + '</h6>';
+                content += '<h6><strong>Dataset: </strong>'+ feature.get('dataset_name') + '</h6>';
                 
                 content_element.innerHTML = content;
                 overlay.setPosition(coordinate);

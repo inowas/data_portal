@@ -80,6 +80,7 @@ class ModelObjectGeoJSONSerializer(serializers.BaseSerializer):
                 "id": model_object.id,
                 "name": model_object.name,
                 "dataset_id": model_object.dataset.id,
+                "dataset_name": model_object.dataset.name,
                 "geom_type": model_object.geom_type.geom_type,
                 "object_type": model_object.object_type.object_type,
                 }
