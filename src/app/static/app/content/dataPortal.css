@@ -105,6 +105,7 @@ ol, ul {
 .sidebar {
 	float: left;
 	width: 360px;
+	max-height: 80%;
 	position: fixed;
 	top: 110px;
 	z-index: 1000;
