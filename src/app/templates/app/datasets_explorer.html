@@ -19,7 +19,9 @@
     <div class="row">
         {% if datasets %}
             {% for dataset in datasets %}
-                {% include "app/card_dataset.html" %}
+                {% if dataset.public or dataset.user == request.user %}
+                    {% include "app/card_dataset.html" %}
+                {% endif %}
             {% endfor %}
         {% endif %}
     </div>

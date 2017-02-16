@@ -51,6 +51,9 @@ class DatasetDetails(View):
         except Dataset.DoesNotExist:
             raise Http404("Dataset does not exist")
 
+        if dataset.public == False and dataset.user != self.request.user:
+            raise PermissionDenied
+
         model_objects = ModelObject.objects.filter(dataset=dataset)
 
         return render(
@@ -70,6 +73,9 @@ class ModelObjectDetails(View):
         except ModelObject.DoesNotExist:
             raise Http404("Object does not exist")
         dataset = Dataset.objects.get(id=model_object.dataset_id)
+
+        if dataset.public == False and dataset.user != self.request.user:
+            raise PermissionDenied
 
         properties = Prop.objects.filter(model_object=model_object)
 
@@ -94,6 +100,9 @@ class PropertyDetails(View):
 
         model_object = prop.model_object
         dataset = prop.model_object.dataset
+
+        if dataset.public == False and dataset.user != self.request.user:
+            raise PermissionDenied
 
         if prop.value_type.value_type == 'numerical':
             try:
@@ -185,6 +194,15 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CreateModelObject, self).get_context_data(**kwargs)
+        dataset_id = self.kwargs['dataset_id']
+        try:
+            dataset = Dataset.objects.get(id=dataset_id)
+        except Dataset.DoesNotExist:
+            raise Http404("Dataset does not exist")
+
+        if dataset.public == False and dataset.user != self.request.user:
+            raise PermissionDenied
+
         context['form'].fields['sampled_feature'].queryset = ModelObject.objects.filter(
             dataset_id=self.kwargs['dataset_id']
             )
@@ -193,6 +211,14 @@ class CreateModelObject(LoginRequiredMixin, CreateView):
     @transaction.atomic
     def form_valid(self, form):
         dataset_id = self.kwargs['dataset_id']
+
+        try:
+            dataset = Dataset.objects.get(id=dataset_id)
+        except Dataset.DoesNotExist:
+            raise Http404("Dataset does not exist")
+
+        if dataset.public == False and dataset.user != self.request.user:
+            raise PermissionDenied
 
         wkt = self.request.POST['geometry']
         self.success_url += dataset_id
@@ -225,8 +251,19 @@ class CreateModelObjectsUpload(LoginRequiredMixin, FormView):
 
     @transaction.atomic
     def form_valid(self, form):
+
+        dataset_id = self.kwargs['dataset_id']
+
         try:
-            dataset_id = self.kwargs['dataset_id']
+            dataset = Dataset.objects.get(id=dataset_id)
+        except Dataset.DoesNotExist:
+            raise Http404("Dataset does not exist")
+
+        if dataset.public == False and dataset.user != self.request.user:
+            raise PermissionDenied
+
+        try:
+            
             self.success_url += dataset_id
 
             files = self.get_form_kwargs().get('files').getlist('file_field')
