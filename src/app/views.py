@@ -525,7 +525,9 @@ class UpdateDataset(LoginRequiredMixin, FormView):
 
         dataset.name = self.request.POST['name']
         dataset.descr = self.request.POST['descr']
-        if self.request.POST['public'] == 'on':
+        # print(self.request.POST['public'])
+        public = self.request.POST.get('public', False)
+        if public == 'on':
             dataset.public = True
         else:
             dataset.public = False
