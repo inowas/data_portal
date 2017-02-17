@@ -32,7 +32,7 @@ function deleteItem(urlPrefix) {
             }
         });
         
-    location.reload()
+    location.reload();
         
     }
 }
@@ -46,9 +46,23 @@ function deleteSingleProperty(propID, featureID) {
             'X-CSRFToken': '{{ csrf_token }}',
         },
         success: function(result) {
+            window.location.href = '/feature-details/' + featureID;
         }
     });
-    window.location.href = '/feature-details/' + featureID;
 }
 
+function deleteDataset(datasetID) {
+    var confirmation = confirm("Really want to delete a Dataset?");
+    if (confirmation == false){return}
+    $.ajax({
+        url: '/api/datasets/' + datasetID,
+        type: 'DELETE',
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}',
+        },
+        success: function(result) {
+            location.reload();
+        }
+    });
+}
 </script>
