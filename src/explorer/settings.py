@@ -34,7 +34,7 @@ ALLOWED_HOSTS = ['web']
 
 INSTALLED_APPS = [
     'app',
-    'taggit',
+    #'taggit',
     # Add your apps here to enable them
     'rest_framework',
     'django.contrib.admin',
