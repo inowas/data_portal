@@ -4,7 +4,7 @@ Definition of models.
 
 from django.contrib.gis.db import models
 from django.contrib.postgres.fields import ArrayField
-from taggit.managers import TaggableManager
+# from taggit.managers import TaggableManager
 
 
 class GeomType(models.Model):
