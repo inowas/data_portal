@@ -20,10 +20,15 @@ from app.forms import *
 from app.utils import *
 from app.vis.bokeh_plots import *
 from app.permissions import *
+from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie   
 
 from datetime import timedelta 
 
 
+@csrf_protect
+@ensure_csrf_cookie
+def toolbox(request):
+    return render(request, 'tools_angular/index.html')
 
 class Table(View):
 
@@ -263,7 +268,7 @@ class CreateModelObjectsUpload(LoginRequiredMixin, FormView):
             raise PermissionDenied
 
         try:
-            
+
             self.success_url += dataset_id
 
             files = self.get_form_kwargs().get('files').getlist('file_field')
@@ -543,14 +548,15 @@ class UpdateDataset(LoginRequiredMixin, FormView):
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/general/index.html',
-        {
-            'title':'Home Page',
-            'year':datetime.now().year,
-        }
-    )
+    return redirect('explorer')
+    # return render(
+    #     request,
+    #     'app/general/index.html',
+    #     {
+    #         'title':'Home Page',
+    #         'year':datetime.now().year,
+    #     }
+    # )
 
 def contact(request):
     """Renders the contact page."""
