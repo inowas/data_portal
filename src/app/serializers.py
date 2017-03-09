@@ -35,7 +35,7 @@ class PropertySerializer(serializers.ModelSerializer):
     class Meta:
         model = Prop
         fields = ('id', 'num_values', 'cat_values', 'ras_values', 'value_series',
-                  'raster_series', 'model_object', 'property_type', 'value_type')
+                  'raster_series', 'model_object', 'property_type', 'value_type', 'name')
 
 
 

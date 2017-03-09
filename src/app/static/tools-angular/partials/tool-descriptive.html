@@ -1,0 +1,8 @@
+<div class="container">
+    <select name="property">
+        <option ng-repeat="property in propertyList" ng-model="text" value="[[ property.id ]]">[[ property.name ]]</option>
+    </select>
+
+    <button class="btn-sm" id="selectProperty" ng-click="analyse(text)">Continue</button>
+
+</div>

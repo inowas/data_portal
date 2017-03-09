@@ -36,6 +36,10 @@ ol, ul {
 	background-color: #4C4C4C;
 }
 
+.impressum-link {
+	color: white
+}
+
 
 /* NAVIGATION
 ------------- */
@@ -315,7 +319,6 @@ h2.section-title {
 .dataset .card-footer {
 	background-color: transparent;
 	border-top: 0;
-	font-size: 10px;
 }
 .radius-0 {
 	border-radius: 0;

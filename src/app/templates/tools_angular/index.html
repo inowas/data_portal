@@ -1,0 +1,88 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en" ng-app="dataportalApp">
+<head>
+  <meta charset="UTF-8">
+  <title>Dataportal</title>
+  {% load staticfiles %}
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Oxygen:300,400,700">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="{% static 'app/flaticon/flaticon.css' %}" />
+  <link rel="stylesheet" type="text/css" href="{% static 'app/content/dataPortal.css' %}" />
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar-top">
+        <div class="container">
+          <ul class="level_1" role="menubar">
+              <li class="submenu">
+                  <a href="{% url 'explorer' %}">
+                      <i class="flaticon-archive-1"></i>Data Collections</a>
+              </li>
+              <li class="submenu">
+                  <a href="{% url 'datatable' %}">
+                      <i class="flaticon-database-1"></i>Data Overview</a>
+              </li>
+              <li class="submenu">
+                  <a href="{% url 'toolbox' %}">
+                      <i class="flaticon-database-1"></i>Tools</a>
+              </li>
+          </ul>
+            {% include 'app/loginpartial.html' %}
+      </div>
+  </nav>
+</header>
+
+  <div class="container body-content">
+    <div class="page-header">
+    </div>
+    
+    <div class="row">  
+      <div class="col-4">
+        <div ui-view="navbar"></div>
+      </div>
+
+      <div class="col-8">
+          <div ui-view="content"></div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+
+
+<footer class="footer">
+  <div class="container">
+    <span class="text-muted">.</span>
+  </div>
+</footer>
+
+<script src="{% static 'tools-angular/lib/jquery-2.1.1.min.js' %}"></script>
+<script src="{% static 'tools-angular/lib/angular.min.js' %}"></script>
+<script src="{% static 'tools-angular/lib/angular-resource.min.js' %}"></script>
+<script src="{% static 'tools-angular/lib/angular-route.min.js' %}"></script>
+<script src="{% static 'tools-angular/lib/angular-ui-router.min.js' %}"></script>
+<script src="{% static 'tools-angular/js/app.js' %}"></script>
+<script src="{% static 'tools-angular/js/services.js' %}"></script>
+<script src="{% static 'tools-angular/js/controllers.js' %}"></script>
+<script src="{% static 'app/scripts/respond.min.js' %}"></script>
+<script src="{% static 'app/scripts/modernizr-2.6.2.js' %}"></script> 
+
+
+<script type="text/javascript">
+  // This allows you to access the current user id in your angular controllers.
+  angular
+      .module('dataportalApp.services')
+      .factory('AuthUser', function() {
+        return {
+          id: "{{ request.user.id|default:''}}",
+        }
+      });
+
+</script>
+</body>
+</html>

@@ -4,8 +4,9 @@ from app import api_views
 from app import views
 
 urlpatterns = [
+    # url(r'^toolbox/$', views.toolbox, name='toolbox'),
     url(r'^datatable/$', views.Table.as_view(), name='datatable'),
-    url(r'^toolbox/$', views.Toolbox.as_view(), name='toolbox'),
+    # url(r'^toolbox/$', views.Toolbox.as_view(), name='toolbox'),
     url(r'^datacollections/$', views.DatasetList.as_view(), name='explorer'),
     url(r'^dataset-details/(?P<dataset_id>[0-9]+)$', views.DatasetDetails.as_view(), name='dataset-details'),
     url(r'^feature-details/(?P<model_object_id>[0-9]+)$', views.ModelObjectDetails.as_view(), name='feature-details'),

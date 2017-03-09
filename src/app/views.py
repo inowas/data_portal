@@ -558,28 +558,40 @@ def home(request):
     #     }
     # )
 
-def contact(request):
-    """Renders the contact page."""
-    assert isinstance(request, HttpRequest)
-    return render(
-        request,
-        'app/general/contact.html',
-        {
-            'title':'Contact',
-            'message':'Contact page.',
-            'year':datetime.now().year,
-        }
-    )
+# def contact(request):
+#     """Renders the contact page."""
+#     assert isinstance(request, HttpRequest)
+#     return render(
+#         request,
+#         'app/general/contact.html',
+#         {
+#             'title':'Contact',
+#             'message':'Contact page.',
+#             'year':datetime.now().year,
+#         }
+#     )
 
-def about(request):
+# def about(request):
+#     """Renders the about page."""
+#     assert isinstance(request, HttpRequest)
+#     return render(
+#         request,
+#         'app/general/about.html',
+#         {
+#             'title':'About',
+#             'message':'Some text will be here soon.',
+#             'year':datetime.now().year,
+#         }
+#     )
+
+def impressum(request):
     """Renders the about page."""
     assert isinstance(request, HttpRequest)
     return render(
         request,
-        'app/general/about.html',
+        'app/general/impressum.html',
         {
-            'title':'About',
-            'message':'Some text will be here soon.',
+            'title':'Impressum',
             'year':datetime.now().year,
         }
     )

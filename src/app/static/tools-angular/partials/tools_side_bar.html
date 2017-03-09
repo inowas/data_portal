@@ -1,0 +1,8 @@
+<div class="sidebar">
+    <h1 class="sidebar-title">Tools</h1>
+    <ul class="nav-sidebar">
+        <li  ng-repeat="tool in tools">
+            <a ui-sref="tool({ toolID: tool.id })" ui-sref-active="active" title="[[ tool.descr ]]">[[ tool.name ]]</a>    
+        </li>
+    </ul>
+</div> <!-- End "sidebar" -->

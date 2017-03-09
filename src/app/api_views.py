@@ -32,6 +32,15 @@ class DatasetList(generics.ListCreateAPIView):
     queryset = Dataset.objects.all()
     serializer_class = DatasetSerializer
 
+    def get_queryset(self):
+        userID = self.request.query_params.get('userID', None)
+
+        q = Dataset.objects.all()
+        if userID is not None:
+            q = q.filter(user_id=userID)
+
+        return q
+
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
@@ -77,8 +86,20 @@ class PropertyList(generics.ListCreateAPIView):
         permissions.IsAuthenticatedOrReadOnly,
         )
 
-    queryset = Prop.objects.all()
+    
     serializer_class = PropertySerializer
+
+    def get_queryset(self):
+        userID = self.request.query_params.get('userID', None)
+        valueType = self.request.query_params.get('valueType', None)
+
+        queryset = Prop.objects.all()
+        if userID is not None:
+            queryset = queryset.filter(model_object__dataset__user_id=userID)
+        if valueType is not None:
+            queryset = queryset.filter(value_type_id=valueType)
+
+        return queryset
 
 
 class PropertytDetail(generics.RetrieveUpdateDestroyAPIView):

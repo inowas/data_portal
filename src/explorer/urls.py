@@ -22,8 +22,9 @@ urlpatterns = [
     url(r'^api/', include('app.api_urls')),
     url(r'^', include('app.urls')),
     url(r'^$', app.views.home, name='home'),
-    url(r'^contact$', app.views.contact, name='contact'),
-    url(r'^about', app.views.about, name='about'),
+    # url(r'^contact$', app.views.contact, name='contact'),
+    # url(r'^about', app.views.about, name='about'),
+    url(r'^impressum', app.views.impressum, name='impressum'),
     url(r'^login/$',
         django.contrib.auth.views.login,
         {
