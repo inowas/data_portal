@@ -54,6 +54,18 @@ ol, ul {
 .containter-top {
 	background-color: #4C4C4C;
 }
+img,svg,video{
+	max-width:100%;
+	height:auto;
+	border:0;
+	-ms-interpolation-mode:bicubic
+	}
+svg{fill:currentColor}
+audio,canvas,iframe,img,svg,video{vertical-align:middle}
+img{
+	border-style:none
+	}
+svg:not(:root){overflow:hidden}
 
 .white-link {
 	color: white
@@ -328,8 +340,6 @@ h2.section-title {
 	padding: 1.25rem;
 }
 .dataset .card-text {
-	/*text-overflow: ellipsis;
-	white-space:normal;*/
 	overflow:auto;
 	width: 256px;
 	height: 80px;
@@ -338,6 +348,7 @@ h2.section-title {
 .dataset .card-footer {
 	background-color: transparent;
 	border-top: 0;
+	font-size: 10px;
 }
 .radius-0 {
 	border-radius: 0;

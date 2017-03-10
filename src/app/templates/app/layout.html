@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data portal</title>
     {% load staticfiles %}
+    <link rel="icon" href="{% static 'app/images/favicon.ico' %}" type="image/x-icon" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/0.12.3/bokeh-widgets.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bokeh/0.12.3/bokeh.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/css/dataTables.jqueryui.min.css">
@@ -15,7 +16,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'app/flaticon/flaticon.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/dataPortal.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'app/content/ol_custom.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'app/content/style.min.css' %}">
 
 </head>
 
@@ -62,13 +62,13 @@
                 <div class="col col-md-2">
                     <p>Developed by</p>
                     <a href="https://tu-dresden.de/bu/umwelt/hydro/inowas" target="_blank">
-                        <img src="/static/app/images/logo-inowas.png" alt="Inowas logo"/>
+                        <img src="{% static 'app/images/logo-inowas.png' %}" alt="Inowas logo"/>
                     </a>
                 </div>
                 <div class="col col-md-2">
                     <p>Founded by</p>
                     <a href="https://www.bmbf.de/en/index.html" target="_blank">
-                        <img src="/static/app/images/logo-bmbf.svg" alt="Federal Ministry of Education and Research logo"/>
+                        <img src="{% static 'app/images/logo-bmbf.svg' %}" alt="Federal Ministry of Education and Research logo"/>
                     </a>
                 </div>
                 <div class="col col-md-6">
