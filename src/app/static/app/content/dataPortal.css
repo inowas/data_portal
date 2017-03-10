@@ -1,5 +1,9 @@
 /* GENERAL
 ---------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
 
 body {
 	background-color: #EFF3F6;
@@ -7,6 +11,21 @@ body {
 	font-size: 14px;
 	color: #4C4C4C;
 }
+.body-content {
+	margin-bottom: 200px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 150px;
+  background-color:#4c4c4c;
+  color:#fefefe;
+  margin-top:20px;
+  padding:20px;
+}
+
 a {
 	text-decoration: none;
 }
@@ -36,7 +55,7 @@ ol, ul {
 	background-color: #4C4C4C;
 }
 
-.impressum-link {
+.white-link {
 	color: white
 }
 
