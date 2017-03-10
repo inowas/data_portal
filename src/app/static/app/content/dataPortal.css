@@ -263,6 +263,11 @@ h2.section-title {
 .col-8 i[class^="flaticon-"]::before {
 	color: #4C4C4C;
 }
+
+.card-footer i[class^="flaticon-"]::before {
+	color: #4C4C4C;
+}
+
 .functions-edit, .details-search {
 	float: left;
 	margin: 0 0 7px 0;
