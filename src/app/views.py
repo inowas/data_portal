@@ -66,7 +66,8 @@ class DatasetDetails(View):
             {
                 'dataset': dataset,
                 'model_objects': model_objects,
-                'geojson_url': '/api/geojson-dataset/' + str(dataset.id)
+                'geojson_url': '/api/geojson-dataset/' + str(dataset.id),
+                'view': 'dataset_details'
             }
         )
 
@@ -90,7 +91,8 @@ class ModelObjectDetails(View):
                 'dataset': dataset,
                 'model_object': model_object,
                 'properties': properties,
-                'geojson_url': '/api/geojson-feature/' + str(model_object.id)
+                'geojson_url': '/api/geojson-feature/' + str(model_object.id),
+                'view': 'feature_details'
             }
         )
 
@@ -113,26 +115,34 @@ class PropertyDetails(View):
             try:
                 value = NumValue.objects.get(prop=prop)
             except NumValue.DoesNotExist:
-                raise Http404("Property does not exist")
+                raise Http404("Property has no values")
 
             controls, raster_map, plot, table, script = None, None, None, None, None
             descr = 'single numerical value'
             value = str(value.value)
+            value_type = 'numerical'
+            time_start = None
+            time_end = None
+            num_vals = None
 
         elif prop.value_type.value_type == 'categorical':
             try:
                 value = CatValue.objects.get(prop=prop)
             except CatValue.DoesNotExist:
-                raise Http404("Property does not exist")
+                raise Http404("Property has no values")
             controls, raster_map, plot, table, script = None, None, None, None, None
             descr = 'single numerical value'
             value = str(value.value)
+            value_type = 'categorical'
+            time_start = None
+            time_end = None
+            num_vals = None
 
         elif prop.value_type.value_type == 'value_time_series':
             try:
                 value = ValueSeries.objects.get(prop=prop)
             except ValueSeries.DoesNotExist:
-                raise Http404("Property does not exist")
+                raise Http404("Property has no values")
 
             script, div = plot_time_series(
                 values=value.value, timestamps=value.timestamps,
@@ -142,21 +152,29 @@ class PropertyDetails(View):
 
             controls, raster_map, plot, table = None, None, div['plot'], div['table']
             descr = 'time-series of values'
+            value_type = 'value_time_series'
+            time_start = value.timestamps[0]
+            time_end = value.timestamps[-1]
+            num_vals = len(value.timestamps)
             value = None
 
         elif prop.value_type.value_type == 'raster':
             try:
                 raster = RasValue.objects.get(prop=prop)
             except RasValue.DoesNotExist:
-                raise Http404("Property does not exist")
+                raise Http404("Property has no values")
 
             script, div = plot_single_raster(
-                raster, resize_coef=0.1, plot_width=500, plot_height=500,
+                raster, resize_coef=0.1, plot_width=600, plot_height=400,
                 table_width=550, table_height=550
                 )
             controls, raster_map, plot, table = None, div['raster_map'], div['plot'], None
             descr = 'singe raster'
             value = None
+            value_type = 'raster'
+            time_start = None
+            time_end = None
+            num_vals = None
 
         elif prop.value_type.value_type == 'raster_time_series':
             try:
@@ -166,14 +184,17 @@ class PropertyDetails(View):
 
             script, div = plot_raster_series(
                 raster=raster.value, timestamps=raster.timestamps,
-                resize_coef=0.1, plot_width=500, plot_height=500,
-                table_width=550, table_height=550
+                resize_coef=0.1, plot_width=600, plot_height=400
                 )
             controls, raster_map, plot, table = div['controls'],\
             div['raster_map'], div['plot'], None
 
             descr = 'time-series of rasters'
             value = None
+            value_type = 'raster_time_series'
+            time_start = raster.timestamps[0]
+            time_end = raster.timestamps[-1]
+            num_vals = len(raster.timestamps)
 
         return render(
             request, 'app/details_property.html',
@@ -187,7 +208,12 @@ class PropertyDetails(View):
                 'controls': controls,
                 'dataset': dataset,
                 'model_object': model_object,
-                'prop': prop
+                'prop': prop,
+                'value_type': value_type,
+                'time_start': time_start,
+                'time_end': time_end,
+                'num_vals': num_vals,
+                'view': 'property_details'
                 }
             )
 
@@ -460,7 +486,7 @@ class CreateRasterSeries(LoginRequiredMixin, CreateView):
 
             files = self.get_form_kwargs().get('files').getlist('file_field')
             input_timestamps = self.request.POST['timestamps']
-            timestamps=[i.strip() for i in input_timestamps.split(',')]
+            timestamps = [i.strip() for i in input_timestamps.split(',')]
             if len(files) != len(timestamps):
                 raise ValidationError("Not equal series")
 
@@ -492,7 +518,7 @@ class CreateRasterSeries(LoginRequiredMixin, CreateView):
 
 
 class UpdateDataset(LoginRequiredMixin, FormView):
-    
+
     template_name = 'app/create_forms/form_template_update_dataset.html'
     form_class = DatasetForm
     success_url = '/dataset-details/'

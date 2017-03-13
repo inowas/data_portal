@@ -10,66 +10,6 @@ import numpy as np
 import json
 
 
-# def plot_properties(geojson, map_width=600, map_height=400,
-#                     table_width=600, table_height=400):
-#     """ Returns Bokeh plot components for given objects """
-#     geo_source = GeoJSONDataSource(geojson=json.dumps(geojson))
-#     p = figure(plot_width=map_width, plot_height=map_height)
-#     p.multi_line(xs='xs', ys='ys', alpha=0.9, source=geo_source,
-#                  line_width=3)
-#     p.circle(x='x', y='y', alpha=0.9, source=geo_source)
-
-#     # openmap_url = 'http://c.tile.openstreetmap.org/{Z}/{X}/{Y}.png'
-#     # OPENMAP = WMTSTileSource(url=openmap_url)
-#     # p.add_tile(OPENMAP)
-#     p.add_tile(STAMEN_TERRAIN)
-
-
-#     columns = [
-#         TableColumn(field="object_id", width=100,title="Object"),
-#         TableColumn(field="observerd_at_point", width=100, title="Observed at point"),
-#         TableColumn(field="property_type", width=150, title="Type"),
-#         TableColumn(field="value_type", width=150, title="Value type"),
-#         TableColumn(title="", width=70, formatter=HTMLTemplateFormatter(
-#             template='<a href="/property-details/<%= id %>"class="btn btn-default btn-xs" role="button">Details</a>')),
-#         ]
-#     data_table = DataTable(source=geo_source, columns=columns,
-#                            width=table_width, height=table_height)
-
-#     script, div = components({"plot": p, "table": data_table})
-
-#     return script, div
-
-# def plot_model_objects(geojson, map_width=600, map_height=400,
-#                        table_width=600, table_height=400):
-#     """ Returns Bokeh plot components for given objects """
-#     geo_source = GeoJSONDataSource(geojson=json.dumps(geojson))
-#     p = figure(plot_width=map_width, plot_height=map_height)
-#     p.multi_line(xs='xs', ys='ys', alpha=0.9, source=geo_source,
-#                  line_width=3)
-#     p.circle(x='x', y='y', alpha=0.9, source=geo_source, size=6,
-#              line_color='red')
-
-#     # openmap_url = 'http://c.tile.openstreetmap.org/{Z}/{X}/{Y}.png'
-#     # OPENMAP = WMTSTileSource(url=openmap_url)
-#     # p.add_tile(OPENMAP)
-#     p.add_tile(STAMEN_TERRAIN)
-
-
-#     columns = [
-#         TableColumn(field="object_type", width=100,title="Objects"),
-#         TableColumn(field="geom_type", width=100, title="Geometry"),
-#         TableColumn(field="properties", width=200, title="Data"),
-#         TableColumn(title="", width=70, formatter=HTMLTemplateFormatter(
-#             template='<a href="/feature-details/<%= id %>"class="btn btn-default btn-xs" role="button">Details</a>')),
-#         ]
-#     data_table = DataTable(source=geo_source, columns=columns,
-#                            width=table_width, height=table_height)
-
-#     script, div = components({"plot": p, "table": data_table})
-
-#     return script, div
-
 def plot_time_series(values, timestamps, 
                      plot_width=600, plot_height=400,
                      table_width=600, table_height=400):
@@ -97,8 +37,7 @@ def plot_time_series(values, timestamps,
     return script, div
 
 def plot_raster_series(raster, timestamps, 
-                       resize_coef=None, plot_width=600, plot_height=400,
-                       table_width=600, table_height=400):
+                       resize_coef=None, plot_width=600, plot_height=400):
     """ Returns Bokeh plot components for given property """
 
     if resize_coef is not None:
@@ -136,10 +75,14 @@ def plot_raster_series(raster, timestamps,
         hist_init=hist[0], bins_init=bins[0]))
 
 
-    raster = figure(x_range=[x0[0], x0[0] + dw[0]], y_range=[y0[0], y0[0] + dh[0]])
+    raster = figure(plot_width=plot_width, plot_height=plot_height,
+                    x_range=[x0[0], x0[0] + dw[0]], y_range=[y0[0], y0[0] + dh[0]])
+
     raster.image(image='img_init', x='x', y='y', dw='dw', dh='dh',
                  palette="Spectral11", source=source)
     raster.add_tile(STAMEN_TONER)
+
+    print(x0[0], x0[0] + dw[0], y0[0], y0[0] + dh[0])
 
     histogram = figure(
         x_range=[data.min(), data.max()],
@@ -161,7 +104,7 @@ def plot_raster_series(raster, timestamps,
         """)
     slider = Slider(
         start=0, end=len(data), value=0, step=1,
-        title='Select step',
+        title='Select time step',
         callback=callback
         )
     controls = widgetbox(slider, width=200)
@@ -178,6 +121,12 @@ def plot_single_raster(raster, resize_coef=None, plot_width=600, plot_height=400
     raster = raster.value
 
     if resize_coef is not None:
+        # raster = raster.warp(
+        #     {"width": int(raster.width * resize_coef),
+        #      "height": int(raster.height * resize_coef),
+        #      "scale": np.array(raster.scale)/resize_coef
+        #     }
+        # )
         raster = raster.warp(
             {"width": int(raster.width * resize_coef),
              "height": int(raster.height * resize_coef),
@@ -212,7 +161,8 @@ def plot_single_raster(raster, resize_coef=None, plot_width=600, plot_height=400
         )
     )
 
-    raster = figure(x_range=[x0[0], x0[0] + dw[0]], y_range=[y0[0], y0[0] + dh[0]])
+    raster = figure(plot_width=plot_width, plot_height=plot_height,
+                    x_range=[x0[0], x0[0] + dw[0]], y_range=[y0[0], y0[0] + dh[0]])
     raster.image(image='img_init', x='x_init', y='y_init', dw='dw_init', dh='dh_init',
                  palette="Spectral11", source=source)
     raster.add_tile(STAMEN_TONER)

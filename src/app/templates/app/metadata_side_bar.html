@@ -1,0 +1,117 @@
+
+{% if view == 'dataset_details' %}
+
+    <h1 class="sidebar-title">Dataset information</h1>
+    <ul class="nav-sidebar">
+    <li>
+        <strong>
+            Name: 
+        </strong>
+        {{ dataset.name }}
+    </li>
+    <li>
+        <strong>
+            Public: 
+        </strong>
+        {{ dataset.public }}
+    </li>
+    <li>
+        <strong>
+            Owner:
+        </strong>
+        {{ dataset.user.username }}
+    </li>
+    <li>
+        <strong>
+            Date, time created:
+        </strong>
+        {{ dataset.created }}
+    </li>
+    <li>
+        <strong>
+            Description:
+        </strong>
+        {{ dataset.descr }}
+    </li>
+
+{% elif view == 'feature_details' %}
+
+    <h1 class="sidebar-title">Feature information</h1>
+    <ul class="nav-sidebar">
+    <li>
+        <strong>
+            Name: 
+        </strong>
+        {{ model_object.name }}
+    </li>
+    <li>
+        <strong>
+            Type: 
+        </strong>
+        {{ model_object.object_type.object_type }}
+    </li>
+    <li>
+        <strong>
+            Sampled feature: 
+        </strong>
+        {{ model_object.sampled_feature }}
+    </li>
+    <li>
+        <strong>
+            Date, time created:
+        </strong>
+        {{ model_object.created }}
+    </li>
+
+{% elif view == 'property_details' %}
+
+    <h1 class="sidebar-title">Property information</h1>
+    <ul class="nav-sidebar">
+    <li>
+        <strong>
+            Name: 
+        </strong>
+        {{ prop.name }}
+    </li>
+    <li>
+        <strong>
+            Type: 
+        </strong>
+        {{ prop.property_type.property_type }}
+    </li>
+    <li>
+        <strong>
+            Value type: 
+        </strong>
+        {{ prop.value_type.value_type }}
+    </li>
+    <li>
+        <strong>
+            Date, time created:
+        </strong>
+        {{ model_object.created }}
+    </li>
+
+    {% if value_type == 'value_time_series' or value_type == 'raster_time_series' %}
+        <li>
+            <strong>
+                Start time:
+            </strong>
+            {{ time_start }}
+        </li>
+        <li>
+            <strong>
+                End time:
+            </strong>
+            {{ time_end }}
+        </li>
+        <li>
+            <strong>
+                Number of values:
+            </strong>
+            {{ num_vals }}
+        </li>
+
+    {% endif %}
+
+{% endif %}

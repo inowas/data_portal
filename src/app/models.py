@@ -42,8 +42,8 @@ class Dataset(models.Model):
     """ """
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE, related_name='datasets')
     public = models.BooleanField(default=True)
-    name = models.CharField(max_length=20)
-    descr = models.TextField()
+    name = models.CharField(max_length=100)
+    descr = models.TextField(max_length=300)
     bbox = models.PolygonField(srid=3857, blank=True, null=True)
     tile_url = models.TextField(default='https://a.tile.openstreetmap.org/0/0/0.png')
     created = models.DateTimeField(auto_now_add=True, null=True)
@@ -57,7 +57,7 @@ class Dataset(models.Model):
 class ModelObject(models.Model):
     """ """
     name = models.CharField(
-        max_length=80,
+        max_length=100,
         default='Noname'
         )
 
@@ -99,11 +99,7 @@ class Prop(models.Model):
         related_name='properties',
         null=True
         )
-    # sampled_feature = models.ForeignKey(
-    #     ModelObject, on_delete=models.CASCADE,
-    #     related_name='observations',
-    #     blank=True, null=True
-    #     )
+
     property_type = models.ForeignKey(
         PropertyType, on_delete=models.CASCADE,
         related_name='properties',
@@ -114,7 +110,7 @@ class Prop(models.Model):
         related_name='properties',
         null=True)
 
-    name = models.TextField(default='Noname')
+    name = models.CharField(max_length=100)
 
     created = models.DateTimeField(auto_now_add=True, null=True)
     modified = models.DateTimeField(auto_now=True, null=True)

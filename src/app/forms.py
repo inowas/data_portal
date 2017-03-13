@@ -67,7 +67,7 @@ class ValueSeriesForm(forms.ModelForm):
                 }
             )
         )
-    
+
     values = SimpleArrayField(
         forms.DecimalField(),
         widget=forms.TextInput(

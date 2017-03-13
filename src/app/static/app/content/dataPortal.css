@@ -13,6 +13,8 @@ body {
 }
 .body-content {
 	margin-bottom: 200px;
+	height: 100%;
+	min-height: 800px;
 }
 
 .footer {
@@ -140,10 +142,12 @@ svg:not(:root){overflow:hidden}
 .sidebar {
 	float: left;
 	width: 360px;
-	max-height: 80%;
 	position: fixed;
-	top: 110px;
-	z-index: 1000;
+	
+	
+}
+.sidebar-tree {
+	
 	display: block;
 	padding: 20px 20px 40px;
 	overflow-x: hidden;
@@ -151,6 +155,17 @@ svg:not(:root){overflow:hidden}
 	background-color: #FFFFFF;
 	box-shadow: 0 0 3px 0 rgba(0,0,0,0.1);
 }
+
+.sidebar-metadata {
+
+	display: block;
+	padding: 20px 20px 40px;
+	overflow-x: hidden;
+	overflow-y: auto;
+	background-color: #FFFFFF;
+	box-shadow: 0 0 3px 0 rgba(0,0,0,0.1);
+}
+
 h1.sidebar-title {
 	font-size: 18px;
 	line-height: 1;
