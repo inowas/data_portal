@@ -114,7 +114,7 @@ def plot_raster_series(raster, timestamps,
 
     return script, div
 
-def plot_single_raster(raster, resize_coef=None, plot_width=600, plot_height=400,
+def plot_single_raster(raster, resize_coef=1., plot_width=600, plot_height=400,
                        table_width=600, table_height=400):
     """ Returns Bokeh plot components for given property """
 

@@ -165,7 +165,7 @@ class PropertyDetails(View):
                 raise Http404("Property has no values")
 
             script, div = plot_single_raster(
-                raster, resize_coef=0.1, plot_width=600, plot_height=400,
+                raster, resize_coef=1., plot_width=600, plot_height=400,
                 table_width=550, table_height=550
                 )
             controls, raster_map, plot, table = None, div['raster_map'], div['plot'], None
