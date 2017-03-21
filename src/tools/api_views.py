@@ -8,7 +8,20 @@ from tools.serializers import *
 
 
 class WeatherGeneratorView(APIView):
-    """ Weather generator tool API view """
+    """
+    Weather generator tool API. Accepts POST request.
+    JSON formatted content has to contain:
+    'history_dates':['YYYY, MM, DD',..],
+    'simulation_dates':['YYYY, MM, DD',..],
+    'precip':[float,..],
+    't_min':[float,..],
+    't_max':[float,..],
+    's_rad':[float,..].
+    Every 12 months has to be presented in historical data.
+    Simulated date/month has to be presented in historical data.
+    Minimal historical data length - 3 years.
+    Response contains simulated data.
+    """
 
     def post(self, request, *args, **kw):
 
