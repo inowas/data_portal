@@ -20,6 +20,7 @@ import app.views
 urlpatterns = [
     # Examples:
     url(r'^api/', include('app.api_urls')),
+    url(r'^api-tools/', include('tools.api_urls')),
     url(r'^', include('app.urls')),
     url(r'^$', app.views.home, name='home'),
     # url(r'^contact$', app.views.contact, name='contact'),

@@ -1,6 +1,10 @@
 docker-compose.yml
 # Byte-compiled / optimized / DLL files
 __pycache__/
+migrations/
+config-processing/
+src-processing/
+Dockerfile.processing
 *.py[cod]
 *$py.class
 
