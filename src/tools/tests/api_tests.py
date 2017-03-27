@@ -2,14 +2,16 @@ import requests
 import unittest
 import json
 
-HOST = 'localhost'
+# HOST = 'localhost'
 PORT = '80'
 
+HOST = 'https://kb.inowas.hydro.tu-dresden.de'
 
 class WeatherGeneratorTests(unittest.TestCase):
     def test_post(self):
 
-        url = 'http://'+HOST+':'+PORT+'/api-tools/weather-generator-v-1/'
+        # url = 'http://'+HOST+':'+PORT+'/api-tools/weather-generator-v-1/'
+        url = HOST+'/api-tools/weather-generator-v-1/'
         with open('test_data.json') as json_data:
             data = json.load(json_data)
 

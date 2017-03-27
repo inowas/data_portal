@@ -2,6 +2,8 @@ docker-compose.yml
 # Byte-compiled / optimized / DLL files
 __pycache__/
 migrations/
+*.dump
+*.sql
 config-processing/
 src-processing/
 Dockerfile.processing

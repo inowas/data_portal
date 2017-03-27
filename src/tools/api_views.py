@@ -11,8 +11,8 @@ class WeatherGeneratorView(APIView):
     """
     Weather generator tool API. Accepts POST request.
     JSON formatted content has to contain:
-    'history_dates':['YYYY, MM, DD',..],
-    'simulation_dates':['YYYY, MM, DD',..],
+    'history_dates':['YYYY-MM-DD',..],
+    'simulation_dates':['YYYY-MM-DD',..],
     'precip':[float,..],
     't_min':[float,..],
     't_max':[float,..],
