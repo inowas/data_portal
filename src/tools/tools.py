@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
-#from scipy.stats import gamma
-#from scipy.linalg import cholesky
+from scipy.stats import gamma
+from scipy.linalg import cholesky
 from datetime import datetime
 
 
