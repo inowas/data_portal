@@ -220,6 +220,7 @@ class WeatherGenerator(object):
     def fourier_noise_remove(serie):
         """ Returns Fourier transformed series. """
         serie = np.fft.rfft(serie)
+        print(serie)
         serie[2:] = 0
         return np.fft.irfft(serie)
 

@@ -414,35 +414,35 @@ class CreateValueSeriesUpload(LoginRequiredMixin, CreateView):
 
     @transaction.atomic
     def form_valid(self, form):
-        try:
-            self.success_url += self.kwargs['model_object_id']
+        # try:
+        self.success_url += self.kwargs['model_object_id']
 
-            files = self.get_form_kwargs().get('files').getlist('file_field')
-            values, timestamps = excel_handler(spreadsheet=files[0])
+        files = self.get_form_kwargs().get('files').getlist('file_field')
+        values, timestamps = excel_handler(spreadsheet=files[0])
 
-            prop = form.save(commit=False)
-            prop.model_object_id = self.kwargs['model_object_id']
-            prop.value_type = ValueType.objects.get(value_type='value_time_series')
+        prop = form.save(commit=False)
+        prop.model_object_id = self.kwargs['model_object_id']
+        prop.value_type = ValueType.objects.get(value_type='value_time_series')
 
-            prop.save()
+        prop.save()
 
-            if len(values) != len(timestamps):
-                raise ValidationError("Not equal series")
+        if len(values) != len(timestamps):
+            raise ValidationError("Not equal series")
 
-            value = ValueSeries(
-                prop=prop,
-                value=values,
-                timestamps=timestamps)
+        value = ValueSeries(
+            prop=prop,
+            value=values,
+            timestamps=timestamps)
 
-            value.save()
+        value.save()
 
-        except:
-            return render(
-                self.request,
-                self.template_name,
-                {'form': form,
-                 'error_message': 'INVALID INPUT!'}
-            )
+        # except:
+        #     return render(
+        #         self.request,
+        #         self.template_name,
+        #         {'form': form,
+        #          'error_message': 'INVALID INPUT!'}
+        #     )
 
 
         return super(CreateValueSeriesUpload, self).form_valid(form)
