@@ -19,4 +19,4 @@ RUN apt-get install -y \
     libproj-dev \
     gdal-bin
 
-RUN apt-get update && apt-get upgrade -y
+EXPOSE 8000/tcp
